@@ -14,7 +14,7 @@ export default function ImageGallery({ images, title, isFavorite, onToggleFavori
 
     const hasImages = images && images.length > 0;
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-    const currentImage = hasImages ? `${API_URL}${images[selectedIndex].url}` : "https://placehold.co/800x600/png?text=No+Image";
+    const currentImage = hasImages ? (images[selectedIndex].url.startsWith('http') ? images[selectedIndex].url : `${API_URL}${images[selectedIndex].url}`) : "https://placehold.co/800x600/png?text=No+Image";
 
     const nextImage = () => {
         if (!hasImages) return;
@@ -82,7 +82,7 @@ export default function ImageGallery({ images, title, isFavorite, onToggleFavori
                             className={`relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-200 ${selectedIndex === idx ? 'border-red-500 ring-2 ring-red-500/20' : 'border-transparent opacity-70 hover:opacity-100'}`}
                         >
                             <img
-                                src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`}
+                                src={img.url.startsWith('http') ? img.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`}
                                 alt={`${title} ${idx + 1}`}
                                 className="w-full h-full object-cover"
                             />

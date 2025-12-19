@@ -60,7 +60,7 @@ export default function ComparePage() {
                                         <div className="flex flex-col items-center">
                                             <div className="w-40 h-40 rounded-3xl overflow-hidden mb-4 shadow-xl">
                                                 <img
-                                                    src={item.images?.[0]?.url ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${item.images[0].url}` : "https://placehold.co/400x400"}
+                                                    src={item.images?.[0]?.url ? (item.images[0].url.startsWith('http') ? item.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${item.images[0].url}`) : "https://placehold.co/400x400"}
                                                     alt={item.title}
                                                     className="w-full h-full object-cover"
                                                 />

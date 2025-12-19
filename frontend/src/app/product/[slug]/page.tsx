@@ -233,7 +233,7 @@ export default function ProductDetails() {
                                     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 dark:border-gray-800 h-full flex flex-col">
                                         <div className="relative h-48 bg-gray-200 dark:bg-gray-800 overflow-hidden">
                                             <img
-                                                src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                                src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
                                                 alt={ad.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                             />

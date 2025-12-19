@@ -275,9 +275,9 @@ export default function ModerationPage() {
                                         {/* Document Preview */}
                                         <div className="w-full md:w-64 h-48 bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 relative group">
                                             {u.kycDocument?.[0]?.url || u.kycDocument?.url ? (
-                                                <a href={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`} target="_blank" className="block w-full h-full">
+                                                <a href={`${(u.kycDocument?.[0]?.url || u.kycDocument?.url).startsWith('http') ? (u.kycDocument?.[0]?.url || u.kycDocument?.url) : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`}`} target="_blank" className="block w-full h-full">
                                                     <img
-                                                        src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`}
+                                                        src={`${(u.kycDocument?.[0]?.url || u.kycDocument?.url).startsWith('http') ? (u.kycDocument?.[0]?.url || u.kycDocument?.url) : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`}`}
                                                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                                         alt="KYC Document"
                                                     />
@@ -322,7 +322,7 @@ export default function ModerationPage() {
                                     <div className="w-full md:w-48 h-32 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
                                         {ad.images?.[0] ? (
                                             <img
-                                                src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`}
+                                                src={`${ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`}`}
                                                 alt={ad.title}
                                                 className="w-full h-full object-cover"
                                             />
@@ -420,8 +420,8 @@ export default function ModerationPage() {
                                                 </h4>
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {ad.images?.map((img: any, idx: number) => (
-                                                        <a key={idx} href={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`} target="_blank" rel="noreferrer" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 ring-red-500 transition-all">
-                                                            <img src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`} className="w-full h-full object-cover" alt="Ad detail" />
+                                                        <a key={idx} href={`${img.url.startsWith('http') ? img.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`}`} target="_blank" rel="noreferrer" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 ring-red-500 transition-all">
+                                                            <img src={`${img.url.startsWith('http') ? img.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${img.url}`}`} className="w-full h-full object-cover" alt="Ad detail" />
                                                         </a>
                                                     ))}
                                                 </div>

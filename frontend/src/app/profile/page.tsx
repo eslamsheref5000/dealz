@@ -247,7 +247,7 @@ export default function ProfilePage() {
                         <div className="w-24 h-24 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center text-4xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
                             {user?.avatar ? (
                                 <img
-                                    src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${user.avatar.url}`}
+                                    src={user.avatar.url.startsWith('http') ? user.avatar.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${user.avatar.url}`}
                                     className="w-full h-full object-cover"
                                     alt="Profile"
                                 />
@@ -352,7 +352,7 @@ export default function ProfilePage() {
                                 <Link href={`/product/${ad.slug || ad.documentId || ad.id}`}>
                                     <div className="relative h-48 bg-gray-200 dark:bg-gray-800">
                                         <img
-                                            src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                            src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
                                             alt={ad.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                         />

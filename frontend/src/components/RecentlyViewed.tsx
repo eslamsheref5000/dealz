@@ -49,7 +49,7 @@ export default function RecentlyViewed() {
                         <Link href={`/product/${ad.slug || ad.documentId}`} className="block h-full">
                             <div className="relative h-32 w-full bg-gray-200 dark:bg-gray-800 rounded-t-xl overflow-hidden">
                                 <img
-                                    src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                    src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
                                     alt={ad.title}
                                     className="object-cover w-full h-full"
                                 />

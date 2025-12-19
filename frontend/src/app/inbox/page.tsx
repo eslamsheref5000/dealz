@@ -267,10 +267,10 @@ function InboxContent() {
                                                 {msg.image && (
                                                     <div className="mb-2 rounded-lg overflow-hidden border border-black/5 dark:border-white/5">
                                                         <img
-                                                            src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`}
+                                                            src={`${msg.image.url.startsWith('http') ? msg.image.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`}`}
                                                             alt="Sent image"
                                                             className="max-w-full h-auto cursor-pointer hover:opacity-90 transition"
-                                                            onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`, '_blank')}
+                                                            onClick={() => window.open(`${msg.image.url.startsWith('http') ? msg.image.url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`}`, '_blank')}
                                                         />
                                                     </div>
                                                 )}
