@@ -18,7 +18,7 @@ import { isWithinTwoHours } from "../utils/dateUtils";
 import ComparisonBar from "../components/ComparisonBar";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
