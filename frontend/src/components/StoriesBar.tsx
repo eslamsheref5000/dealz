@@ -12,7 +12,7 @@ export default function StoriesBar() {
     useEffect(() => {
         // Fetch featured products for stories
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-        fetch(`${API_URL}/api/products?filters[isFeatured][$eq]=true&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc`)
+        fetch(`${API_URL}/api/products?filters[isFeatured][$eq]=true&filters[approvalStatus][$eq]=approved&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc`)
             .then(res => res.json())
             .then(data => setStories(data.data || []))
             .catch(console.error);

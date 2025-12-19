@@ -21,7 +21,7 @@ export default function RecentlyViewed() {
         const queryParams = recentIds.map((id, index) => `filters[documentId][$in][${index}]=${id}`).join('&');
 
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-        fetch(`${API_URL}/api/products?populate=*&${queryParams}`)
+        fetch(`${API_URL}/api/products?populate=*&filters[approvalStatus][$eq]=approved&${queryParams}`)
             .then(res => res.json())
             .then(data => {
                 if (data.data) {
