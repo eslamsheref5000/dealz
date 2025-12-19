@@ -3,6 +3,9 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
+# Install dependencies for native modules (python3, make, g++)
+RUN apk add --no-cache python3 make g++
+
 # Install dependencies (Copy from backend directory)
 COPY backend/package*.json ./
 RUN npm install
