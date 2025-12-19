@@ -28,7 +28,8 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
 
     const fetchReviews = async () => {
         try {
-            const res = await fetch(`http://localhost:1338/api/reviews?filters[seller][id][$eq]=${sellerId}&populate[reviewer]=*&sort[0]=createdAt:desc`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/reviews?filters[seller][id][$eq]=${sellerId}&populate[reviewer]=*&sort[0]=createdAt:desc`);
             const data = await res.json();
             const formattedReviews = (data.data || []).map((item: any) => {
                 // Strapi 5 may return flat structure (item) or Strapi 4 style (item.attributes)
@@ -60,7 +61,8 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
         setSubmitting(true);
         try {
             const token = localStorage.getItem("jwt");
-            const res = await fetch("http://localhost:1338/api/reviews", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

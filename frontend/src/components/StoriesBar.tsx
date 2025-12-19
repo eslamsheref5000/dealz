@@ -11,7 +11,8 @@ export default function StoriesBar() {
 
     useEffect(() => {
         // Fetch featured products for stories
-        fetch("http://localhost:1338/api/products?filters[isFeatured][$eq]=true&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc")
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        fetch(`${API_URL}/api/products?filters[isFeatured][$eq]=true&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc`)
             .then(res => res.json())
             .then(data => setStories(data.data || []))
             .catch(console.error);
@@ -27,7 +28,7 @@ export default function StoriesBar() {
                         <div className="relative w-20 h-20 rounded-full p-[3px] bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 group-hover:scale-105 transition-transform duration-300">
                             <div className="w-full h-full rounded-full border-2 border-white dark:border-gray-900 overflow-hidden relative bg-white dark:bg-gray-800">
                                 <img
-                                    src={story.images?.[0]?.url ? `http://localhost:1338${story.images[0].url}` : "https://placehold.co/100x100"}
+                                    src={story.images?.[0]?.url ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${story.images[0].url}` : "https://placehold.co/100x100"}
                                     alt={story.title}
                                     className="w-full h-full object-cover"
                                 />

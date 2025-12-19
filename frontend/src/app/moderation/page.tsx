@@ -77,7 +77,8 @@ export default function ModerationPage() {
         setLoading(true);
         const token = localStorage.getItem("jwt");
         try {
-            const res = await fetch(`http://localhost:1338/api/moderation/settings`, {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/moderation/settings`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {
@@ -95,7 +96,8 @@ export default function ModerationPage() {
         setSavingSettings(true);
         const token = localStorage.getItem("jwt");
         try {
-            const res = await fetch(`http://localhost:1338/api/moderation/settings`, {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/moderation/settings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
