@@ -27,7 +27,11 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Dealz",
   },
-  // icons metadata removed in favor of src/app/icon.png convention
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 import { LanguageProvider } from "../context/LanguageContext";
