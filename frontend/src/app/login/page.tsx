@@ -21,6 +21,7 @@ export default function LoginPage() {
         e.preventDefault();
         try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            console.log("Login Fetch URL:", `${API_URL}/api/auth/local`);
             const res = await fetch(`${API_URL}/api/auth/local`, {
                 method: "POST", // Login endpoint
                 headers: { "Content-Type": "application/json" },

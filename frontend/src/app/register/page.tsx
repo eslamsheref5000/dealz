@@ -22,6 +22,7 @@ export default function RegisterPage() {
         e.preventDefault();
         try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            console.log("Register Fetch URL:", `${API_URL}/api/auth/local/register`);
             const res = await fetch(`${API_URL}/api/auth/local/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
