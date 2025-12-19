@@ -4,19 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
+import { useCountry } from "../context/CountryContext";
 
 export default function StoriesBar() {
     const [stories, setStories] = useState<any[]>([]);
     const { t } = useLanguage();
 
+    const { selectedCountry } = useCountry();
+
     useEffect(() => {
         // Fetch featured products for stories
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-        fetch(`${API_URL}/api/products?filters[isFeatured][$eq]=true&filters[approvalStatus][$eq]=approved&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc`)
+        fetch(`${API_URL}/api/products?filters[isFeatured][$eq]=true&filters[approvalStatus][$eq]=approved&filters[country][$eq]=${selectedCountry.id}&populate=*&pagination[limit]=10&sort[0]=publishedAt:desc`)
             .then(res => res.json())
             .then(data => setStories(data.data || []))
             .catch(console.error);
-    }, []);
+    }, [selectedCountry]);
 
     if (stories.length === 0) return null;
 
