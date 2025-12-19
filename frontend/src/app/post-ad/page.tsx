@@ -73,7 +73,7 @@ export default function PostAdPage() {
             })
             .catch(err => console.error("Settings fetch error:", err));
 
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        // API_URL already declared above
         const catUrl = `${API_URL}/api/categories`;
         console.log("Fetching categories from:", catUrl);
         fetch(catUrl)
