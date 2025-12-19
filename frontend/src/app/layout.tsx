@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     title: "Dealz",
   },
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    icon: '/brand-icon.png',
+    shortcut: '/brand-icon.png',
+    apple: '/brand-icon.png',
   },
 };
 
