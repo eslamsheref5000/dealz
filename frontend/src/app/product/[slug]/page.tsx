@@ -99,6 +99,9 @@ export default function ProductDetails() {
             <main className="container mx-auto px-4 py-8">
                 <title>{product ? `${product.title} | Dealz` : 'Dealz'}</title>
                 <meta name="description" content={product ? product.description.substring(0, 160) : 'Find the best deals on Dealz'} />
+                {product && (
+                    <link rel="canonical" href={`https://dealz-market.vercel.app/product/${product.slug || product.documentId}`} />
+                )}
 
                 {/* JSON-LD Structured Data */}
                 {product && (
