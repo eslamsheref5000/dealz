@@ -1,0 +1,3 @@
+[2025-12-18T08:27:26.378Z] Creating product for User ID: 10
+[2025-12-18T08:29:21.779Z] Creating product for User ID: 11
+[2025-12-18T08:29:21.781Z] Found User DocID: doec2luye1cps9g6j3foqxfz

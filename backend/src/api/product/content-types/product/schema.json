@@ -1,0 +1,108 @@
+{
+    "kind": "collectionType",
+    "collectionName": "products",
+    "info": {
+        "singularName": "product",
+        "pluralName": "products",
+        "displayName": "Product",
+        "description": ""
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "title",
+            "required": true
+        },
+        "items": {
+            "type": "string"
+        },
+        "price": {
+            "type": "decimal",
+            "required": true
+        },
+        "description": {
+            "type": "text"
+        },
+        "city": {
+            "type": "string"
+        },
+        "phone": {
+            "type": "string"
+        },
+        "category": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::category.category",
+            "inversedBy": "products"
+        },
+        "images": {
+            "type": "media",
+            "multiple": true,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "views": {
+            "type": "integer",
+            "default": 0
+        },
+        "ad_owner": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user"
+        },
+        "country": {
+            "type": "string",
+            "default": "UAE"
+        },
+        "approvalStatus": {
+            "type": "enumeration",
+            "enum": [
+                "pending",
+                "approved",
+                "rejected"
+            ],
+            "default": "pending"
+        },
+        "isFeatured": {
+            "type": "boolean",
+            "default": false
+        },
+        "paymentMethod": {
+            "type": "enumeration",
+            "enum": [
+                "none",
+                "instapay",
+                "card"
+            ],
+            "default": "none"
+        },
+        "paymentTransactionId": {
+            "type": "string"
+        },
+        "paymentStatus": {
+            "type": "enumeration",
+            "enum": [
+                "unpaid",
+                "pending",
+                "completed"
+            ],
+            "default": "unpaid"
+        },
+        "sub_category": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::sub-category.sub-category",
+            "inversedBy": "products"
+        }
+    }
+}

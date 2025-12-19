@@ -1,0 +1,12 @@
+node_modules
+.next
+.strapi
+.tmp
+dist
+build
+.env
+.env.*
+.DS_Store
+*.log
+coverage
+public/uploads

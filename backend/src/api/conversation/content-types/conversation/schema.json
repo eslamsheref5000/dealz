@@ -1,0 +1,32 @@
+{
+    "kind": "collectionType",
+    "collectionName": "conversations",
+    "info": {
+        "singularName": "conversation",
+        "pluralName": "conversations",
+        "displayName": "Conversation",
+        "description": "Grouped messages between users"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "participants": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "plugin::users-permissions.user"
+        },
+        "product": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::product.product"
+        },
+        "messages": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::message.message",
+            "mappedBy": "conversation"
+        }
+    }
+}

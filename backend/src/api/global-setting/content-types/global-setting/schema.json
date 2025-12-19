@@ -1,0 +1,20 @@
+{
+    "kind": "singleType",
+    "collectionName": "global_settings",
+    "info": {
+        "singularName": "global-setting",
+        "pluralName": "global-settings",
+        "displayName": "Global Setting",
+        "description": "Global configuration for the platform"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "allowFeaturedAds": {
+            "type": "boolean",
+            "default": true
+        }
+    }
+}

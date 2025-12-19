@@ -1,0 +1,443 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import Header from "../components/Header";
+import StoriesBar from "../components/StoriesBar";
+import CategoryIcons from "../components/CategoryIcons";
+import CategoryRow from "../components/CategoryRow";
+import RecentlyViewed from "../components/RecentlyViewed";
+import AdvancedFilters from "../components/AdvancedFilters";
+import ProductSkeleton from "../components/ProductSkeleton";
+import { useLanguage } from "../context/LanguageContext";
+import { useFavorites } from "../context/FavoriteContext";
+import { useCountry } from "../context/CountryContext";
+import { useComparison } from "../context/ComparisonContext";
+import { isWithinTwoHours } from "../utils/dateUtils";
+import ComparisonBar from "../components/ComparisonBar";
+
+export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [extraFilters, setExtraFilters] = useState<any>({});
+  const { t } = useLanguage();
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const { selectedCountry } = useCountry();
+  const { addToCompare, isInCompare, removeFromCompare } = useComparison();
+
+
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [subCategories, setSubCategories] = useState<any[]>([]);
+  const [isListening, setIsListening] = useState(false);
+
+  const startListening = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      // @ts-ignore
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = selectedCountry.id === 'eg-ar' ? 'ar-EG' : 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      setIsListening(true);
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setSearchTerm(transcript);
+        setIsListening(false);
+        fetchAds(transcript, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error("Speech recognition error", event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } else {
+      alert("Voice search is not supported in this browser.");
+    }
+  };
+
+  const fetchAds = (query = "", category = "", subCat = "", minP = "", maxP = "", city = "") => {
+    setLoading(true);
+    let url = `http://localhost:1338/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=publishedAt:desc`;
+
+    // Build query filters
+    const filters = [];
+    if (query) filters.push(`filters[title][$containsi]=${encodeURIComponent(query)}`);
+    if (category) filters.push(`filters[category][name][$eq]=${encodeURIComponent(category)}`);
+    if (subCat) filters.push(`filters[sub_category][name][$eq]=${encodeURIComponent(subCat)}`);
+    if (minP) filters.push(`filters[price][$gte]=${minP}`);
+    if (maxP) filters.push(`filters[price][$lte]=${maxP}`);
+    if (city) filters.push(`filters[city][$eq]=${encodeURIComponent(city)}`);
+
+    // Advanced Filters
+    if (extraFilters.minYear) filters.push(`filters[year][$gte]=${extraFilters.minYear}`);
+    if (extraFilters.maxYear) filters.push(`filters[year][$lte]=${extraFilters.maxYear}`);
+    if (extraFilters.maxKM) filters.push(`filters[mileage][$lte]=${extraFilters.maxKM}`);
+    if (extraFilters.bedrooms) filters.push(`filters[bedrooms][$gte]=${extraFilters.bedrooms}`);
+    if (extraFilters.bathrooms) filters.push(`filters[bathrooms][$gte]=${extraFilters.bathrooms}`);
+    if (extraFilters.minArea) filters.push(`filters[area][$gte]=${extraFilters.minArea}`);
+
+    if (filters.length > 0) {
+      url += '&' + filters.join('&');
+    }
+
+    // Sort is already handled in initial URL
+    // url += '&sort[0]=publishedAt:desc';
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data.data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching items:", err);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchAds();
+  }, [selectedCountry.id]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      // Fetch sub-categories
+      fetch(`http://localhost:1338/api/sub-categories?filters[category][name][$eq]=${encodeURIComponent(selectedCategory)}`)
+        .then(res => res.json())
+        .then(data => setSubCategories(data.data || []))
+        .catch(err => console.error(err));
+    } else {
+      setSubCategories([]);
+    }
+    setSelectedSubCategory(""); // Reset sub-cat when cat changes
+  }, [selectedCategory]);
+
+  const handleSearch = () => {
+    fetchAds(searchTerm, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity);
+  };
+
+  const handleCategoryClick = (cat: string) => {
+    // If clicking same category, toggle off
+    // If clicking different, select it
+    const newCat = selectedCategory === cat ? "" : cat;
+    setSelectedCategory(newCat);
+    // Sub-category fetch is handled by useEffect
+    fetchAds(searchTerm, newCat, "", minPrice, maxPrice, selectedCity);
+  };
+
+  const handleSubCategoryClick = (sub: string) => {
+    const newSub = selectedSubCategory === sub ? "" : sub;
+    setSelectedSubCategory(newSub);
+    fetchAds(searchTerm, selectedCategory, newSub, minPrice, maxPrice, selectedCity);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+      <Header />
+
+      <div className="container mx-auto px-4 pt-4">
+        <StoriesBar />
+      </div>
+
+      {/* Hero Search with Glassmorphism */}
+      <div className="relative overflow-hidden pt-12 pb-24 px-4 bg-gradient-to-br from-red-600 via-red-500 to-orange-500 dark:from-red-900 dark:via-gray-950 dark:to-red-950 rounded-b-[3rem] shadow-2xl mb-12">
+        {/* Animated Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/10 rounded-full blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-400/20 rounded-full blur-[100px] animate-pulse delay-700"></div>
+          <div className="absolute top-[20%] right-[10%] w-[20%] h-[20%] bg-orange-300/10 rounded-full blur-[80px]"></div>
+        </div>
+
+        <div className="container mx-auto max-w-4xl relative z-10 text-center">
+          <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium animate-in fade-in slide-in-from-top-4 duration-700">
+            ✨ {t('home.newBadge')} - {t('home.heroSubtitle')}
+          </div>
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-8 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {t('home.heroTitle').split(' ').map((word, i) => (
+              <span key={i} className="inline-block mr-2 lg:mr-4 last:mr-0">
+                {word === 'Cars' || word === 'السيارات' ? <span className="text-yellow-300 drop-shadow-sm">{word}</span> : word}
+              </span>
+            ))}
+          </h1>
+
+          <div className="glass-effect p-2 rounded-[2.5rem] shadow-2xl animate-in fade-in zoom-in duration-700 delay-300 max-w-3xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-2">
+              <div className="relative flex-grow">
+                <input
+                  type="text"
+                  placeholder={t('home.searchPlaceholder')}
+                  className="w-full px-8 py-5 rounded-[2rem] text-lg focus:outline-none focus:ring-0 text-gray-800 dark:text-white bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm border-none shadow-inner placeholder-gray-400 transition-all focus:bg-white dark:focus:bg-gray-900"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                />
+
+                {/* Voice Search Button */}
+                <button
+                  onClick={startListening}
+                  className={`absolute right-6 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all ltr:right-6 rtl:left-6 rtl:right-auto ${isListening ? 'bg-red-100 text-red-600 animate-bounce' : 'text-gray-400'}`}
+                  title="Voice Search"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 1.5a3 3 0 0 1 3 3v1.5a3 3 0 0 1-6 0v-1.5a3 3 0 0 1 3-3Z" />
+                  </svg>
+                </button>
+              </div>
+
+              <button
+                onClick={handleSearch}
+                className="bg-red-600 hover:bg-red-700 text-white px-10 py-5 rounded-[2rem] font-black text-lg transition-all shadow-xl hover:shadow-red-500/30 flex items-center justify-center gap-2 group"
+              >
+                <span>{t('home.searchButton')}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:group-hover:-translate-x-1">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Filters - Glass Chips */}
+          <div className="flex flex-wrap gap-3 justify-center mt-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
+            <div className="flex glass-effect rounded-2xl overflow-hidden p-1 group hover:scale-105 transition-transform duration-300">
+              <input
+                type="number"
+                placeholder={`${t('filters.min')}`}
+                className="w-20 px-4 py-2 bg-transparent text-sm font-bold focus:outline-none text-white placeholder-white/60"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+              />
+              <div className="w-[1px] bg-white/20 my-2"></div>
+              <input
+                type="number"
+                placeholder={`${t('filters.max')}`}
+                className="w-20 px-4 py-2 bg-transparent text-sm font-bold focus:outline-none text-white placeholder-white/60"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+            </div>
+
+            <div className="glass-effect rounded-2xl p-1 group hover:scale-105 transition-transform duration-300">
+              <select
+                className="bg-transparent text-white px-5 py-2 rounded-2xl text-sm font-bold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+              >
+                <option value="">{t('filters.selectCity')}</option>
+                {selectedCountry.cities.map(city => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              onClick={handleSearch}
+              className="bg-white text-red-600 px-8 py-3 rounded-2xl text-sm font-black shadow-2xl hover:bg-gray-100 active:scale-95 transition-all"
+            >
+              {t('filters.apply')}
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <main className="container mx-auto px-4 py-8">
+        {/* Categories */}
+        <div className="mb-12 text-center">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">{t('home.browseCategories')}</h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            <CategoryIcons selectedCategory={selectedCategory} onSelect={handleCategoryClick} />
+          </div>
+        </div>
+
+
+        {/* Sub-Categories Chips */}
+        {
+          selectedCategory && subCategories.length > 0 && (
+            <div className="mb-10 flex flex-wrap justify-center gap-2 animate-in fade-in slide-in-from-top-4">
+              {subCategories.map((sub: any) => (
+                <button
+                  key={sub.id || sub.documentId}
+                  onClick={() => handleSubCategoryClick(sub.attributes?.name || sub.name)}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition border ${selectedSubCategory === (sub.attributes?.name || sub.name)
+                    ? "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800"
+                    : "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 dark:hover:bg-gray-700"
+                    }`}
+                >
+                  {t(`subCategories.${sub.attributes?.name || sub.name}`) || sub.attributes?.name || sub.name}
+                </button>
+              ))}
+            </div>
+          )
+        }
+
+        {/* Recently Viewed */}
+        <RecentlyViewed />
+
+        <AdvancedFilters
+          category={selectedCategory}
+          filters={extraFilters}
+          setFilters={setExtraFilters}
+          onApply={handleSearch}
+        />
+
+        {/* Content Area: Either Filtered Grid OR Categorized Rows */}
+        {selectedCategory || searchTerm || minPrice || maxPrice || selectedCity ? (
+          // 1. FILTERED VIEW (Grid)
+          <>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center gap-2">
+              {selectedCategory ? `${selectedCategory}` : t('home.newArrivals')}
+            </h2>
+
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {[...Array(8)].map((_, i) => (
+                  <ProductSkeleton key={i} />
+                ))}
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-xl font-bold text-gray-900">{t('home.noProducts')}</h3>
+                <p className="text-gray-500">{t('home.searchPlaceholder')}</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {products.map((ad: any, index: number) => (
+                  <div
+                    key={ad.documentId || ad.id}
+                    className={`group bg-white dark:bg-gray-900 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 overflow-hidden border ${ad.isFeatured ? 'border-yellow-400 ring-4 ring-yellow-400/10' : 'border-gray-100 dark:border-gray-800'} h-full flex flex-col relative hover:translate-y-[-8px] animate-in fade-in slide-in-from-bottom-8 duration-700`}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    {ad.isFeatured && (
+                      <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md">
+                        <span className="animate-spin-slow text-xs">⭐</span> {t('common.dealz')}
+                      </div>
+                    )}
+                    {isWithinTwoHours(ad.publishedAt || ad.createdAt) && (
+                      <div className={`absolute top-4 ${ad.isFeatured ? 'left-28' : 'left-4'} z-10 bg-gradient-to-r from-green-500 to-green-700 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md`}>
+                        <span className="animate-pulse">✨</span> {t('home.newBadge')}
+                      </div>
+                    )}
+
+                    <Link href={`/product/${ad.slug || ad.documentId || ad.id}`} className="h-full flex flex-col">
+                      {/* Image container with zoom effect */}
+                      <div className="relative h-56 w-full bg-gray-50 dark:bg-gray-800 overflow-hidden">
+                        <img
+                          src={ad.images && ad.images.length > 0 ? `http://localhost:1338${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                          alt={ad.title}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div className="absolute bottom-4 left-4 text-white text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ltr:left-4 rtl:right-4 rtl:left-auto">
+                          {ad.category?.name || "General"}
+                        </div>
+                      </div>
+
+                      {/* Content Area */}
+                      <div className="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                          <h3 className="font-bold text-xl text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-red-600 transition-colors duration-300 mb-3">
+                            {ad.title}
+                          </h3>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-red-600 font-extrabold text-2xl tracking-tight">
+                              {ad.price?.toLocaleString()}
+                            </span>
+                            <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">{selectedCountry.currency}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-50 dark:border-gray-800">
+                          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-sm">
+                            <span className="text-red-500 flex items-center justify-center w-6 h-6 rounded-lg bg-red-50 dark:bg-red-900/10">📍</span>
+                            {ad.city}
+                          </div>
+
+                          <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/10 flex items-center justify-center text-red-600 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+
+                    {/* Heart/Favorite Button */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleFavorite(ad.documentId);
+                      }}
+                      className={`absolute top-4 right-4 p-3 rounded-2xl shadow-xl transition-all duration-300 z-20 group/heart ${isFavorite(ad.documentId)
+                        ? 'bg-red-600 text-white scale-110'
+                        : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-red-500 hover:scale-110'
+                        }`}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill={isFavorite(ad.documentId) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 transition-transform group-hover/heart:scale-125">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                      </svg>
+                    </button>
+
+                    {/* Add to Compare Button */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (isInCompare(ad.documentId || ad.id)) {
+                          removeFromCompare(ad.documentId || ad.id);
+                        } else {
+                          addToCompare(ad);
+                        }
+                      }}
+                      className={`absolute bottom-[85px] right-4 p-2 rounded-xl shadow-lg hover:scale-110 transition duration-300 border ${isInCompare(ad.documentId || ad.id)
+                        ? 'bg-blue-600 text-white opacity-100'
+                        : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 border-gray-100 dark:border-gray-700'
+                        }`}
+                      title={isInCompare(ad.documentId || ad.id) ? "Remove from Compare" : "Compare Product"}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+            )}
+          </>
+        ) : (
+          // 2. CATEGORIZED VIEW (Home Default)
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Category Rows */}
+            <CategoryRow categoryName="Motors" title={t('categories.Motors')} />
+            <CategoryRow categoryName="Properties" title={t('categories.Properties')} />
+            <CategoryRow categoryName="Mobiles" title={t('categories.Mobiles')} />
+            <CategoryRow categoryName="Electronics" title={t('categories.Electronics')} />
+            <CategoryRow categoryName="Furniture & Garden" title={t('categories.Furniture & Garden')} />
+            <CategoryRow categoryName="Jobs" title={t('categories.Jobs')} />
+            <CategoryRow categoryName="Services" title={t('categories.Services')} />
+          </div>
+        )}
+      </main >
+
+      <ComparisonBar />
+    </div >
+  );
+}

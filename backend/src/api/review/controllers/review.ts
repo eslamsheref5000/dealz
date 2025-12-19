@@ -1,0 +1,96 @@
+/**
+ * review controller
+ */
+
+import { factories } from '@strapi/strapi'
+
+export default factories.createCoreController('api::review.review', ({ strapi }) => ({
+    async find(ctx) {
+        try {
+            const { query } = ctx;
+            const entries = await strapi.documents('api::review.review').findMany({
+                ...query,
+                populate: {
+                    reviewer: {
+                        fields: ['username', 'email']
+                    },
+                    seller: {
+                        fields: ['username', 'email']
+                    }
+                },
+                status: 'published',
+            });
+            console.log("Raw Entries (First):", JSON.stringify(entries[0], null, 2));
+            const sanitized = await this.sanitizeOutput(entries, ctx);
+
+            // Re-attach safe reviewer info if sanitized stripped it
+            const finalOutput = (Array.isArray(sanitized) ? sanitized : [sanitized]).map((item, index) => {
+                const raw = entries[index];
+                if (raw && raw.reviewer) {
+                    return {
+                        ...item,
+                        reviewer: {
+                            id: raw.reviewer.id,
+                            username: raw.reviewer.username
+                        }
+                    };
+                }
+                return item;
+            });
+
+            return this.transformResponse(finalOutput);
+        } catch (err) {
+            console.error("Custom Find Error:", err);
+            return ctx.badRequest("Failed to fetch reviews");
+        }
+    },
+
+    async create(ctx) {
+        const user = ctx.state.user;
+
+        // Ensure user is logged in
+        if (!user) {
+            return ctx.unauthorized('You must be logged in to leave a review');
+        }
+
+        // Get data from body
+        // Strapi 5 request body usually has { data: { ... } } structure for REST
+        const { data } = ctx.request.body;
+
+        // Validate requirements
+        if (!data.seller) {
+            return ctx.badRequest('Seller is required');
+        }
+
+        try {
+            // Using Document Service API (Strapi 5)
+            // We accept seller as ID or DocumentId. Document Service prefers DocumentId but might handle ID?
+            // Let's assume the frontend sends what it sends (ID).
+            // If standard create fails, we might need to look up seller DocumentId.
+
+            // Construct payload
+            const payload = {
+                ...data,
+                reviewer: user.documentId, // Link current user by Document ID
+                publishedAt: new Date(), // Auto-publish
+            };
+
+            // Note: data.seller should be user documentId ideally.
+            // If frontend sends ID (int), let's keep it and see if Strapi handles it.
+            // If not, we fix inputs.
+
+            const entry = await strapi.documents('api::review.review').create({
+                data: payload,
+                status: 'published'
+            });
+
+            const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
+            return this.transformResponse(sanitizedEntity);
+
+        } catch (err) {
+            // Log the error for better debugging
+            console.error("Custom Create Error:", err);
+            throw err;
+        }
+    }
+}));
