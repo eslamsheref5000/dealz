@@ -49,7 +49,8 @@ export default function ProductDetails() {
         // Fetch Current User
         const token = localStorage.getItem("jwt");
         if (token) {
-            fetch("http://localhost:1338/api/users/me", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            fetch(`${API_URL}/api/users/me`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then(res => res.json())
@@ -59,7 +60,8 @@ export default function ProductDetails() {
 
         if (slug) {
             // Fetch product by slug
-            fetch(`http://localhost:1338/api/products?filters[slug][$eq]=${slug}&populate=*`)
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            fetch(`${API_URL}/api/products?filters[slug][$eq]=${slug}&populate=*`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.data && data.data.length > 0) {
@@ -69,7 +71,8 @@ export default function ProductDetails() {
 
                         // Fetch related products
                         if (productData.category?.id) {
-                            fetch(`http://localhost:1338/api/products?filters[category][id][$eq]=${productData.category.id}&filters[documentId][$ne]=${productData.documentId}&populate=*&pagination[limit]=4`)
+                            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                            fetch(`${API_URL}/api/products?filters[category][id][$eq]=${productData.category.id}&filters[documentId][$ne]=${productData.documentId}&populate=*&pagination[limit]=4`)
                                 .then(res => res.json())
                                 .then(relData => setRelatedProducts(relData.data));
                         }
@@ -230,7 +233,7 @@ export default function ProductDetails() {
                                     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 dark:border-gray-800 h-full flex flex-col">
                                         <div className="relative h-48 bg-gray-200 dark:bg-gray-800 overflow-hidden">
                                             <img
-                                                src={ad.images && ad.images.length > 0 ? `http://localhost:1338${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                                src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
                                                 alt={ad.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                             />

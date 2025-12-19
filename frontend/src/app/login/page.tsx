@@ -20,7 +20,8 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:1338/api/auth/local", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/auth/local`, {
                 method: "POST", // Login endpoint
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

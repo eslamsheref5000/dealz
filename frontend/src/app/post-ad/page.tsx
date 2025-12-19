@@ -63,7 +63,8 @@ export default function PostAdPage() {
         setLoading(false);
 
         // Fetch Global Settings
-        fetch('http://localhost:1338/api/settings')
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        fetch(`${API_URL}/api/settings`)
             .then(res => res.json())
             .then(data => {
                 if (data.data) {
@@ -72,7 +73,8 @@ export default function PostAdPage() {
             })
             .catch(err => console.error("Settings fetch error:", err));
 
-        const catUrl = 'http://localhost:1338/api/categories';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const catUrl = `${API_URL}/api/categories`;
         console.log("Fetching categories from:", catUrl);
         fetch(catUrl)
             .then(res => {
@@ -103,7 +105,8 @@ export default function PostAdPage() {
         }
 
         const filterKey = typeof formData.category === 'string' && formData.category.length > 10 ? 'documentId' : 'id';
-        const subCatUrl = `http://localhost:1338/api/sub-categories?filters[category][${filterKey}][$eq]=${formData.category}`;
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const subCatUrl = `${API_URL}/api/sub-categories?filters[category][${filterKey}][$eq]=${formData.category}`;
         console.log("Fetching sub-categories from:", subCatUrl);
 
         fetch(subCatUrl)
@@ -151,7 +154,8 @@ export default function PostAdPage() {
                     formDataImage.append('files', file);
                 });
 
-                const uploadRes = await fetch('http://localhost:1338/api/upload', {
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                const uploadRes = await fetch(`${API_URL}/api/upload`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -187,7 +191,8 @@ export default function PostAdPage() {
                 paymentTransactionId: isFeatured ? transactionId : null
             };
 
-            const res = await fetch('http://localhost:1338/api/products', {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/products`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

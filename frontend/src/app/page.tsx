@@ -71,7 +71,8 @@ export default function Home() {
 
   const fetchAds = (query = "", category = "", subCat = "", minP = "", maxP = "", city = "") => {
     setLoading(true);
-    let url = `http://localhost:1338/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=publishedAt:desc`;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+    let url = `${API_URL}/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=publishedAt:desc`;
 
     // Build query filters
     const filters = [];
@@ -116,7 +117,8 @@ export default function Home() {
   useEffect(() => {
     if (selectedCategory) {
       // Fetch sub-categories
-      fetch(`http://localhost:1338/api/sub-categories?filters[category][name][$eq]=${encodeURIComponent(selectedCategory)}`)
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+      fetch(`${API_URL}/api/sub-categories?filters[category][name][$eq]=${encodeURIComponent(selectedCategory)}`)
         .then(res => res.json())
         .then(data => setSubCategories(data.data || []))
         .catch(err => console.error(err));
@@ -338,7 +340,7 @@ export default function Home() {
                       {/* Image container with zoom effect */}
                       <div className="relative h-56 w-full bg-gray-50 dark:bg-gray-800 overflow-hidden">
                         <img
-                          src={ad.images && ad.images.length > 0 ? `http://localhost:1338${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                          src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
                           alt={ad.title}
                           className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                         />

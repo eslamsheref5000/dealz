@@ -44,7 +44,8 @@ export default function ModerationPage() {
         setLoading(true);
         const token = localStorage.getItem("jwt");
         try {
-            const res = await fetch(`http://localhost:1338/api/moderation/kyc/pending`, {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/moderation/kyc/pending`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (!res.ok) throw new Error("Failed to fetch KYC requests");
@@ -60,7 +61,8 @@ export default function ModerationPage() {
     const fetchAds = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:1338/api/products?filters[approvalStatus][$eq]=${activeTab}&populate=*&sort=createdAt:desc`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/products?filters[approvalStatus][$eq]=${activeTab}&populate=*&sort=createdAt:desc`);
             if (!res.ok) throw new Error("Failed to fetch ads");
             const data = await res.json();
             setAds(data.data || []);
@@ -117,20 +119,21 @@ export default function ModerationPage() {
     const handleAction = async (id: string, action: 'approve' | 'reject' | 'delete' | 'disable' | 'approveKYC' | 'rejectKYC') => {
         const token = localStorage.getItem("jwt");
         try {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
             let res;
             if (action === 'delete') {
-                res = await fetch(`http://localhost:1338/api/products/${id}`, {
+                res = await fetch(`${API_URL}/api/products/${id}`, {
                     method: "DELETE",
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else if (action === 'approveKYC' || action === 'rejectKYC') {
                 const endpoint = action === 'approveKYC' ? 'approve' : 'reject';
-                res = await fetch(`http://localhost:1338/api/moderation/kyc/${id}/${endpoint}`, {
+                res = await fetch(`${API_URL}/api/moderation/kyc/${id}/${endpoint}`, {
                     method: "POST",
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                res = await fetch(`http://localhost:1338/api/products/${id}/${action}`, {
+                res = await fetch(`${API_URL}/api/products/${id}/${action}`, {
                     method: "POST",
                     headers: { Authorization: `Bearer ${token}` }
                 });
@@ -270,9 +273,9 @@ export default function ModerationPage() {
                                         {/* Document Preview */}
                                         <div className="w-full md:w-64 h-48 bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 relative group">
                                             {u.kycDocument?.[0]?.url || u.kycDocument?.url ? (
-                                                <a href={`http://localhost:1338${u.kycDocument?.[0]?.url || u.kycDocument?.url}`} target="_blank" className="block w-full h-full">
+                                                <a href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`} target="_blank" className="block w-full h-full">
                                                     <img
-                                                        src={`http://localhost:1338${u.kycDocument?.[0]?.url || u.kycDocument?.url}`}
+                                                        src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${u.kycDocument?.[0]?.url || u.kycDocument?.url}`}
                                                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                                         alt="KYC Document"
                                                     />
@@ -317,7 +320,7 @@ export default function ModerationPage() {
                                     <div className="w-full md:w-48 h-32 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
                                         {ad.images?.[0] ? (
                                             <img
-                                                src={`http://localhost:1338${ad.images[0].url}`}
+                                                src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}`}
                                                 alt={ad.title}
                                                 className="w-full h-full object-cover"
                                             />
@@ -415,8 +418,8 @@ export default function ModerationPage() {
                                                 </h4>
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {ad.images?.map((img: any, idx: number) => (
-                                                        <a key={idx} href={`http://localhost:1338${img.url}`} target="_blank" rel="noreferrer" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 ring-red-500 transition-all">
-                                                            <img src={`http://localhost:1338${img.url}`} className="w-full h-full object-cover" alt="Ad detail" />
+                                                        <a key={idx} href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${img.url}`} target="_blank" rel="noreferrer" className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 ring-red-500 transition-all">
+                                                            <img src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${img.url}`} className="w-full h-full object-cover" alt="Ad detail" />
                                                         </a>
                                                     ))}
                                                 </div>

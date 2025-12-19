@@ -41,12 +41,14 @@ export default function ProfilePage() {
         const userData = JSON.parse(userStr);
         setUser(userData);
 
-        const fetchMyAds = fetch(`http://localhost:1338/api/products?filters[ad_owner][id][$eq]=${userData.id}&populate=*`).then(r => r.json());
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const fetchMyAds = fetch(`${API_URL}/api/products?filters[ad_owner][id][$eq]=${userData.id}&populate=*`).then(r => r.json());
 
         const fetchSavedAds = favorites.length > 0
-            ? Promise.all(favorites.map(docId =>
-                fetch(`http://localhost:1338/api/products/${docId}?populate=*`).then(r => r.json())
-            ))
+            ? Promise.all(favorites.map(docId => {
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                return fetch(`${API_URL}/api/products/${docId}?populate=*`).then(r => r.json())
+            }))
             : Promise.resolve([]);
 
         Promise.all([fetchMyAds, fetchSavedAds])
@@ -58,7 +60,8 @@ export default function ProfilePage() {
                 // Fetch latest user data for avatar
                 const token = localStorage.getItem("jwt");
                 if (token) {
-                    fetch('http://localhost:1338/api/users/me?populate=avatar', {
+                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                    fetch(`${API_URL}/api/users/me?populate=avatar`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     })
                         .then(res => res.json())
@@ -209,7 +212,8 @@ export default function ProfilePage() {
 
         const token = localStorage.getItem("jwt");
         try {
-            const res = await fetch(`http://localhost:1338/api/products/${adId}`, {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const res = await fetch(`${API_URL}/api/products/${adId}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -243,7 +247,7 @@ export default function ProfilePage() {
                         <div className="w-24 h-24 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center text-4xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
                             {user?.avatar ? (
                                 <img
-                                    src={`http://localhost:1338${user.avatar.url}`}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${user.avatar.url}`}
                                     className="w-full h-full object-cover"
                                     alt="Profile"
                                 />
@@ -348,7 +352,7 @@ export default function ProfilePage() {
                                 <Link href={`/product/${ad.slug || ad.documentId || ad.id}`}>
                                     <div className="relative h-48 bg-gray-200 dark:bg-gray-800">
                                         <img
-                                            src={ad.images && ad.images.length > 0 ? `http://localhost:1338${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                            src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
                                             alt={ad.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                         />
