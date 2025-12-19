@@ -13,8 +13,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dealz - Your Local Marketplace",
-  description: "The best place to find deals on cars, properties, and more in your area.",
+  metadataBase: new URL('https://dealz-market.vercel.app'),
+  title: {
+    default: "Dealz - Top Marketplace in Middle East",
+    template: "%s | Dealz"
+  },
+  description: "Buy and sell cars, properties, phones, and more in Egypt, UAE, and KSA. The best deals are here.",
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://dealz-market.vercel.app',
+    siteName: 'Dealz',
+    images: [
+      {
+        url: '/logo.png',
+        width: 800,
+        height: 600,
+        alt: 'Dealz Marketplace',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dealz - Your Local Marketplace',
+    description: 'Find the best deals in Egypt, UAE, and KSA.',
+    images: ['/logo.png'],
+  },
   manifest: "/manifest.json",
   themeColor: "#dc2626",
   viewport: {

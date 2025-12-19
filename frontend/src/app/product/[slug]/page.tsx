@@ -97,6 +97,33 @@ export default function ProductDetails() {
             <Header />
 
             <main className="container mx-auto px-4 py-8">
+                <title>{product ? `${product.title} | Dealz` : 'Dealz'}</title>
+                <meta name="description" content={product ? product.description.substring(0, 160) : 'Find the best deals on Dealz'} />
+
+                {/* JSON-LD Structured Data */}
+                {product && (
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{
+                            __html: JSON.stringify({
+                                "@context": "https://schema.org/",
+                                "@type": "Product",
+                                "name": product.title,
+                                "image": product.images?.map((img: any) => img.url.startsWith('http') ? img.url : `${process.env.NEXT_PUBLIC_API_URL}${img.url}`),
+                                "description": product.description,
+                                "offers": {
+                                    "@type": "Offer",
+                                    "url": typeof window !== 'undefined' ? window.location.href : '',
+                                    "priceCurrency": countries.find(c => c.id === product.country)?.currency || "AED",
+                                    "price": product.price,
+                                    "availability": "https://schema.org/InStock",
+                                    "itemCondition": "https://schema.org/UsedCondition"
+                                }
+                            })
+                        }}
+                    />
+                )}
+
                 <Breadcrumb
                     items={[
                         { label: attrs.category?.name || "Category", href: `/?category=${attrs.category?.name}` },
