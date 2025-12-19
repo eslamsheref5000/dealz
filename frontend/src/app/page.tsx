@@ -36,6 +36,11 @@ export default function Home() {
   const [subCategories, setSubCategories] = useState<any[]>([]);
   const [isListening, setIsListening] = useState(false);
 
+  // Phase 2: Sorting & Pagination State
+  const [sortBy, setSortBy] = useState("publishedAt:desc");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
   const startListening = () => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       // @ts-ignore
@@ -69,10 +74,11 @@ export default function Home() {
     }
   };
 
-  const fetchAds = (query = "", category = "", subCat = "", minP = "", maxP = "", city = "") => {
+  const fetchAds = (query = "", category = "", subCat = "", minP = "", maxP = "", city = "", sort = "publishedAt:desc", pageNum = 1) => {
     setLoading(true);
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-    let url = `${API_URL}/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=publishedAt:desc`;
+    // Updated URL with Sort and Pagination
+    let url = `${API_URL}/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=${sort}&pagination[page]=${pageNum}&pagination[pageSize]=12`;
 
     // Build query filters
     const filters = [];
@@ -95,13 +101,21 @@ export default function Home() {
       url += '&' + filters.join('&');
     }
 
-    // Sort is already handled in initial URL
-    // url += '&sort[0]=publishedAt:desc';
-
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setProducts(data.data || []);
+        if (pageNum === 1) {
+          setProducts(data.data || []);
+        } else {
+          setProducts(prev => [...prev, ...(data.data || [])]);
+        }
+
+        // Check for more pages
+        if (data.meta && data.meta.pagination) {
+          setHasMore(data.meta.pagination.page < data.meta.pagination.pageCount);
+        } else {
+          setHasMore(false);
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -111,8 +125,16 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchAds();
-  }, [selectedCountry.id]);
+    // Reset page to 1 on filter change
+    setPage(1);
+    fetchAds(searchTerm, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity, sortBy, 1);
+  }, [selectedCountry.id, sortBy, extraFilters]); // Added new deps
+
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchAds(searchTerm, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity, sortBy, nextPage);
+  };
 
   useEffect(() => {
     if (selectedCategory) {
@@ -129,7 +151,8 @@ export default function Home() {
   }, [selectedCategory]);
 
   const handleSearch = () => {
-    fetchAds(searchTerm, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity);
+    setPage(1);
+    fetchAds(searchTerm, selectedCategory, selectedSubCategory, minPrice, maxPrice, selectedCity, sortBy, 1);
   };
 
   const handleCategoryClick = (cat: string) => {
@@ -138,13 +161,15 @@ export default function Home() {
     const newCat = selectedCategory === cat ? "" : cat;
     setSelectedCategory(newCat);
     // Sub-category fetch is handled by useEffect
-    fetchAds(searchTerm, newCat, "", minPrice, maxPrice, selectedCity);
+    setPage(1);
+    fetchAds(searchTerm, newCat, "", minPrice, maxPrice, selectedCity, sortBy, 1);
   };
 
   const handleSubCategoryClick = (sub: string) => {
     const newSub = selectedSubCategory === sub ? "" : sub;
     setSelectedSubCategory(newSub);
-    fetchAds(searchTerm, selectedCategory, newSub, minPrice, maxPrice, selectedCity);
+    setPage(1);
+    fetchAds(searchTerm, selectedCategory, newSub, minPrice, maxPrice, selectedCity, sortBy, 1);
   };
 
   return (
@@ -297,146 +322,167 @@ export default function Home() {
           onApply={handleSearch}
         />
 
-        {/* Content Area: Either Filtered Grid OR Categorized Rows */}
-        {selectedCategory || searchTerm || minPrice || maxPrice || selectedCity ? (
-          // 1. FILTERED VIEW (Grid)
-          <>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center gap-2">
-              {selectedCategory ? `${selectedCategory}` : t('home.newArrivals')}
-            </h2>
+        {/* Main Product Grid */}
+        <div id="main-feed" className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <span className="w-2 h-8 bg-red-600 rounded-full block"></span>
+            {t('common.freshRecommendations')}
+          </h2>
 
-            {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {[...Array(8)].map((_, i) => (
-                  <ProductSkeleton key={i} />
-                ))}
-              </div>
-            ) : products.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
-                <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-gray-900">{t('home.noProducts')}</h3>
-                <p className="text-gray-500">{t('home.searchPlaceholder')}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {products.map((ad: any, index: number) => (
-                  <div
-                    key={ad.documentId || ad.id}
-                    className={`group bg-white dark:bg-gray-900 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 overflow-hidden border ${ad.isFeatured ? 'border-yellow-400 ring-4 ring-yellow-400/10' : 'border-gray-100 dark:border-gray-800'} h-full flex flex-col relative hover:translate-y-[-8px] animate-in fade-in slide-in-from-bottom-8 duration-700`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    {ad.isFeatured && (
-                      <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md">
-                        <span className="animate-spin-slow text-xs">⭐</span> {t('common.dealz')}
-                      </div>
-                    )}
-                    {isWithinTwoHours(ad.publishedAt || ad.createdAt) && (
-                      <div className={`absolute top-4 ${ad.isFeatured ? 'left-28' : 'left-4'} z-10 bg-gradient-to-r from-green-500 to-green-700 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md`}>
-                        <span className="animate-pulse">✨</span> {t('home.newBadge')}
-                      </div>
-                    )}
+          {/* Sort Dropdown */}
+          <div className="relative group">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="appearance-none bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 py-2 pl-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer shadow-sm"
+            >
+              <option value="publishedAt:desc">{t('common.sortNewest') || "Newest"}</option>
+              <option value="price:asc">{t('common.sortPriceLow') || "Price: Low to High"}</option>
+              <option value="price:desc">{t('common.sortPriceHigh') || "Price: High to Low"}</option>
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
 
-                    <Link href={`/product/${ad.slug || ad.documentId || ad.id}`} className="h-full flex flex-col">
-                      {/* Image container with zoom effect */}
-                      <div className="relative h-56 w-full bg-gray-50 dark:bg-gray-800 overflow-hidden">
-                        <img
-                          src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
-                          alt={ad.title}
-                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                        <div className="absolute bottom-4 left-4 text-white text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ltr:left-4 rtl:right-4 rtl:left-auto">
-                          {ad.category?.name || "General"}
-                        </div>
-                      </div>
-
-                      {/* Content Area */}
-                      <div className="p-6 flex-grow flex flex-col justify-between">
-                        <div>
-                          <h3 className="font-bold text-xl text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-red-600 transition-colors duration-300 mb-3">
-                            {ad.title}
-                          </h3>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-red-600 font-extrabold text-2xl tracking-tight">
-                              {ad.price?.toLocaleString()}
-                            </span>
-                            <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">{selectedCountry.currency}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-50 dark:border-gray-800">
-                          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-sm">
-                            <span className="text-red-500 flex items-center justify-center w-6 h-6 rounded-lg bg-red-50 dark:bg-red-900/10">📍</span>
-                            {ad.city}
-                          </div>
-
-                          <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/10 flex items-center justify-center text-red-600 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-
-                    {/* Heart/Favorite Button */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleFavorite(ad.documentId);
-                      }}
-                      className={`absolute top-4 right-4 p-3 rounded-2xl shadow-xl transition-all duration-300 z-20 group/heart ${isFavorite(ad.documentId)
-                        ? 'bg-red-600 text-white scale-110'
-                        : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-red-500 hover:scale-110'
-                        }`}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill={isFavorite(ad.documentId) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 transition-transform group-hover/heart:scale-125">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                      </svg>
-                    </button>
-
-                    {/* Add to Compare Button */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (isInCompare(ad.documentId || ad.id)) {
-                          removeFromCompare(ad.documentId || ad.id);
-                        } else {
-                          addToCompare(ad);
-                        }
-                      }}
-                      className={`absolute bottom-[85px] right-4 p-2 rounded-xl shadow-lg hover:scale-110 transition duration-300 border ${isInCompare(ad.documentId || ad.id)
-                        ? 'bg-blue-600 text-white opacity-100'
-                        : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 border-gray-100 dark:border-gray-700'
-                        }`}
-                      title={isInCompare(ad.documentId || ad.id) ? "Remove from Compare" : "Compare Product"}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-            )}
-          </>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-bold text-gray-900">{t('home.noProducts')}</h3>
+            <p className="text-gray-500">{t('home.searchPlaceholder')}</p>
+          </div>
         ) : (
-          // 2. CATEGORIZED VIEW (Home Default)
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Category Rows */}
-            <CategoryRow categoryName="Motors" title={t('categories.Motors')} />
-            <CategoryRow categoryName="Properties" title={t('categories.Properties')} />
-            <CategoryRow categoryName="Mobiles" title={t('categories.Mobiles')} />
-            <CategoryRow categoryName="Electronics" title={t('categories.Electronics')} />
-            <CategoryRow categoryName="Furniture & Garden" title={t('categories.Furniture & Garden')} />
-            <CategoryRow categoryName="Jobs" title={t('categories.Jobs')} />
-            <CategoryRow categoryName="Services" title={t('categories.Services')} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map((ad: any, index: number) => (
+              <div
+                key={ad.documentId || ad.id}
+                className={`group bg-white dark:bg-gray-900 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 overflow-hidden border ${ad.isFeatured ? 'border-yellow-400 ring-4 ring-yellow-400/10' : 'border-gray-100 dark:border-gray-800'} h-full flex flex-col relative hover:translate-y-[-8px] animate-in fade-in slide-in-from-bottom-8 duration-700`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {ad.isFeatured && (
+                  <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md">
+                    <span className="animate-spin-slow text-xs">⭐</span> {t('common.dealz')}
+                  </div>
+                )}
+                {isWithinTwoHours(ad.publishedAt || ad.createdAt) && (
+                  <div className={`absolute top-4 ${ad.isFeatured ? 'left-28' : 'left-4'} z-10 bg-gradient-to-r from-green-500 to-green-700 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md`}>
+                    <span className="animate-pulse">✨</span> {t('home.newBadge')}
+                  </div>
+                )}
+
+                <Link href={`/product/${ad.slug || ad.documentId || ad.id}`} className="h-full flex flex-col">
+                  {/* Image container with zoom effect */}
+                  <div className="relative h-56 w-full bg-gray-50 dark:bg-gray-800 overflow-hidden">
+                    <img
+                      src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
+                      alt={ad.title}
+                      className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <div className="absolute bottom-4 left-4 text-white text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ltr:left-4 rtl:right-4 rtl:left-auto">
+                      {ad.category?.name || "General"}
+                    </div>
+                  </div>
+
+                  {/* Content Area */}
+                  <div className="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-xl text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-red-600 transition-colors duration-300 mb-3">
+                        {ad.title}
+                      </h3>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-red-600 font-extrabold text-2xl tracking-tight">
+                          {ad.price?.toLocaleString()}
+                        </span>
+                        <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">{selectedCountry.currency}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-50 dark:border-gray-800">
+                      <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-sm">
+                        <span className="text-red-500 flex items-center justify-center w-6 h-6 rounded-lg bg-red-50 dark:bg-red-900/10">📍</span>
+                        {ad.city}
+                      </div>
+
+                      <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/10 flex items-center justify-center text-red-600 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Heart/Favorite Button */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFavorite(ad.documentId);
+                  }}
+                  className={`absolute top-4 right-4 p-3 rounded-2xl shadow-xl transition-all duration-300 z-20 group/heart ${isFavorite(ad.documentId)
+                    ? 'bg-red-600 text-white scale-110'
+                    : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-red-500 hover:scale-110'
+                    }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill={isFavorite(ad.documentId) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 transition-transform group-hover/heart:scale-125">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                  </svg>
+                </button>
+
+                {/* Add to Compare Button */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (isInCompare(ad.documentId || ad.id)) {
+                      removeFromCompare(ad.documentId || ad.id);
+                    } else {
+                      addToCompare(ad);
+                    }
+                  }}
+                  className={`absolute bottom-[85px] right-4 p-2 rounded-xl shadow-lg hover:scale-110 transition duration-300 border ${isInCompare(ad.documentId || ad.id)
+                    ? 'bg-blue-600 text-white opacity-100'
+                    : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 border-gray-100 dark:border-gray-700'
+                    }`}
+                  title={isInCompare(ad.documentId || ad.id) ? "Remove from Compare" : "Compare Product"}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
+
+        )}
+        {/* Load More Button */}
+        {hasMore && !loading && products.length > 0 && (
+          <div className="mt-12 text-center">
+            <button
+              onClick={handleLoadMore}
+              className="px-8 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all hover:scale-105 active:scale-95"
+            >
+              {t('common.loadMore') || "Load More Results"}
+            </button>
           </div>
         )}
+        {loading && page > 1 && (
+          <div className="mt-8 text-center py-4">
+            <div className="inline-block w-8 h-8 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+
       </main >
 
       <ComparisonBar />
