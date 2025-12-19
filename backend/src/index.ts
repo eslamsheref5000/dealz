@@ -382,6 +382,7 @@ export default {
       await strapi.documents('api::product.product').create({
         data: {
           title: 'Mercedes Benz C-Class 2024',
+          slug: 'mercedes-benz-c-class-2024-' + Math.random().toString(36).substring(2, 8),
           price: 150000,
           description: 'Brand new, GCC Specs, 0KM.',
           city: 'Dubai',
