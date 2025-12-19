@@ -341,4 +341,21 @@ export default factories.createCoreController('api::product.product', ({ strapi 
             return ctx.badRequest("Failed to update settings", { error: err });
         }
     }
+    async incrementViews(ctx) {
+        const { id } = ctx.params;
+        try {
+            const doc = await strapi.documents('api::product.product').findOne({ documentId: id });
+            if (!doc) return ctx.notFound("Product not found");
+
+            const newViews = (Number((doc as any).views) || 0) + 1;
+            const updated = await strapi.documents('api::product.product').update({
+                documentId: id,
+                data: { views: newViews },
+                status: 'published'
+            });
+            return { data: updated };
+        } catch (err) {
+            return ctx.badRequest("Failed to increment views", { error: err });
+        }
+    }
 }));

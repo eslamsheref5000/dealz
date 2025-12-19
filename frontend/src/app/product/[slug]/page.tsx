@@ -69,6 +69,9 @@ export default function ProductDetails() {
                         setProduct(productData);
                         addToRecentlyViewed(productData.documentId || productData.id);
 
+                        // Increment Views
+                        fetch(`${API_URL}/api/products/${productData.documentId}/view`, { method: 'PUT' }).catch(console.error);
+
                         // Fetch related products
                         if (productData.category?.id) {
                             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
