@@ -14,7 +14,12 @@ export const dictionaries = {
             clearAll: "Clear All",
             browseAds: "Browse Ads",
             postedDate: "Posted Date",
-            viewDetails: "View Details"
+            viewDetails: "View Details",
+            freshRecommendations: "Fresh Recommendations",
+            sortNewest: "Newest",
+            sortPriceLow: "Price: Low to High",
+            sortPriceHigh: "Price: High to Low",
+            loadMore: "Load More"
         },
         header: {
             home: "Home",
@@ -360,7 +365,12 @@ export const dictionaries = {
             clearAll: "مسح الكل",
             browseAds: "تصفح الإعلانات",
             postedDate: "تاريخ النشر",
-            viewDetails: "عرض التفاصيل"
+            viewDetails: "عرض التفاصيل",
+            freshRecommendations: "توصيات جديدة",
+            sortNewest: "الأحدث",
+            sortPriceLow: "السعر: الأقل للأعلى",
+            sortPriceHigh: "السعر: الأعلى للأقل",
+            loadMore: "تحميل المزيد"
         },
         header: {
             home: "الرئيسية",
@@ -700,6 +710,11 @@ export const dictionaries = {
             loading: "Chargement...",
             dealz: "Dealz",
             aed: "AED",
+            freshRecommendations: "Nouvelles Recommandations",
+            sortNewest: "Le plus récent",
+            sortPriceLow: "Prix: Bas à Élevé",
+            sortPriceHigh: "Prix: Élevé à Bas",
+            loadMore: "Charger plus"
         },
         header: {
             home: "Accueil",
@@ -1366,7 +1381,12 @@ export const dictionaries = {
             loading: "لوڈ ہو رہا ہے...",
             dealz: "Dealz",
             aed: "درہم",
-            viewAll: "سب دیکھیں"
+            viewAll: "سب دیکھیں",
+            freshRecommendations: "تازہ ترین سفارشات",
+            sortNewest: "تازہ ترین",
+            sortPriceLow: "قیمت: کم سے زیادہ",
+            sortPriceHigh: "قیمت: زیادہ سے کم",
+            loadMore: "مزید لوڈ کریں"
         },
         header: {
             home: "ہوم",
