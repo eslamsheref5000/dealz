@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Header from "../../components/Header";
 import moment from "moment";
 
-const API_BASE = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}/api`;
+const API_BASE = `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}/api`;
 
 import { useLanguage } from "../../context/LanguageContext";
 import { Suspense } from "react";
@@ -267,10 +267,10 @@ function InboxContent() {
                                                 {msg.image && (
                                                     <div className="mb-2 rounded-lg overflow-hidden border border-black/5 dark:border-white/5">
                                                         <img
-                                                            src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${msg.image.url}`}
+                                                            src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`}
                                                             alt="Sent image"
                                                             className="max-w-full h-auto cursor-pointer hover:opacity-90 transition"
-                                                            onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${msg.image.url}`, '_blank')}
+                                                            onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${msg.image.url}`, '_blank')}
                                                         />
                                                     </div>
                                                 )}

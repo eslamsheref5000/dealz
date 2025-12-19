@@ -28,7 +28,7 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
 
     const fetchReviews = async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             const res = await fetch(`${API_URL}/api/reviews?filters[seller][id][$eq]=${sellerId}&populate[reviewer]=*&sort[0]=createdAt:desc`);
             const data = await res.json();
             const formattedReviews = (data.data || []).map((item: any) => {
@@ -61,7 +61,7 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
         setSubmitting(true);
         try {
             const token = localStorage.getItem("jwt");
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
                 headers: {

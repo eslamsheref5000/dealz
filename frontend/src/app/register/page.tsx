@@ -21,7 +21,7 @@ export default function RegisterPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             console.log("Register Fetch URL:", `${API_URL}/api/auth/local/register`);
             const res = await fetch(`${API_URL}/api/auth/local/register`, {
                 method: "POST",

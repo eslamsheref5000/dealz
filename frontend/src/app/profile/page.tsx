@@ -41,12 +41,12 @@ export default function ProfilePage() {
         const userData = JSON.parse(userStr);
         setUser(userData);
 
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
         const fetchMyAds = fetch(`${API_URL}/api/products?filters[ad_owner][id][$eq]=${userData.id}&populate=*`).then(r => r.json());
 
         const fetchSavedAds = favorites.length > 0
             ? Promise.all(favorites.map(docId => {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
                 return fetch(`${API_URL}/api/products/${docId}?populate=*`).then(r => r.json())
             }))
             : Promise.resolve([]);
@@ -60,7 +60,7 @@ export default function ProfilePage() {
                 // Fetch latest user data for avatar
                 const token = localStorage.getItem("jwt");
                 if (token) {
-                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
                     fetch(`${API_URL}/api/users/me?populate=avatar`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     })
@@ -89,7 +89,7 @@ export default function ProfilePage() {
             formData.append('files', file);
 
             const token = localStorage.getItem("jwt");
-            const uploadRes = await fetch('http://localhost:1338/api/upload', {
+            const uploadRes = await fetch('https://shando5000-dealz.hf.space/api/upload', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData,
@@ -115,7 +115,7 @@ export default function ProfilePage() {
             const uploadData = await uploadRes.json();
             const avatarId = uploadData[0].id;
 
-            const updateRes = await fetch(`http://localhost:1338/api/users/${user.id}`, {
+            const updateRes = await fetch(`https://shando5000-dealz.hf.space/api/users/${user.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ export default function ProfilePage() {
             formData.append('files', kycForm.file);
 
             const token = localStorage.getItem("jwt");
-            const uploadRes = await fetch('http://localhost:1338/api/upload', {
+            const uploadRes = await fetch('https://shando5000-dealz.hf.space/api/upload', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData,
@@ -177,7 +177,7 @@ export default function ProfilePage() {
             const docId = uploadData[0].id;
 
             // 2. Update User Profile
-            const updateRes = await fetch(`http://localhost:1338/api/users/${user.id}`, {
+            const updateRes = await fetch(`https://shando5000-dealz.hf.space/api/users/${user.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ export default function ProfilePage() {
 
         const token = localStorage.getItem("jwt");
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             const res = await fetch(`${API_URL}/api/products/${adId}`, {
                 method: "DELETE",
                 headers: {
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                         <div className="w-24 h-24 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center text-4xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
                             {user?.avatar ? (
                                 <img
-                                    src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${user.avatar.url}`}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${user.avatar.url}`}
                                     className="w-full h-full object-cover"
                                     alt="Profile"
                                 />
@@ -352,7 +352,7 @@ export default function ProfilePage() {
                                 <Link href={`/product/${ad.slug || ad.documentId || ad.id}`}>
                                     <div className="relative h-48 bg-gray-200 dark:bg-gray-800">
                                         <img
-                                            src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                            src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
                                             alt={ad.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                         />

@@ -21,7 +21,7 @@ export default function CategoryRow({ categoryName, title }: CategoryRowProps) {
 
     useEffect(() => {
         // Fetch top 8 items from this category
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
         const url = `${API_URL}/api/products?populate=*&filters[country][$eq]=${selectedCountry.id}&filters[category][name][$eq]=${encodeURIComponent(categoryName)}&filters[approvalStatus][$eq]=approved&sort[0]=isFeatured:desc&sort[1]=publishedAt:desc&pagination[limit]=8`;
 
         fetch(url)
@@ -75,7 +75,7 @@ export default function CategoryRow({ categoryName, title }: CategoryRowProps) {
                             <Link href={`/product/${ad.slug || ad.documentId}`} className="block h-full flex flex-col">
                                 <div className="relative h-40 w-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
                                     <img
-                                        src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
+                                        src={ad.images && ad.images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}` : "https://placehold.co/600x400/png?text=No+Image"}
                                         alt={ad.title}
                                         className="object-cover w-full h-full group-hover:scale-110 transition duration-500"
                                     />

@@ -18,7 +18,7 @@ export default function ComparisonBar() {
                         <div key={product.id} className="relative group/item">
                             <div className="w-14 h-14 rounded-2xl border-2 border-white dark:border-gray-900 bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-lg transition-transform hover:scale-110 hover:z-10">
                                 <img
-                                    src={product.images?.[0]?.url ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338'}${product.images[0].url}` : "https://placehold.co/100x100"}
+                                    src={product.images?.[0]?.url ? `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${product.images[0].url}` : "https://placehold.co/100x100"}
                                     alt={product.title}
                                     className="w-full h-full object-cover"
                                 />

@@ -63,7 +63,7 @@ export default function PostAdPage() {
         setLoading(false);
 
         // Fetch Global Settings
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
         fetch(`${API_URL}/api/settings`)
             .then(res => res.json())
             .then(data => {
@@ -105,7 +105,7 @@ export default function PostAdPage() {
         }
 
         const filterKey = typeof formData.category === 'string' && formData.category.length > 10 ? 'documentId' : 'id';
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
         const subCatUrl = `${API_URL}/api/sub-categories?filters[category][${filterKey}][$eq]=${formData.category}`;
         console.log("Fetching sub-categories from:", subCatUrl);
 
@@ -154,7 +154,7 @@ export default function PostAdPage() {
                     formDataImage.append('files', file);
                 });
 
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
                 const uploadRes = await fetch(`${API_URL}/api/upload`, {
                     method: 'POST',
                     headers: {
@@ -191,7 +191,7 @@ export default function PostAdPage() {
                 paymentTransactionId: isFeatured ? transactionId : null
             };
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1338';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             const res = await fetch(`${API_URL}/api/products`, {
                 method: 'POST',
                 headers: {
