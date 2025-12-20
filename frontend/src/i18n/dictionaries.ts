@@ -403,7 +403,13 @@ export const dictionaries = {
             googlePlay: "Google Play",
             trending: "Trending",
             backToTop: "Back to Top",
-            scanToDownload: "Scan to Download"
+            scanToDownload: "Scan to Download",
+            adsPosted: "Ads Posted",
+            activeUsers: "Active Users",
+            dailyDeals: "Daily Deals",
+            cookieTitle: "We use cookies",
+            cookieDesc: "We use cookies to improve your experience.",
+            accept: "Accept"
         }
     },
     ar: {
@@ -806,7 +812,13 @@ export const dictionaries = {
             googlePlay: "جوجل بلاي",
             trending: "الأكثر رواجاً",
             backToTop: "العودة للأعلى",
-            scanToDownload: "امسح للتحميل"
+            scanToDownload: "امسح للتحميل",
+            adsPosted: "إعلان منشور",
+            activeUsers: "مستخدم نشط",
+            dailyDeals: "صفقة يومية",
+            cookieTitle: "نحن نستخدم ملفات تعريف الارتباط",
+            cookieDesc: "نستخدم ملفات تعريف الارتباط لتحسين تجربتك.",
+            accept: "قبول"
         }
     },
     fr: {
@@ -1195,7 +1207,13 @@ export const dictionaries = {
             googlePlay: "Google Play",
             trending: "Tendances",
             backToTop: "Retour en haut",
-            scanToDownload: "Scanner pour télécharger"
+            scanToDownload: "Scanner pour télécharger",
+            adsPosted: "Annonces publiées",
+            activeUsers: "Utilisateurs actifs",
+            dailyDeals: "Offres quotidiennes",
+            cookieTitle: "Nous utilisons des cookies",
+            cookieDesc: "Nous utilisons des cookies pour améliorer votre expérience.",
+            accept: "Accepter"
         }
     },
     hi: {
@@ -1570,7 +1588,13 @@ export const dictionaries = {
             googlePlay: "गूगल प्ले",
             trending: "ट्रेंडिंग",
             backToTop: "वापस ऊपर जाएं",
-            scanToDownload: "डाउनलोड करने के लिए स्कैन करें"
+            scanToDownload: "डाउनलोड करने के लिए स्कैन करें",
+            adsPosted: "विज्ञापन पोस्ट किए गए",
+            activeUsers: "सक्रिय उपयोगकर्ता",
+            dailyDeals: "दैनिक सौदे",
+            cookieTitle: "हम कुकीज़ का उपयोग करते हैं",
+            cookieDesc: "हम आपके अनुभव को बेहतर बनाने के लिए कुकीज़ का उपयोग करते हैं।",
+            accept: "स्वीकार करें"
         }
     },
     ur: {
@@ -1950,7 +1974,13 @@ export const dictionaries = {
             googlePlay: "گوگل پلے",
             trending: "رجحان ساز",
             backToTop: "واپس اوپر جائیں",
-            scanToDownload: "ڈاؤن لوڈ کرنے کے لیے اسکین کریں"
+            scanToDownload: "ڈاؤن لوڈ کرنے کے لیے اسکین کریں",
+            adsPosted: "اشتہارات پوسٹ کیے گئے",
+            activeUsers: "فعال صارفین",
+            dailyDeals: "روزانہ ڈیلز",
+            cookieTitle: "ہم کوکیز کا استعمال کرتے ہیں",
+            cookieDesc: "ہم آپ کے تجربے کو بہتر بنانے کے لیے کوکیز کا استعمال کرتے ہیں۔",
+            accept: "قبول کریں"
         }
     },
 };
