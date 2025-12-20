@@ -535,6 +535,34 @@ export const dictionaries = {
                 delete: "Delete",
                 disable: "Disable Ad"
             }
+        },
+        privacyPolicy: {
+            title: "Privacy Policy",
+            intro: "Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.",
+            s1Title: "1. Information We Collect",
+            s1Content: "We collect information you provide directly to us, such as when you create an account, post an ad, or contact support.",
+            s2Title: "2. How We Use Your Information",
+            s2Content: "We use your information to provide, maintain, and improve our services, including to process transactions and send you related information.",
+            s3Title: "3. Sharing of Information",
+            s3Content: "We do not sell your personal information. We may share information with third-party vendors who need access to such information to carry out work on our behalf.",
+            s4Title: "4. Data Security",
+            s4Content: "We implement reasonable security measures to protect your information, but no method of transmission over the Internet is 100% secure.",
+            s5Title: "5. Contact Us",
+            s5Content: "If you have any questions about this Privacy Policy, please contact us at privacy@dealz.com."
+        },
+        termsOfUse: {
+            title: "Terms of Use",
+            intro: "Welcome to Dealz. By accessing or using our website, you agree to comply with and be bound by the following terms and conditions.",
+            s1Title: "1. Acceptance of Terms",
+            s1Content: "By using our services, you agree to these terms. If you do not agree, please do not use our services.",
+            s2Title: "2. User Accounts",
+            s2Content: "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.",
+            s3Title: "3. Listing Rules",
+            s3Content: "All ads must comply with our prohibited items policy. We reserve the right to remove any ad that violates our policies.",
+            s4Title: "4. Safety & Conduct",
+            s4Content: "Dealz is a marketplace for local trading. Buying and selling is done directly between users. We are not responsible for any transactions or disputes between users.",
+            s5Title: "5. Contact Us",
+            s5Content: "If you have any questions about these Terms, please contact us at support@dealz.com."
         }
     },
     ar: {
@@ -1069,6 +1097,34 @@ export const dictionaries = {
                 delete: "حذف",
                 disable: "تعطيل الإعلان"
             }
+        },
+        privacyPolicy: {
+            title: "سياسة الخصوصية",
+            intro: "خصوصيتك مهمة بالنسبة لنا. تشرح هذه السياسة كيفية جمع معلوماتك الشخصية واستخدامها وحمايتها.",
+            s1Title: "1. المعلومات التي نجمعها",
+            s1Content: "نقوم بجمع المعلومات التي تقدمها لنا مباشرة، مثل عند إنشاء حساب، أو نشر إعلان، أو التواصل مع الدعم.",
+            s2Title: "2. كيف نستخدم معلوماتك",
+            s2Content: "نستخدم معلوماتك لتقديم خدماتنا وصيانتها وتحسينها، بما في ذلك معالجة المعاملات وإرسال المعلومات ذات الصلة إليك.",
+            s3Title: "3. مشاركة المعلومات",
+            s3Content: "نحن لا نبيع معلوماتك الشخصية. قد نشارك المعلومات مع بائعين خارجيين يحتاجون إلى الوصول إلى هذه المعلومات للقيام بعمل نيابة عنا.",
+            s4Title: "4. أمن البيانات",
+            s4Content: "نحن ننفذ إجراءات أمنية معقولة لحماية معلوماتك، ولكن لا توجد طريقة نقل عبر الإنترنت آمنة بنسبة 100٪.",
+            s5Title: "5. اتصل بنا",
+            s5Content: "إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا على privacy@dealz.com."
+        },
+        termsOfUse: {
+            title: "شروط الاستخدام",
+            intro: "مرحباً بكم في ديلز. من خلال الوصول إلى موقعنا أو استخدامه، فإنك توافق على الالتزام بالشروط والأحكام التالية.",
+            s1Title: "1. قبول الشروط",
+            s1Content: "باستخدام خدماتنا، فإنك توافق على هذه الشروط. إذا كنت لا توافق، يرجى عدم استخدام خدماتنا.",
+            s2Title: "2. حسابات المستخدمين",
+            s2Content: "أنت مسؤول عن الحفاظ على سرية بيانات اعتماد حسابك وعن جميع الأنشطة التي تحدث تحت حسابك.",
+            s3Title: "3. قواعد الإدراج",
+            s3Content: "يجب أن تتوافق جميع الإعلانات مع سياسة العناصر المحظورة لدينا. نحتفظ بالحق في إزالة أي إعلان ينتهك سياساتنا.",
+            s4Title: "4. السلامة والسلوك",
+            s4Content: "ديلز هو سوق للتداول المحلي. يتم الشراء والبيع مباشرة بين المستخدمين. نحن لسنا مسؤولين عن أي معاملات أو نزاعات بين المستخدمين.",
+            s5Title: "5. اتصل بنا",
+            s5Content: "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على support@dealz.com."
         }
     },
     fr: {
@@ -1585,6 +1641,34 @@ export const dictionaries = {
                 delete: "Supprimer",
                 disable: "Désactiver l'annonce"
             }
+        },
+        privacyPolicy: {
+            title: "Politique de Confidentialité",
+            intro: "Votre confidentialité est importante pour nous. Cette politique explique comment nous collectons, utilisons et protégeons vos informations personnelles.",
+            s1Title: "1. Informations que nous collectons",
+            s1Content: "Nous collectons les informations que vous nous fournissez directement, par exemple lorsque vous créez un compte, publiez une annonce ou contactez le support.",
+            s2Title: "2. Comment nous utilisons vos informations",
+            s2Content: "Nous utilisons vos informations pour fournir, maintenir et améliorer nos services, y compris pour traiter les transactions et vous envoyer des informations connexes.",
+            s3Title: "3. Partage d'informations",
+            s3Content: "Nous ne vendons pas vos informations personnelles. Nous pouvons partager des informations avec des fournisseurs tiers qui ont besoin d'y accéder pour effectuer des travaux en notre nom.",
+            s4Title: "4. Sécurité des données",
+            s4Content: "Nous mettons en œuvre des mesures de sécurité raisonnables pour protéger vos informations, mais aucune méthode de transmission sur Internet n'est sécurisée à 100 %.",
+            s5Title: "5. Contactez-nous",
+            s5Content: "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@dealz.com."
+        },
+        termsOfUse: {
+            title: "Conditions d'Utilisation",
+            intro: "Bienvenue sur Dealz. En accédant ou en utilisant notre site Web, vous acceptez de vous conformer et d'être lié par les conditions suivantes.",
+            s1Title: "1. Acceptation des conditions",
+            s1Content: "En utilisant nos services, vous acceptez ces conditions. Si vous n'êtes pas d'accord, veuillez ne pas utiliser nos services.",
+            s2Title: "2. Comptes d'utilisateurs",
+            s2Content: "Vous êtes responsable du maintien de la confidentialité de vos identifiants de compte et de toutes les activités qui se produisent sous votre compte.",
+            s3Title: "3. Règles de publication",
+            s3Content: "Toutes les annonces doivent être conformes à notre politique sur les articles interdits. Nous nous réservons le droit de supprimer toute annonce qui enfreint nos politiques.",
+            s4Title: "4. Sécurité et conduite",
+            s4Content: "Dealz est un marché pour le commerce local. L'achat et la vente se font directement entre les utilisateurs. Nous ne sommes pas responsables des transactions ou litiges entre utilisateurs.",
+            s5Title: "5. Contactez-nous",
+            s5Content: "Si vous avez des questions concernant ces conditions, veuillez nous contacter à support@dealz.com."
         }
     },
     hi: {
@@ -2091,6 +2175,34 @@ export const dictionaries = {
                 delete: "हटाएं",
                 disable: "विज्ञापन अक्षम करें"
             }
+        },
+        privacyPolicy: {
+            title: "गोपनीयता नीति",
+            intro: "आपकी गोपनीयता हमारे लिए महत्वपूर्ण है। यह नीति बताती है कि हम आपकी व्यक्तिगत जानकारी कैसे एकत्र, उपयोग और सुरक्षित करते हैं।",
+            s1Title: "1. जानकारी जो हम एकत्र करते हैं",
+            s1Content: "हम सीधे आपके द्वारा प्रदान की गई जानकारी एकत्र करते हैं, जैसे कि जब आप खाता बनाते हैं, विज्ञापन पोस्ट करते हैं, या सहायता से संपर्क करते हैं।",
+            s2Title: "2. हम आपकी जानकारी का उपयोग कैसे करते हैं",
+            s2Content: "हम अपनी सेवाओं को प्रदान करने, बनाए रखने और सुधारने के लिए आपकी जानकारी का उपयोग करते हैं, जिसमें लेनदेन को संसाधित करना और आपको संबंधित जानकारी भेजना शामिल है।",
+            s3Title: "3. जानकारी साझा करना",
+            s3Content: "हम आपकी व्यक्तिगत जानकारी नहीं बेचते हैं। हम उन तृतीय-पक्ष विक्रेताओं के साथ जानकारी साझा कर सकते हैं जिन्हें हमारी ओर से काम करने के लिए ऐसी जानकारी तक पहुंच की आवश्यकता होती है।",
+            s4Title: "4. डेटा सुरक्षा",
+            s4Content: "हम आपकी जानकारी की सुरक्षा के लिए उचित सुरक्षा उपाय लागू करते हैं, लेकिन इंटरनेट पर संचरण की कोई भी विधि 100% सुरक्षित नहीं है।",
+            s5Title: "5. हमसे संपर्क करें",
+            s5Content: "यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे privacy@dealz.com पर संपर्क करें।"
+        },
+        termsOfUse: {
+            title: "उपयोग की शर्तें",
+            intro: "Dealz में आपका स्वागत है। हमारी वेबसाइट तक पहुंचकर या उसका उपयोग करके, आप निम्नलिखित नियमों और शर्तों का पालन करने और उनसे बाध्य होने के लिए सहमत हैं।",
+            s1Title: "1. शर्तों की स्वीकृति",
+            s1Content: "हमारी सेवाओं का उपयोग करके, आप इन शर्तों से सहमत होते हैं। यदि आप सहमत नहीं हैं, तो कृपया हमारी सेवाओं का उपयोग न करें।",
+            s2Title: "2. उपयोगकर्ता खाते",
+            s2Content: "आप अपने खाता क्रेडेंशियल्स की गोपनीयता बनाए रखने और आपके खाते के तहत होने वाली सभी गतिविधियों के लिए जिम्मेदार हैं।",
+            s3Title: "3. लिस्टिंग नियम",
+            s3Content: "सभी विज्ञापनों को हमारी निषिद्ध वस्तुओं की नीति का पालन करना चाहिए। हम किसी भी ऐसे विज्ञापन को हटाने का अधिकार सुरक्षित रखते हैं जो हमारी नीतियों का उल्लंघन करता है।",
+            s4Title: "4. सुरक्षा और आचरण",
+            s4Content: "Dealz स्थानीय व्यापार के लिए एक बाज़ार है। खरीदना और बेचना सीधे उपयोगकर्ताओं के बीच होता है। हम उपयोगकर्ताओं के बीच किसी भी लेनदेन या विवाद के लिए जिम्मेदार नहीं हैं।",
+            s5Title: "5. हमसे संपर्क करें",
+            s5Content: "यदि इन शर्तों के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे support@dealz.com पर संपर्क करें।"
         }
     },
     ur: {
@@ -2602,6 +2714,34 @@ export const dictionaries = {
                 delete: "حذف کریں",
                 disable: "اشتہار غیر فعال کریں"
             }
+        },
+        privacyPolicy: {
+            title: "پرائیویسی پالیسی",
+            intro: "آپ کی پرائیویسی ہمارے لیے اہم ہے۔ یہ پالیسی بتاتی ہے کہ ہم آپ کی ذاتی معلومات کیسے اکٹھا کرتے، استعمال کرتے اور محفوظ کرتے ہیں۔",
+            s1Title: "1. معلومات جو ہم جمع کرتے ہیں",
+            s1Content: "ہم وہ معلومات جمع کرتے ہیں جو آپ براہ راست ہمیں فراہم کرتے ہیں، جیسے کہ جب آپ اکاؤنٹ بناتے ہیں، اشتہار پوسٹ کرتے ہیں، یا سپورٹ سے رابطہ کرتے ہیں۔",
+            s2Title: "2. ہم آپ کی معلومات کیسے استعمال کرتے ہیں",
+            s2Content: "ہم آپ کی معلومات کو اپنی خدمات فراہم کرنے، برقرار رکھنے اور بہتر بنانے کے لیے استعمال کرتے ہیں، بشمول لین دین پر کارروائی کرنا اور آپ کو متعلقہ معلومات بھیجنا۔",
+            s3Title: "3. معلومات کا اشتراک",
+            s3Content: "ہم آپ کی ذاتی معلومات فروخت نہیں کرتے ہیں۔ ہم فریق ثالث وینڈرز کے ساتھ معلومات شیئر کر سکتے ہیں جنہیں ہماری جانب سے کام انجام دینے کے لیے ایسی معلومات تک رسائی کی ضرورت ہوتی ہے۔",
+            s4Title: "4. ڈیٹا سیکیورٹی",
+            s4Content: "ہم آپ کی معلومات کی حفاظت کے لیے معقول حفاظتی اقدامات نافذ کرتے ہیں، لیکن انٹرنیٹ پر ٹرانسمیشن کا کوئی بھی طریقہ 100% محفوظ نہیں ہے۔",
+            s5Title: "5. ہم سے رابطہ کریں",
+            s5Content: "اگر اس پرائیویسی پالیسی کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے privacy@dealz.com پر رابطہ کریں۔"
+        },
+        termsOfUse: {
+            title: "استعمال کی شرائط",
+            intro: "ڈیلز میں خوش آمدید۔ ہماری ویب سائٹ تک رسائی حاصل کرکے یا استعمال کرکے، آپ درج ذیل شرائط و ضوابط کی تعمیل کرنے اور ان کے پابند ہونے سے اتفاق کرتے ہیں۔",
+            s1Title: "1. شرائط کی قبولیت",
+            s1Content: "ہماری خدمات استعمال کرکے، آپ ان شرائط سے اتفاق کرتے ہیں۔ اگر آپ متفق نہیں ہیں تو براہ کرم ہماری خدمات استعمال نہ کریں۔",
+            s2Title: "2. صارف اکاؤنٹس",
+            s2Content: "آپ اپنے اکاؤنٹ کی اسناد کی رازداری برقرار رکھنے اور اپنے اکاؤنٹ کے تحت ہونے والی تمام سرگرمیوں کے ذمہ دار ہیں۔",
+            s3Title: "3. فہرست سازی کے اصول",
+            s3Content: "تمام اشتہارات کو ہماری ممنوعہ اشیاء کی پالیسی کی تعمیل کرنی چاہیے۔ ہم کسی بھی ایسے اشتہار کو ہٹانے کا حق محفوظ رکھتے ہیں جو ہماری پالیسیوں کی خلاف ورزی کرتا ہے۔",
+            s4Title: "4. حفاظت اور طرز عمل",
+            s4Content: "ڈیلز مقامی تجارت کا بازار ہے۔ خرید و فروخت براہ راست صارفین کے درمیان ہوتی ہے۔ ہم صارفین کے درمیان کسی بھی لین دین یا تنازعات کے ذمہ دار نہیں ہیں۔",
+            s5Title: "5. ہم سے رابطہ کریں",
+            s5Content: "اگر ان شرائط کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے support@dealz.com پر رابطہ کریں۔"
         }
-    },
+    }
 };
