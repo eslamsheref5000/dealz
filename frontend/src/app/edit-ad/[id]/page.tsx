@@ -554,7 +554,7 @@ export default function EditAdPage() {
 
                         {/* Privacy */}
                         <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
-                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Privacy</h3>
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">{t('postAd.privacy.title') || "Privacy"}</h3>
                             <div className="space-y-3">
                                 <label className="flex items-center gap-3 cursor-pointer">
                                     <input

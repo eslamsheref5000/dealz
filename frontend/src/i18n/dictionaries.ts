@@ -72,7 +72,9 @@ export const dictionaries = {
                 price: "e.g. 5000",
                 phone: "e.g. +971 50 123 4567",
                 subCategory: "Select Sub-Category",
-                description: "Describe your item..."
+                description: "Describe your item...",
+                selectLevel: "Select Level",
+                selectCondition: "Select Condition"
             },
             submit: "Post Ad",
             uploadTip: "First image will be the cover.",
@@ -601,7 +603,9 @@ export const dictionaries = {
                 price: "مثال: 5000",
                 phone: "مثال: 0501234567",
                 subCategory: "اختر القسم الفرعي",
-                description: "وصف المنتج..."
+                description: "وصف المنتج...",
+                selectLevel: "اختر المستوى",
+                selectCondition: "اختر الحالة"
             },
             submit: "نشر الإعلان",
             uploadTip: "الصورة الأولى ستكون الغلاف.",
@@ -1123,7 +1127,9 @@ export const dictionaries = {
                 price: "ex: 5000",
                 phone: "ex: +971 50 123 4567",
                 subCategory: "Sélectionnez une sous-catégorie",
-                description: "Décrivez votre article..."
+                description: "Décrivez votre article...",
+                selectLevel: "Sélectionnez le niveau",
+                selectCondition: "Sélectionnez l'état"
             },
             privacy: {
                 title: "Confidentialité des contacts",
@@ -1620,7 +1626,9 @@ export const dictionaries = {
                 price: "जैसे: 5000",
                 phone: "जैसे: +971 50 123 4567",
                 subCategory: "उप-श्रेणी चुनें",
-                description: "अपनी वस्तु का वर्णन करें..."
+                description: "अपनी वस्तु का वर्णन करें...",
+                selectLevel: "स्तर चुनें",
+                selectCondition: "स्थिति चुनें"
             },
             submit: "विज्ञापन डालें",
             uploadTip: "पहला चित्र कवर होगा।",
@@ -2126,7 +2134,9 @@ export const dictionaries = {
                 price: "مثلاً: 5000",
                 phone: "مثلاً: +971 50 123 4567",
                 subCategory: "ذیلی زمرہ منتخب کریں",
-                description: "اپنی چیز کی تفصیل لکھیں..."
+                description: "اپنی چیز کی تفصیل لکھیں...",
+                selectLevel: "لیول منتخب کریں",
+                selectCondition: "حالت منتخب کریں"
             },
             submit: "اشتہار پوسٹ کریں",
             uploadTip: "پہلی تصویر کور ہو گی۔",
