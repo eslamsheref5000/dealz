@@ -1,20 +1,16 @@
-const url = require('url');
+import url from 'url';
 
-module.exports = (plugin) => {
+export default (plugin) => {
     const originalCallback = plugin.controllers.auth.callback;
 
     plugin.controllers.auth.callback = async (ctx) => {
-        console.log('!!! CUSTOM CALLBACK TRIGGERED !!!');
+        console.log('!!! CUSTOM CALLBACK TRIGGERED (TS) !!!');
 
         try {
-            // 1. Run default callback to handle the OAuth Exchange
+            // 1. Run default callback
             await originalCallback(ctx);
 
             // 2. Check the response/redirect
-            // Strapi usually sets ctx.body = { ... } if it returns JSON, 
-            // or ctx.redirect() which sets the Location header.
-
-            // If Strapi already redirected, we need to intercept that redirect URL
             const redirectUrl = ctx.response.get('Location');
 
             if (redirectUrl) {
@@ -23,8 +19,7 @@ module.exports = (plugin) => {
                 const parsedUrl = url.parse(redirectUrl, true);
                 const params = parsedUrl.query;
 
-                // If we have access_token (Google) but NOT jwt/token (Strapi)
-                // Note: Strapi usually sends 'jwt' or 'token' in the redirect params.
+                // If we have access_token (Google) but NO jwt (Strapi)
                 if ((params.access_token || params.id_token) && !params.jwt) {
                     console.log("Found Google Token but no Strapi JWT. Fixing...");
 
@@ -32,6 +27,7 @@ module.exports = (plugin) => {
 
                     if (googleAccessToken) {
                         // 3. Manually fetch user info from Google
+                        // Using global fetch (Node 18+)
                         const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                             headers: { Authorization: `Bearer ${googleAccessToken}` }
                         });
@@ -48,7 +44,6 @@ module.exports = (plugin) => {
 
                             if (!user) {
                                 console.log("User not found, creating...");
-                                // Create user
                                 const role = await strapi.query('plugin::users-permissions.role').findOne({ where: { type: 'authenticated' } });
 
                                 user = await strapi.query('plugin::users-permissions.user').create({
@@ -56,7 +51,7 @@ module.exports = (plugin) => {
                                         username: email.split('@')[0] + '_' + Math.floor(Math.random() * 1000),
                                         email: email,
                                         provider: 'google',
-                                        password: Math.random().toString(36).slice(-8), // Random password
+                                        password: Math.random().toString(36).slice(-8),
                                         confirmed: true,
                                         blocked: false,
                                         role: role.id
@@ -69,25 +64,47 @@ module.exports = (plugin) => {
                             console.log("Generated Strapi JWT for user:", user.id);
 
                             // 6. Construct new Redirect URL with JWT
-                            delete params.access_token; // Remove Google token to avoid confusion
-                            delete params.raw;
-                            delete params.id_token;
+                            // Remove Google params
+                            const newParams = { ...params };
+                            delete newParams.access_token;
+                            delete newParams.raw;
+                            delete newParams.id_token;
+                            delete newParams.scope;
+                            delete newParams.token_type;
+                            delete newParams.expires_in;
+                            delete newParams.authuser;
+                            delete newParams.prompt;
 
-                            params.jwt = jwt;
-                            params.user = JSON.stringify({
+                            // Add Strapi params
+                            newParams.jwt = jwt;
+                            newParams.user = JSON.stringify({
                                 id: user.id,
                                 username: user.username,
-                                email: user.email
+                                email: user.email,
+                                provider: 'google',
+                                confirmed: user.confirmed
                             });
 
                             // Rebuild URL
-                            // We must use the frontend redirect URL we know
-                            // 'https://dealz-market.vercel.app/connect/google/redirect' or similar.
-                            // Usually parsedUrl.pathname is correct, but let's be safe and use the base from the intercepted URL
-
-                            const newQuery = new URLSearchParams(params).toString();
+                            // Use URLSearchParams for safety
                             const cleanBaseUrl = redirectUrl.split('?')[0];
-                            const newRedirectUrl = `${cleanBaseUrl}?${newQuery}`;
+                            // Note: URLSearchParams accepts an object but values must be strings. 
+                            // We need to ensure nothing is undefined/null or object
+                            const queryParams = new URLSearchParams();
+
+                            Object.entries(newParams).forEach(([key, value]) => {
+                                if (typeof value === 'object') {
+                                    queryParams.append(key, JSON.stringify(value));
+                                } else if (value !== undefined && value !== null) {
+                                    queryParams.append(key, String(value));
+                                }
+                            });
+
+                            // Override the previously stringified user which might be double encoded if not careful, 
+                            // but here we are building fresh.
+                            // Actually, 'user' above is already stringified.
+
+                            const newRedirectUrl = `${cleanBaseUrl}?${queryParams.toString()}`;
 
                             console.log("Redirecting to (FIXED):", newRedirectUrl);
 
@@ -99,9 +116,10 @@ module.exports = (plugin) => {
 
         } catch (err) {
             console.error('Custom Callback Error:', err);
-            // Fallback to original behavior if our hack fails
-            // throw err; // Don't throw, let original response stand if possible, or return error
-            return ctx.badRequest(err.toString());
+            // Even if error, return whatever original callback did if possible, or bad request
+            if (!ctx.body && !ctx.response.get('Location')) {
+                return ctx.badRequest("Custom Auth Error: " + err.message);
+            }
         }
     };
 
