@@ -16,6 +16,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .glass-effect {

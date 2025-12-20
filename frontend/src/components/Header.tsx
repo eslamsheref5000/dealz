@@ -136,7 +136,7 @@ export default function Header() {
                                 <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700">
                                     👤
                                 </div>
-                                <span className="hidden md:inline">{user.username}</span>
+                                <span className="hidden lg:inline">{user.username}</span>
                             </Link>
 
                             <Link href="/inbox" className="text-gray-600 dark:text-gray-300 hover:text-red-600 text-xl relative">
@@ -150,13 +150,19 @@ export default function Header() {
                             </button>
 
                             {user?.isAdmin && (
-                                <Link href="/moderation" className="text-blue-600 dark:text-blue-400 font-bold text-sm bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition">
+                                <Link href="/moderation" className="hidden lg:inline-block text-blue-600 dark:text-blue-400 font-bold text-sm bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition">
                                     🛡️ Admin
                                 </Link>
                             )}
 
-                            <Link href="/post-ad" className="bg-red-600 text-white w-10 h-10 md:w-auto md:px-5 md:py-2.5 rounded-full font-bold hover:bg-red-700 transition shadow-lg shadow-red-100 dark:shadow-red-900/20 text-sm flex items-center justify-center gap-1">
-                                <span className="text-xl">+</span> <span className="hidden md:inline">{t('header.postAd')}</span>
+                            {user?.isAdmin && (
+                                <Link href="/moderation" className="lg:hidden text-blue-600 dark:text-blue-400 text-xl">
+                                    🛡️
+                                </Link>
+                            )}
+
+                            <Link href="/post-ad" className="bg-red-600 text-white w-9 h-9 md:w-auto md:px-5 md:py-2.5 rounded-full font-bold hover:bg-red-700 transition shadow-lg shadow-red-100 dark:shadow-red-900/20 text-sm flex items-center justify-center gap-1">
+                                <span className="text-xl pb-1">+</span> <span className="hidden md:inline">{t('header.postAd')}</span>
                             </Link>
                         </div>
                     ) : (
