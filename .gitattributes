@@ -1,3 +1,4 @@
 *.png filter=lfs diff=lfs merge=lfs -text
+frontend/public/icon-*.png !filter !diff !merge text
 frontend/public/*.png filter=lfs diff=lfs merge=lfs -text
 *.ico filter=lfs diff=lfs merge=lfs -text
