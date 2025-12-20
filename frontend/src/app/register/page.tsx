@@ -50,16 +50,43 @@ export default function RegisterPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-gray-700">{t('auth.username')}</label>
-                        <input type="text" name="username" required onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:ring-red-500 focus:border-red-500" />
+                        <label className="block text-gray-700">{t('auth.username')} <span className="text-red-500">*</span></label>
+                        <input
+                            type="text"
+                            name="username"
+                            required
+                            onChange={handleChange}
+                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${formData.username.length > 0
+                                    ? (formData.username.length >= 3 ? 'border-green-500 focus:ring-green-500' : 'border-red-500 focus:ring-red-500')
+                                    : 'border-gray-300 focus:ring-red-500'
+                                }`}
+                        />
                     </div>
                     <div>
-                        <label className="block text-gray-700">{t('auth.email')}</label>
-                        <input type="email" name="email" required onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:ring-red-500 focus:border-red-500" />
+                        <label className="block text-gray-700">{t('auth.email')} <span className="text-red-500">*</span></label>
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            onChange={handleChange}
+                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${formData.email.length > 0
+                                    ? (formData.email.includes('@') ? 'border-green-500 focus:ring-green-500' : 'border-red-500 focus:ring-red-500')
+                                    : 'border-gray-300 focus:ring-red-500'
+                                }`}
+                        />
                     </div>
                     <div>
-                        <label className="block text-gray-700">{t('auth.password')}</label>
-                        <input type="password" name="password" required onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:ring-red-500 focus:border-red-500" />
+                        <label className="block text-gray-700">{t('auth.password')} <span className="text-red-500">*</span></label>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            onChange={handleChange}
+                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${formData.password.length > 0
+                                    ? (formData.password.length >= 6 ? 'border-green-500 focus:ring-green-500' : 'border-red-500 focus:ring-red-500')
+                                    : 'border-gray-300 focus:ring-red-500'
+                                }`}
+                        />
                     </div>
                     <button type="submit" className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition">{t('auth.registerBtn')}</button>
                 </form>

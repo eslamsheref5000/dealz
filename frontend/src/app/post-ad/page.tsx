@@ -258,38 +258,51 @@ export default function PostAdPage() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Form Fields */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.title')}</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.title')} <span className="text-red-500">*</span></label>
                             <input
                                 type="text"
                                 name="title"
                                 required
                                 value={formData.title}
                                 onChange={handleChange}
-                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors ${formData.title.length >= 10
+                                    ? 'border-green-500 focus:ring-green-500 focus:border-green-500'
+                                    : (formData.title.length > 0 ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500')
+                                    }`}
                                 placeholder={t('postAd.placeholders.title')}
                             />
+                            <p className={`text-xs mt-1 text-right ${formData.title.length >= 10 ? 'text-green-600' : 'text-gray-500'}`}>
+                                {formData.title.length >= 10 ? '✅ ' : ''}{formData.title.length}/10 chars
+                            </p>
                         </div>
 
                         <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.price')} ({selectedCountry.currency})</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.price')} ({selectedCountry.currency}) <span className="text-red-500">*</span></label>
                                 <input
                                     type="number"
                                     name="price"
                                     required
                                     value={formData.price}
                                     onChange={handleChange}
-                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                    className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors ${formData.price
+                                        ? 'border-green-500 focus:ring-green-500'
+                                        : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'
+                                        }`}
                                     placeholder={t('postAd.placeholders.price')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.category')}</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.category')} <span className="text-red-500">*</span></label>
                                 <select
                                     name="category"
+                                    required
                                     value={formData.category}
                                     onChange={handleChange}
-                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                    className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors ${formData.category
+                                        ? 'border-green-500 focus:ring-green-500'
+                                        : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'
+                                        }`}
                                 >
                                     {categories.map(cat => (
                                         <option key={cat.documentId || cat.id} value={cat.documentId || cat.id}>{t(`categories.${cat.attributes?.name || cat.name}`) || cat.attributes?.name || cat.name}</option>
@@ -334,31 +347,34 @@ export default function PostAdPage() {
                                         {showBedBath && (
                                             <>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bedrooms')}</label>
+                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bedrooms')} <span className="text-red-500">*</span></label>
                                                     <input
                                                         type="number"
                                                         placeholder="e.g. 3"
-                                                        className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                        required
+                                                        className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.bedrooms ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                         onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, bedrooms: e.target.value } }))}
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bathrooms')}</label>
+                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bathrooms')} <span className="text-red-500">*</span></label>
                                                     <input
                                                         type="number"
                                                         placeholder="e.g. 2"
-                                                        className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                        required
+                                                        className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.bathrooms ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                         onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, bathrooms: e.target.value } }))}
                                                     />
                                                 </div>
                                             </>
                                         )}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.area')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.area')} <span className="text-red-500">*</span></label>
                                             <input
                                                 type="number"
                                                 placeholder="e.g. 1200"
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.area ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, area: e.target.value } }))}
                                             />
                                         </div>
@@ -373,20 +389,22 @@ export default function PostAdPage() {
                                     return (
                                         <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.year')}</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.year')} <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="number"
                                                     placeholder="e.g. 2023"
-                                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                    required
+                                                    className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.year ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                     onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, year: e.target.value } }))}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.mileage')}</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.mileage')} <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="number"
                                                     placeholder="e.g. 50000"
-                                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                    required
+                                                    className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.mileage ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                     onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, mileage: e.target.value } }))}
                                                 />
                                             </div>
@@ -400,9 +418,10 @@ export default function PostAdPage() {
                                 return (
                                     <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.experience')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.experience')} <span className="text-red-500">*</span></label>
                                             <select
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.experience ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, experience: e.target.value } }))}
                                             >
                                                 <option value="">Select Level</option>
@@ -413,9 +432,10 @@ export default function PostAdPage() {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.education')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.education')} <span className="text-red-500">*</span></label>
                                             <select
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.education ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, education: e.target.value } }))}
                                             >
                                                 <option value="">Select Level</option>
@@ -434,18 +454,20 @@ export default function PostAdPage() {
                                 return (
                                     <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.size')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.size')} <span className="text-red-500">*</span></label>
                                             <input
                                                 type="text"
                                                 placeholder="e.g. Medium, 42, 10"
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.size ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, size: e.target.value } }))}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')} <span className="text-red-500">*</span></label>
                                             <select
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.condition ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
                                             >
                                                 <option value="">Select Condition</option>
@@ -464,9 +486,10 @@ export default function PostAdPage() {
                                 return (
                                     <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')}</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')} <span className="text-red-500">*</span></label>
                                             <select
-                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                required
+                                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.condition ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
                                             >
                                                 <option value="">Select Condition</option>
@@ -484,26 +507,33 @@ export default function PostAdPage() {
                         })()}
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.description')}</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.description')} <span className="text-red-500">*</span></label>
                             <textarea
                                 name="description"
                                 rows={4}
                                 required
                                 value={formData.description}
                                 onChange={handleChange}
-                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors ${formData.description.length >= 20
+                                    ? 'border-green-500 focus:ring-green-500'
+                                    : (formData.description.length > 0 ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500')
+                                    }`}
                                 placeholder={t('postAd.placeholders.description')}
                             />
+                            <p className={`text-xs mt-1 text-right ${formData.description.length >= 20 ? 'text-green-600' : 'text-gray-500'}`}>
+                                {formData.description.length >= 20 ? '✅ ' : ''}{formData.description.length}/20 chars
+                            </p>
                         </div>
 
                         {/* Location & Contact */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('postAd.labels.city')}</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('postAd.labels.city')} <span className="text-red-500">*</span></label>
                                 <select
                                     name="city"
+                                    required
                                     value={formData.city}
-                                    className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm focus:ring-red-500 focus:border-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                    className={`mt-1 block w-full px-4 py-3 rounded-lg border shadow-sm focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.city ? 'border-green-500' : 'border-gray-300 dark:border-gray-700'}`}
                                     onChange={handleChange}
                                 >
                                     {selectedCountry.cities.map(c => (
@@ -512,7 +542,7 @@ export default function PostAdPage() {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('postAd.labels.phone')}</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('postAd.labels.phone')} <span className="text-red-500">*</span></label>
                                 <div className="flex gap-2">
                                     <div className="w-[140px] flex-shrink-0">
                                         <select
@@ -533,7 +563,10 @@ export default function PostAdPage() {
                                         name="phone"
                                         required
                                         value={formData.phone}
-                                        className="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm focus:ring-red-500 focus:border-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        className={`mt-1 block w-full px-4 py-3 rounded-lg border shadow-sm focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.phone.length > 8
+                                            ? 'border-green-500 focus:ring-green-500'
+                                            : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'
+                                            }`}
                                         placeholder={t('postAd.placeholders.phone')}
                                         onChange={handleChange}
                                     />
@@ -542,7 +575,7 @@ export default function PostAdPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.images')}</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.images')} <span className="text-gray-400 text-xs">(At least 1 required)</span></label>
                             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-700 border-dashed rounded-xl hover:border-red-500 transition-colors cursor-pointer bg-gray-50 dark:bg-gray-800/50">
                                 <div className="space-y-1 text-center">
                                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
