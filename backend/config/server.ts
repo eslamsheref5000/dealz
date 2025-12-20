@@ -7,3 +7,4 @@ export default ({ env }) => ({
   url: 'https://shando5000-dealz.hf.space',
   proxy: true,
 });
+console.log('!!! SERVER CONFIG LOADED !!! URL:', 'https://shando5000-dealz.hf.space');
