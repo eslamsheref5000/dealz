@@ -6,7 +6,112 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) { },
+  register({ strapi }) {
+    console.log("!!! APP REGISTER PHASE STARTING !!!");
+    try {
+      const upPlugin = strapi.plugins['users-permissions'];
+      if (upPlugin && upPlugin.controllers && upPlugin.controllers.auth) {
+        console.log("!!! OVERRIDING AUTH CONTROLLER IN REGISTER !!!");
+        const originalCallback = upPlugin.controllers.auth.callback;
+
+        upPlugin.controllers.auth.callback = async (ctx) => {
+          console.log('!!! CORE OVERRIDE CALLBACK TRIGGERED !!!');
+          try {
+            await originalCallback(ctx);
+
+            const redirectUrl = ctx.response.get('Location');
+            if (redirectUrl) {
+              console.log('Intercepted Redirect:', redirectUrl);
+              const urlParts = redirectUrl.split('?');
+              const baseUrl = urlParts[0];
+              const queryStr = urlParts[1] || '';
+              const params = new URLSearchParams(queryStr);
+
+              // Check for Google token but no Strapi JWT
+              if ((params.has('access_token') || params.has('id_token')) && !params.has('jwt')) {
+                console.log("Legacy Google Token detected. Fixing...");
+                const googleAccessToken = params.get('access_token');
+
+                if (googleAccessToken) {
+                  // Fetch Google User
+                  const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${googleAccessToken}` }
+                  });
+
+                  if (userInfoRes.ok) {
+                    const googleUser = await userInfoRes.json();
+                    const email = googleUser.email;
+                    console.log("Google Email:", email);
+
+                    // Find/Create User
+                    let user = await strapi.query('plugin::users-permissions.user').findOne({
+                      where: { email }
+                    });
+
+                    if (!user) {
+                      console.log("Creating new user...");
+                      const role = await strapi.query('plugin::users-permissions.role').findOne({ where: { type: 'authenticated' } });
+                      const baseUsername = email.split('@')[0];
+                      const uniqueSuffix = Math.floor(Math.random() * 10000);
+
+                      user = await strapi.query('plugin::users-permissions.user').create({
+                        data: {
+                          username: `${baseUsername}_${uniqueSuffix}`,
+                          email,
+                          provider: 'google',
+                          password: Math.random().toString(36).slice(-8),
+                          confirmed: true,
+                          blocked: false,
+                          role: role.id
+                        }
+                      });
+                    }
+
+                    // Issue JWT
+                    const jwt = strapi.plugin('users-permissions').service('jwt').issue({ id: user.id });
+                    console.log("JWT Created:", user.id);
+
+                    // Clean Params
+                    params.delete('access_token');
+                    params.delete('raw');
+                    params.delete('id_token');
+                    params.delete('scope');
+                    params.delete('token_type');
+                    params.delete('expires_in');
+                    params.delete('authuser');
+                    params.delete('prompt');
+
+                    // Add correct params
+                    params.set('jwt', jwt);
+                    params.set('user', JSON.stringify({
+                      id: user.id,
+                      username: user.username,
+                      email: user.email,
+                      confirmed: user.confirmed
+                    }));
+
+                    const newUrl = `${baseUrl}?${params.toString()}`;
+                    console.log("Fixed Redirect:", newUrl);
+                    return ctx.redirect(newUrl);
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            console.error("Core Override Error:", err);
+            // Fallback: if we haven't sent headers, try to return error
+            if (!ctx.headerSent) {
+              ctx.badRequest("Login Error");
+            }
+          }
+        };
+      } else {
+        console.log("Could not find users-permissions plugin to override");
+      }
+    } catch (e) {
+      console.error("Register Error:", e);
+    }
+  },
 
   /**
    * An asynchronous bootstrap function that runs before
