@@ -31,6 +31,18 @@ export default function PrivacyPage() {
 
                     <h3>{t('privacyPolicy.s5Title')}</h3>
                     <p>{t('privacyPolicy.s5Content')}</p>
+
+                    <h3>{t('privacyPolicy.s6Title')}</h3>
+                    <p>{t('privacyPolicy.s6Content')}</p>
+
+                    <h3>{t('privacyPolicy.s7Title')}</h3>
+                    <p>{t('privacyPolicy.s7Content')}</p>
+
+                    <h3>{t('privacyPolicy.s8Title')}</h3>
+                    <p>{t('privacyPolicy.s8Content')}</p>
+
+                    <h3>{t('privacyPolicy.s9Title')}</h3>
+                    <p>{t('privacyPolicy.s9Content')}</p>
                 </article>
             </div>
         </div>

@@ -548,7 +548,15 @@ export const dictionaries = {
             s4Title: "4. Data Security",
             s4Content: "We implement reasonable security measures to protect your information, but no method of transmission over the Internet is 100% secure.",
             s5Title: "5. Contact Us",
-            s5Content: "If you have any questions about this Privacy Policy, please contact us at privacy@dealz.com."
+            s5Content: "If you have any questions about this Privacy Policy, please contact us at privacy@dealz.com.",
+            s6Title: "6. Cookies & Tracking Technologies",
+            s6Content: "We use cookies and similar tracking technologies to track the activity on our Service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.",
+            s7Title: "7. Third-Party Links & Services",
+            s7Content: "Our Service may contain links to other sites that are not operated by us. If you click on a third-party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.",
+            s8Title: "8. Data Retention",
+            s8Content: "We will retain your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use your Personal Data to the extent necessary to comply with our legal obligations.",
+            s9Title: "9. User Rights",
+            s9Content: "You have the right to access, update, or delete the information we have on you. Whenever made possible, you can access, update, or request deletion of your Personal Data directly within your account settings section."
         },
         termsOfUse: {
             title: "Terms of Use",
@@ -562,7 +570,15 @@ export const dictionaries = {
             s4Title: "4. Safety & Conduct",
             s4Content: "Dealz is a marketplace for local trading. Buying and selling is done directly between users. We are not responsible for any transactions or disputes between users.",
             s5Title: "5. Contact Us",
-            s5Content: "If you have any questions about these Terms, please contact us at support@dealz.com."
+            s5Content: "If you have any questions about these Terms, please contact us at support@dealz.com.",
+            s6Title: "6. Intellectual Property Rights",
+            s6Content: "The Service and its original content, features, and functionality are and will remain the exclusive property of Dealz and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Dealz.",
+            s7Title: "7. Prohibited Activities",
+            s7Content: "You agree not to engage in any of the following prohibited activities: (i) copying, distributing, or disclosing any part of the Service in any medium; (ii) using any automated system, including without limitation 'robots', 'spiders', 'offline readers', etc., to access the Service; (iii) transmitting spam, chain letters, or other unsolicited email.",
+            s8Title: "8. Limitation of Liability",
+            s8Content: "In no event shall Dealz, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
+            s9Title: "9. Governing Law",
+            s9Content: "These Terms shall be governed and construed in accordance with the laws of United Arab Emirates, without regard to its conflict of law provisions."
         }
     },
     ar: {
@@ -1110,7 +1126,15 @@ export const dictionaries = {
             s4Title: "4. أمن البيانات",
             s4Content: "نحن ننفذ إجراءات أمنية معقولة لحماية معلوماتك، ولكن لا توجد طريقة نقل عبر الإنترنت آمنة بنسبة 100٪.",
             s5Title: "5. اتصل بنا",
-            s5Content: "إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا على privacy@dealz.com."
+            s5Content: "إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا على privacy@dealz.com.",
+            s6Title: "6. ملفات تعريف الارتباط وتقنيات التتبع",
+            s6Content: "نستخدم ملفات تعريف الارتباط وتقنيات التتبع المماثلة لتتبع النشاط على خدمتنا والاحتفاظ بمعلومات معينة. يمكنك توجيه متصفحك لرفض جميع ملفات تعريف الارتباط أو للإشارة عند إرسال ملف تعريف الارتباط.",
+            s7Title: "7. روابط وخدمات الطرف الثالث",
+            s7Content: "قد تحتوي خدمتنا على روابط لمواقع أخرى لا نقوم بتشغيلها. إذا قمت بالنقر فوق رابط طرف ثالث، فسيتم توجيهك إلى موقع هذا الطرف الثالث. ننصحك بشدة بمراجعة سياسة الخصوصية لكل موقع تزوره.",
+            s8Title: "8. الاحتفاظ بالبيانات",
+            s8Content: "سنحتفظ ببياناتك الشخصية فقط طالما كان ذلك ضرورياً للأغراض المنصوص عليها في سياسة الخصوصية هذه. سنحتفظ ببياناتك الشخصية ونستخدمها بالقدر اللازم للامتثال لالتزاماتنا القانونية.",
+            s9Title: "9. حقوق المستخدم",
+            s9Content: "لديك الحق في الوصول إلى المعلومات التي نحتفظ بها عنك أو تحديثها أو حذفها. كلما أمكن ذلك، يمكنك الوصول إلى بياناتك الشخصية أو تحديثها أو طلب حذفها مباشرة داخل قسم إعدادات حسابك."
         },
         termsOfUse: {
             title: "شروط الاستخدام",
@@ -1124,7 +1148,15 @@ export const dictionaries = {
             s4Title: "4. السلامة والسلوك",
             s4Content: "ديلز هو سوق للتداول المحلي. يتم الشراء والبيع مباشرة بين المستخدمين. نحن لسنا مسؤولين عن أي معاملات أو نزاعات بين المستخدمين.",
             s5Title: "5. اتصل بنا",
-            s5Content: "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على support@dealz.com."
+            s5Content: "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على support@dealz.com.",
+            s6Title: "6. حقوق الملكية الفكرية",
+            s6Content: "الخدمة ومحتواها الأصلي وميزاتها ووظائفها هي وستظل ملكية حصرية لشركة ديلز ومرخصيها. لا يجوز استخدام علاماتنا التجارية ومظهرنا التجاري فيما يتعلق بأي منتج أو خدمة دون موافقة كتابية مسبقة من ديلز.",
+            s7Title: "7. الأنشطة المحظورة",
+            s7Content: "توافق على عدم الانخراط في أي من الأنشطة المحظورة التالية: (1) نسخ أو توزيع أو الكشف عن أي جزء من الخدمة في أي وسيط؛ (2) استخدام أي نظام آلي، بما في ذلك على سبيل المثال لا الحصر 'الروبوتات'، للوصول إلى الخدمة؛ (3) إرسال بريد عشوائي أو رسائل متسلسلة.",
+            s8Title: "8. تحديد المسؤولية",
+            s8Content: "لن تكون ديلز أو مديروها أو موظفوها أو شركاؤها أو وكلاؤها أو موردوها أو الشركات التابعة لها مسؤولة بأي حال من الأحوال عن أي أضرار غير مباشرة أو عرضية أو خاصة أو تبعية أو عقابية، بما في ذلك خسارة الأرباح أو البيانات.",
+            s9Title: "9. القانون الحاكم",
+            s9Content: "تخضع هذه الشروط وتفسر وفقاً لقوانين دولة الإمارات العربية المتحدة، بغض النظر عن تعارضها مع أحكام القانون."
         }
     },
     fr: {
@@ -1654,7 +1686,15 @@ export const dictionaries = {
             s4Title: "4. Sécurité des données",
             s4Content: "Nous mettons en œuvre des mesures de sécurité raisonnables pour protéger vos informations, mais aucune méthode de transmission sur Internet n'est sécurisée à 100 %.",
             s5Title: "5. Contactez-nous",
-            s5Content: "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@dealz.com."
+            s5Content: "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@dealz.com.",
+            s6Title: "6. Cookies et technologies de suivi",
+            s6Content: "Nous utilisons des cookies et des technologies de suivi similaires pour suivre l'activité sur notre service et conserver certaines informations. Vous pouvez demander à votre navigateur de refuser tous les cookies ou d'indiquer quand un cookie est envoyé.",
+            s7Title: "7. Liens et services tiers",
+            s7Content: "Notre service peut contenir des liens vers d'autres sites qui ne sont pas exploités par nous. Si vous cliquez sur un lien tiers, vous serez dirigé vers le site de ce tiers. Nous vous conseillons vivement de consulter la politique de confidentialité de chaque site que vous visitez.",
+            s8Title: "8. Conservation des données",
+            s8Content: "Nous ne conserverons vos données personnelles que le temps nécessaire aux fins énoncées dans la présente politique de confidentialité. Nous conserverons et utiliserons vos données personnelles dans la mesure nécessaire pour nous conformer à nos obligations légales.",
+            s9Title: "9. Droits de l'utilisateur",
+            s9Content: "Vous avez le droit d'accéder, de mettre à jour ou de supprimer les informations que nous avons sur vous. Chaque fois que cela est possible, vous pouvez accéder, mettre à jour ou demander la suppression de vos données personnelles directement dans la section des paramètres de votre compte."
         },
         termsOfUse: {
             title: "Conditions d'Utilisation",
@@ -1668,7 +1708,15 @@ export const dictionaries = {
             s4Title: "4. Sécurité et conduite",
             s4Content: "Dealz est un marché pour le commerce local. L'achat et la vente se font directement entre les utilisateurs. Nous ne sommes pas responsables des transactions ou litiges entre utilisateurs.",
             s5Title: "5. Contactez-nous",
-            s5Content: "Si vous avez des questions concernant ces conditions, veuillez nous contacter à support@dealz.com."
+            s5Content: "Si vous avez des questions concernant ces conditions, veuillez nous contacter à support@dealz.com.",
+            s6Title: "6. Droits de propriété intellectuelle",
+            s6Content: "Le Service et son contenu original, ses caractéristiques et ses fonctionnalités sont et resteront la propriété exclusive de Dealz et de ses concédants de licence. Nos marques de commerce et habillages commerciaux ne peuvent être utilisés en relation avec aucun produit ou service sans le consentement écrit préalable de Dealz.",
+            s7Title: "7. Activités interdites",
+            s7Content: "Vous acceptez de ne pas vous livrer à l'une des activités interdites suivantes : (i) copier, distribuer ou divulguer toute partie du Service sur tout support ; (ii) utiliser tout système automatisé, y compris, sans limitation, les 'robots', pour accéder au Service ; (iii) transmettre des spams ou des chaînes de lettres.",
+            s8Title: "8. Limitation de responsabilité",
+            s8Content: "En aucun cas Dealz, ni ses administrateurs, employés, partenaires, agents, fournisseurs ou affiliés, ne pourront être tenus responsables de tout dommage indirect, accessoire, spécial, consécutif ou punitif, y compris, sans limitation, la perte de profits ou de données.",
+            s9Title: "9. Loi applicable",
+            s9Content: "Ces conditions sont régies et interprétées conformément aux lois des Émirats arabes unis, sans égard à ses dispositions en matière de conflit de lois."
         }
     },
     hi: {
@@ -2188,7 +2236,15 @@ export const dictionaries = {
             s4Title: "4. डेटा सुरक्षा",
             s4Content: "हम आपकी जानकारी की सुरक्षा के लिए उचित सुरक्षा उपाय लागू करते हैं, लेकिन इंटरनेट पर संचरण की कोई भी विधि 100% सुरक्षित नहीं है।",
             s5Title: "5. हमसे संपर्क करें",
-            s5Content: "यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे privacy@dealz.com पर संपर्क करें।"
+            s5Content: "यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे privacy@dealz.com पर संपर्क करें।",
+            s6Title: "6. कुकीज़ और ट्रैकिंग तकनीक",
+            s6Content: "हम अपनी सेवा पर गतिविधि को ट्रैक करने और कुछ जानकारी रखने के लिए कुकीज़ और समान ट्रैकिंग तकनीकों का उपयोग करते हैं। आप अपने ब्राउज़र को सभी कुकीज़ को अस्वीकार करने या कुकी भेजे जाने पर इंगित करने का निर्देश दे सकते हैं।",
+            s7Title: "7. तृतीय-पक्ष लिंक और सेवाएँ",
+            s7Content: "हमारी सेवा में अन्य साइटों के लिंक हो सकते हैं जो हमारे द्वारा संचालित नहीं हैं। यदि आप किसी तृतीय-पक्ष लिंक पर क्लिक करते हैं, तो आपको उस तृतीय पक्ष की साइट पर निर्देशित किया जाएगा। हम आपको दृढ़ता से सलाह देते हैं कि आप जिस भी साइट पर जाएं उसकी गोपनीयता नीति की समीक्षा करें।",
+            s8Title: "8. डेटा प्रतिधारण",
+            s8Content: "हम आपके व्यक्तिगत डेटा को केवल तब तक बनाए रखेंगे जब तक कि इस गोपनीयता नीति में निर्धारित उद्देश्यों के लिए आवश्यक हो। हम अपने कानूनी दायित्वों का पालन करने के लिए आवश्यक सीमा तक आपके व्यक्तिगत डेटा को बनाए रखेंगे और उसका उपयोग करेंगे।",
+            s9Title: "9. उपयोगकर्ता अधिकार",
+            s9Content: "आपको हमारे पास मौजूद जानकारी तक पहुंचने, अपडेट करने या हटाने का अधिकार है। जब भी संभव हो, आप सीधे अपने खाता सेटिंग अनुभाग के भीतर अपने व्यक्तिगत डेटा तक पहुंच सकते हैं, अपडेट कर सकते हैं या हटाने का अनुरोध कर सकते हैं।"
         },
         termsOfUse: {
             title: "उपयोग की शर्तें",
@@ -2202,7 +2258,15 @@ export const dictionaries = {
             s4Title: "4. सुरक्षा और आचरण",
             s4Content: "Dealz स्थानीय व्यापार के लिए एक बाज़ार है। खरीदना और बेचना सीधे उपयोगकर्ताओं के बीच होता है। हम उपयोगकर्ताओं के बीच किसी भी लेनदेन या विवाद के लिए जिम्मेदार नहीं हैं।",
             s5Title: "5. हमसे संपर्क करें",
-            s5Content: "यदि इन शर्तों के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे support@dealz.com पर संपर्क करें।"
+            s5Content: "यदि इन शर्तों के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे support@dealz.com पर संपर्क करें।",
+            s6Title: "6. बौद्धिक संपदा अधिकार",
+            s6Content: "सेवा और इसकी मूल सामग्री, सुविधाएँ और कार्यक्षमता Dealz और इसके लाइसेंसकर्ताओं की अनन्य संपत्ति बनी रहेगी। Dealz की पूर्व लिखित सहमति के बिना किसी भी उत्पाद या सेवा के संबंध में हमारे ट्रेडमार्क और ट्रेड ड्रेस का उपयोग नहीं किया जा सकता है।",
+            s7Title: "7. निषिद्ध गतिविधियाँ",
+            s7Content: "आप निम्नलिखित निषिद्ध गतिविधियों में से किसी में भी शामिल नहीं होने के लिए सहमत हैं: (1) किसी भी माध्यम में सेवा के किसी भी हिस्से की नकल, वितरण या खुलासा करना; (2) सेवा तक पहुंचने के लिए 'रोबोट' सहित किसी भी स्वचालित प्रणाली का उपयोग करना; (3) स्पैम या श्रृंखला पत्र भेजना।",
+            s8Title: "8. दायित्व की सीमा",
+            s8Content: "किसी भी स्थिति में Dealz, न ही इसके निदेशक, कर्मचारी, भागीदार, एजेंट, आपूर्तिकर्ता, या सहयोगी, लाभ, डेटा, उपयोग, सद्भावना, या अन्य अमूर्त नुकसान के नुकसान सहित किसी भी अप्रत्यक्ष, आकस्मिक, विशेष, परिणामी या दंडात्मक क्षति के लिए उत्तरदायी नहीं होंगे।",
+            s9Title: "9. शासी कानून",
+            s9Content: "इन शर्तों को संयुक्त अरब अमीरात के कानूनों के अनुसार शासित और समझा जाएगा, इसके कानून के टकराव के प्रावधानों की परवाह किए बिना।"
         }
     },
     ur: {
@@ -2727,7 +2791,15 @@ export const dictionaries = {
             s4Title: "4. ڈیٹا سیکیورٹی",
             s4Content: "ہم آپ کی معلومات کی حفاظت کے لیے معقول حفاظتی اقدامات نافذ کرتے ہیں، لیکن انٹرنیٹ پر ٹرانسمیشن کا کوئی بھی طریقہ 100% محفوظ نہیں ہے۔",
             s5Title: "5. ہم سے رابطہ کریں",
-            s5Content: "اگر اس پرائیویسی پالیسی کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے privacy@dealz.com پر رابطہ کریں۔"
+            s5Content: "اگر اس پرائیویسی پالیسی کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے privacy@dealz.com پر رابطہ کریں۔",
+            s6Title: "6. کوکیز اور ٹریکنگ ٹیکنالوجیز",
+            s6Content: "ہم اپنی سروس پر سرگرمی کو ٹریک کرنے اور کچھ معلومات رکھنے کے لیے کوکیز اور اسی طرح کی ٹریکنگ ٹیکنالوجیز کا استعمال کرتے ہیں۔ آپ اپنے براؤزر کو تمام کوکیز کو مسترد کرنے یا کوکی بھیجے جانے پر اشارہ کرنے کی ہدایت کر سکتے ہیں۔",
+            s7Title: "7. تھرڈ پارٹی لنکس اور سروسز",
+            s7Content: "ہماری سروس میں دوسری سائٹس کے لنکس شامل ہوسکتے ہیں جو ہمارے ذریعہ نہیں چلائے جاتے ہیں۔ اگر آپ کسی فریق ثالث کے لنک پر کلک کرتے ہیں، تو آپ کو اس فریق ثالث کی سائٹ پر بھیج دیا جائے گا۔ ہم آپ کو سختی سے مشورہ دیتے ہیں کہ آپ ہر اس سائٹ کی پرائیویسی پالیسی کا جائزہ لیں جس پر آپ جاتے ہیں۔",
+            s8Title: "8. ڈیٹا کا برقرار رکھنا",
+            s8Content: "ہم آپ کے ذاتی ڈیٹا کو صرف اس وقت تک برقرار رکھیں گے جب تک کہ اس پرائیویسی پالیسی میں متعین مقاصد کے لیے ضروری ہو۔ ہم اپنی قانونی ذمہ داریوں کی تعمیل کرنے کے لیے ضروری حد تک آپ کے ذاتی ڈیٹا کو برقرار رکھیں گے اور استعمال کریں گے۔",
+            s9Title: "9. صارف کے حقوق",
+            s9Content: "آپ کو اس معلومات تک رسائی، اپ ڈیٹ یا حذف کرنے کا حق حاصل ہے جو ہمارے پاس آپ کے پاس ہے۔ جب بھی ممکن ہو، آپ اپنے اکاؤنٹ کی ترتیبات کے سیکشن میں براہ راست اپنے ذاتی ڈیٹا تک رسائی، اپ ڈیٹ یا حذف کرنے کی درخواست کر سکتے ہیں۔"
         },
         termsOfUse: {
             title: "استعمال کی شرائط",
@@ -2741,7 +2813,15 @@ export const dictionaries = {
             s4Title: "4. حفاظت اور طرز عمل",
             s4Content: "ڈیلز مقامی تجارت کا بازار ہے۔ خرید و فروخت براہ راست صارفین کے درمیان ہوتی ہے۔ ہم صارفین کے درمیان کسی بھی لین دین یا تنازعات کے ذمہ دار نہیں ہیں۔",
             s5Title: "5. ہم سے رابطہ کریں",
-            s5Content: "اگر ان شرائط کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے support@dealz.com پر رابطہ کریں۔"
+            s5Content: "اگر ان شرائط کے بارے میں آپ کے کوئی سوالات ہیں تو براہ کرم ہم سے support@dealz.com پر رابطہ کریں۔",
+            s6Title: "6. دانشورانہ املاک کے حقوق",
+            s6Content: "سروس اور اس کا اصل مواد، خصوصیات اور فعالیت ڈیلز اور اس کے لائسنس دہندگان کی خصوصی ملکیت رہے گی۔ ڈیلز کی پیشگی تحریری رضامندی کے بغیر ہمارا ٹریڈ مارک اور تجارتی لباس کسی بھی پروڈکٹ یا سروس کے سلسلے میں استعمال نہیں کیا جا سکتا۔",
+            s7Title: "7. ممنوعہ سرگرمیاں",
+            s7Content: "آپ ان ممنوعہ سرگرمیوں میں سے کسی میں بھی مشغول نہ ہونے سے اتفاق کرتے ہیں: (1) کسی بھی ذریعہ میں سروس کے کسی بھی حصے کی کاپی، تقسیم، یا انکشاف کرنا؛ (2) سروس تک رسائی حاصل کرنے کے لیے کسی بھی خودکار نظام کا استعمال کرنا، بشمول بغیر کسی حد کے 'روبوٹس'؛ (3) اسپام یا زنجیر خطوط بھیجنا۔",
+            s8Title: "8. ذمہ داری کی حد",
+            s8Content: "کسی بھی صورت میں Dealz، اور نہ ہی اس کے ڈائریکٹرز، ملازمین، شراکت دار، ایجنٹ، سپلائرز، یا ملحقہ ادارے، کسی بھی بالواسطہ، حادثاتی، خصوصی، نتیجہ خیز یا تعزیری نقصانات، بشمول منافع، ڈیٹا، استعمال، خیر سگالی، یا دیگر غیر محسوس نقصانات کے نقصان کے ذمہ دار نہیں ہوں گے۔",
+            s9Title: "9. گورننگ لاء",
+            s9Content: "ان شرائط کو متحدہ عرب امارات کے قوانین کے مطابق کنٹرول اور سمجھا جائے گا، اس کے قانون کے تصادم کی دفعات سے قطع نظر۔"
         }
     }
 };

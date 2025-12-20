@@ -31,6 +31,18 @@ export default function TermsPage() {
 
                     <h3>{t('termsOfUse.s5Title')}</h3>
                     <p>{t('termsOfUse.s5Content')}</p>
+
+                    <h3>{t('termsOfUse.s6Title')}</h3>
+                    <p>{t('termsOfUse.s6Content')}</p>
+
+                    <h3>{t('termsOfUse.s7Title')}</h3>
+                    <p>{t('termsOfUse.s7Content')}</p>
+
+                    <h3>{t('termsOfUse.s8Title')}</h3>
+                    <p>{t('termsOfUse.s8Content')}</p>
+
+                    <h3>{t('termsOfUse.s9Title')}</h3>
+                    <p>{t('termsOfUse.s9Content')}</p>
                 </article>
             </div>
         </div>
