@@ -343,7 +343,7 @@ export default function Footer() {
                                 >
                                     <Languages size={14} className={galacticMode ? "text-purple-400" : "text-gray-500"} />
                                     {/* V10 Galactic Lang Option */}
-                                    {isActive => galacticMode ? "⏃⌖⟒⌰⌇" : (locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو')}
+                                    {galacticMode ? "⏃⌖⟒⌰⌇" : (locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو')}
                                     <span className="text-[9px] ml-1 opacity-70">({t('footer.galacticLang')})</span>
                                 </button>
                                 <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
