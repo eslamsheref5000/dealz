@@ -58,7 +58,9 @@ export default function GoogleRedirectPage() {
                 }
 
                 // 4. Store the JWT (either original or exchanged)
-                localStorage.setItem("jwt", finalJwt);
+                if (finalJwt) {
+                    localStorage.setItem("jwt", finalJwt);
+                }
 
                 // 5. Fetch User Profile to confirm everything is working
                 console.log(`Fetching user from: ${API_URL}/api/users/me`);
