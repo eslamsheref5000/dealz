@@ -1,4 +1,4 @@
-module.exports = ({ env }) => ({
+export default ({ env }) => ({
     host: env('HOST', '0.0.0.0'),
     port: env.int('PORT', 1338),
     app: {
@@ -7,4 +7,4 @@ module.exports = ({ env }) => ({
     url: 'https://shando5000-dealz.hf.space',
     proxy: true,
 });
-console.log('!!! JS SERVER CONFIG LOADED !!! URL:', 'https://shando5000-dealz.hf.space');
+console.log('!!! FIXED SERVER.TS LOADED !!! URL:', 'https://shando5000-dealz.hf.space');
