@@ -99,37 +99,38 @@ export default function RegisterPage() {
                                     }`}
                             />
                         </div>
+
+
+                        <div className="flex items-start gap-2">
+                            <input
+                                type="checkbox"
+                                name="agreedToTerms"
+                                checked={formData.agreedToTerms}
+                                onChange={handleChange}
+                                className="mt-1 w-4 h-4 text-red-600 rounded focus:ring-red-500 border-gray-300"
+                            />
+                            <label className="text-sm text-gray-600">
+                                {t('auth.agreeToTerms') || "I agree to the Terms of Service and Privacy Policy"}
+                            </label>
+                        </div>
+
+                        <button type="submit" className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition">{t('auth.registerBtn')}</button>
+                    </form>
+
+                    <p className="mt-4 text-center text-sm text-gray-600">
+                        {t('auth.hasAccount')}{" "}
+                        <Link href="/login" className="font-medium text-red-600 hover:text-red-500">
+                            {t('auth.loginBtn')}
+                        </Link>
+                    </p>
+
+                    <div className="mt-6 text-center">
+                        <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition flex items-center justify-center gap-1">
+                            ← {t('auth.backToHome')}
+                        </Link>
+                    </div>
                 </div>
-
-                <div className="flex items-start gap-2">
-                    <input
-                        type="checkbox"
-                        name="agreedToTerms"
-                        checked={formData.agreedToTerms}
-                        onChange={handleChange}
-                        className="mt-1 w-4 h-4 text-red-600 rounded focus:ring-red-500 border-gray-300"
-                    />
-                    <label className="text-sm text-gray-600">
-                        {t('auth.agreeToTerms') || "I agree to the Terms of Service and Privacy Policy"}
-                    </label>
-                </div>
-
-                <button type="submit" className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition">{t('auth.registerBtn')}</button>
-            </form>
-
-            <p className="mt-4 text-center text-sm text-gray-600">
-                {t('auth.hasAccount')}{" "}
-                <Link href="/login" className="font-medium text-red-600 hover:text-red-500">
-                    {t('auth.loginBtn')}
-                </Link>
-            </p>
-
-            <div className="mt-6 text-center">
-                <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition flex items-center justify-center gap-1">
-                    ← {t('auth.backToHome')}
-                </Link>
             </div>
         </div>
-        </div >
     );
 }
