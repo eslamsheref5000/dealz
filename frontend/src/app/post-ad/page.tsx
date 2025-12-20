@@ -440,11 +440,11 @@ export default function PostAdPage() {
                                                 className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.experience ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, experience: e.target.value } }))}
                                             >
-                                                <option value="">Select Level</option>
-                                                <option value="Entry Level">Entry Level</option>
-                                                <option value="Mid Level">Mid Level</option>
-                                                <option value="Senior Level">Senior Level</option>
-                                                <option value="Executive">Executive</option>
+                                                <option value="">{t('postAd.placeholders.selectLevel') || 'Select Level'}</option>
+                                                <option value="Entry Level">{t('options.experience.entry') || 'Entry Level'}</option>
+                                                <option value="Mid Level">{t('options.experience.mid') || 'Mid Level'}</option>
+                                                <option value="Senior Level">{t('options.experience.senior') || 'Senior Level'}</option>
+                                                <option value="Executive">{t('options.experience.executive') || 'Executive'}</option>
                                             </select>
                                         </div>
                                         <div>
@@ -454,11 +454,11 @@ export default function PostAdPage() {
                                                 className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.education ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, education: e.target.value } }))}
                                             >
-                                                <option value="">Select Level</option>
-                                                <option value="High School">High School</option>
-                                                <option value="Bachelor's Degree">Bachelor's Degree</option>
-                                                <option value="Master's Degree">Master's Degree</option>
-                                                <option value="PhD">PhD</option>
+                                                <option value="">{t('postAd.placeholders.selectLevel') || 'Select Level'}</option>
+                                                <option value="High School">{t('options.education.highSchool') || 'High School'}</option>
+                                                <option value="Bachelor's Degree">{t('options.education.bachelors') || "Bachelor's Degree"}</option>
+                                                <option value="Master's Degree">{t('options.education.masters') || "Master's Degree"}</option>
+                                                <option value="PhD">{t('options.education.phd') || 'PhD'}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -486,9 +486,9 @@ export default function PostAdPage() {
                                                 className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.condition ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
                                             >
-                                                <option value="">Select Condition</option>
-                                                <option value="New">New</option>
-                                                <option value="Used">Used</option>
+                                                <option value="">{t('postAd.placeholders.selectCondition') || 'Select Condition'}</option>
+                                                <option value="New">{t('options.condition.new') || 'New'}</option>
+                                                <option value="Used">{t('options.condition.used') || 'Used'}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -508,11 +508,11 @@ export default function PostAdPage() {
                                                 className={`appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.specs.condition ? 'border-green-500 focus:ring-green-500' : 'border-gray-300 dark:border-gray-700 focus:ring-red-500'}`}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
                                             >
-                                                <option value="">Select Condition</option>
-                                                <option value="New">New</option>
-                                                <option value="Used">Used</option>
-                                                <option value="Open Box">Open Box</option>
-                                                <option value="Refurbished">Refurbished</option>
+                                                <option value="">{t('postAd.placeholders.selectCondition') || 'Select Condition'}</option>
+                                                <option value="New">{t('options.condition.new') || 'New'}</option>
+                                                <option value="Used">{t('options.condition.used') || 'Used'}</option>
+                                                <option value="Open Box">{t('options.condition.openBox') || 'Open Box'}</option>
+                                                <option value="Refurbished">{t('options.condition.refurbished') || 'Refurbished'}</option>
                                             </select>
                                         </div>
                                     </div>

@@ -88,7 +88,11 @@ export const dictionaries = {
             },
             errors: {
                 contactRequired: "You must enable at least one contact method (Phone or Chat)."
-            }
+            },
+            editTitle: "Edit Your Ad",
+            saveChanges: "Save Changes & Submit for Review",
+            addNewImages: "Add New Images",
+            newImage: "New"
         },
         product: {
             showPhone: "Show Phone Number",
@@ -454,6 +458,26 @@ export const dictionaries = {
             nftDesc: "Verify ownership of unique digital assets on the Dealz Chain.",
             appComingSoon: "Mobile App Launching Q1 2026"
         },
+        options: {
+            condition: {
+                new: "New",
+                used: "Used",
+                openBox: "Open Box",
+                refurbished: "Refurbished"
+            },
+            education: {
+                highSchool: "High School",
+                bachelors: "Bachelor's Degree",
+                masters: "Master's Degree",
+                phd: "PhD"
+            },
+            experience: {
+                entry: "Entry Level",
+                mid: "Mid Level",
+                senior: "Senior Level",
+                executive: "Executive"
+            }
+        },
         moderation: {
             title: "Moderation & Management",
             subtitle: "Manage all ads on the platform",
@@ -593,7 +617,11 @@ export const dictionaries = {
             },
             errors: {
                 contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."
-            }
+            },
+            editTitle: "تعديل إعلانك",
+            saveChanges: "حفظ التغييرات وإرسال للمراجعة",
+            addNewImages: "إضافة صور جديدة",
+            newImage: "جديد"
         },
         product: {
             showPhone: "إظهار رقم الهاتف",
@@ -958,6 +986,26 @@ export const dictionaries = {
             nftTitle: "معرض المقتنيات الرقمية",
             nftDesc: "تحقق من ملكية الأصول الرقمية الفريدة على سلسلة ديلز.",
             appComingSoon: "إطلاق تطبيق الهاتف في الربع الأول 2026"
+        },
+        options: {
+            condition: {
+                new: "جديد",
+                used: "مستعمل",
+                openBox: "علبة مفتوحة",
+                refurbished: "مجدد"
+            },
+            education: {
+                highSchool: "ثانوية عامة",
+                bachelors: "بكالوريوس",
+                masters: "ماجستير",
+                phd: "دكتوراه"
+            },
+            experience: {
+                entry: "مستوى مبتدئ",
+                mid: "مستوى متوسط",
+                senior: "مستوى متقدم",
+                executive: "تنفيذي"
+            }
         },
         moderation: {
             title: "الإشراف والإدارة",
@@ -1450,6 +1498,26 @@ export const dictionaries = {
             nftDesc: "Vérifiez la propriété d'actifs numériques uniques sur la Dealz Chain.",
             appComingSoon: "Lancement de l'application mobile T1 2026"
         },
+        options: {
+            condition: {
+                new: "Neuf",
+                used: "Occasion",
+                openBox: "Boîte ouverte",
+                refurbished: "Reconditionné"
+            },
+            education: {
+                highSchool: "Lycée",
+                bachelors: "Licence",
+                masters: "Master",
+                phd: "Doctorat"
+            },
+            experience: {
+                entry: "Niveau débutant",
+                mid: "Niveau intermédiaire",
+                senior: "Niveau confirmé",
+                executive: "Cadre"
+            }
+        },
         moderation: {
             title: "Modération et gestion",
             subtitle: "Gérer toutes les annonces de la plateforme",
@@ -1564,7 +1632,11 @@ export const dictionaries = {
             },
             errors: {
                 contactRequired: "आपको कम से कम एक संपर्क विधि (फ़ोन या चैट) सक्षम करनी होगी।"
-            }
+            },
+            editTitle: "अपना विज्ञापन संपादित करें",
+            saveChanges: "परिवर्तन सहेजें और सबमिट करें",
+            addNewImages: "नई छवियां जोड़ें",
+            newImage: "नया"
         },
         product: {
             showPhone: "फ़ोन नंबर दिखाएं",
@@ -1927,6 +1999,26 @@ export const dictionaries = {
             nftDesc: "डील्ज़ चेन पर अद्वितीय डिजिटल संपत्ति के स्वामित्व को सत्यापित करें।",
             appComingSoon: "मोबाइल ऐप लॉन्च Q1 2026"
         },
+        options: {
+            condition: {
+                new: "नया",
+                used: "इस्तेमाल किया हुआ",
+                openBox: "खुला बॉक्स",
+                refurbished: "नवीनीकृत"
+            },
+            education: {
+                highSchool: "हाई स्कूल",
+                bachelors: "स्नातक",
+                masters: "मास्टर",
+                phd: "पीएचडी"
+            },
+            experience: {
+                entry: "प्रवेश स्तर",
+                mid: "मध्य स्तर",
+                senior: "वरिष्ठ स्तर",
+                executive: "कार्यकारी"
+            }
+        },
         moderation: {
             title: "मॉडरेशन और प्रबंधन",
             subtitle: "प्लेटफ़ॉर्म पर सभी विज्ञापनों को प्रबंधित करें",
@@ -2046,7 +2138,11 @@ export const dictionaries = {
             },
             errors: {
                 contactRequired: "آپ کو کم از کم ایک رابطہ طریقہ (فون یا چیٹ) کو فعال کرنا ہوگا۔"
-            }
+            },
+            editTitle: "اپنا اشتہار ترمیم کریں",
+            saveChanges: "بچائیں اور جائزہ کے لیے بھیجیں",
+            addNewImages: "نئی تصاویر شامل کریں",
+            newImage: "نیا"
         },
         product: {
             showPhone: "فون نمبر دکھائیں",
@@ -2408,6 +2504,26 @@ export const dictionaries = {
             nftTitle: "ڈیجیٹل کلیکٹیبلز گیلری",
             nftDesc: "ڈیلز چین پر منفرد ڈیجیٹل اثاثوں کی ملکیت کی تصدیق کریں۔",
             appComingSoon: "موبائل ایپ کا آغاز Q1 2026"
+        },
+        options: {
+            condition: {
+                new: "نیا",
+                used: "استعمال شدہ",
+                openBox: "کھلا باکس",
+                refurbished: "تجدید شدہ"
+            },
+            education: {
+                highSchool: "ہائی اسکول",
+                bachelors: "بیچلرز",
+                masters: "ماسٹرز",
+                phd: "پی ایچ ڈی"
+            },
+            experience: {
+                entry: "ابتدائی سطح",
+                mid: "درمیانی سطح",
+                senior: "سینئر سطح",
+                executive: "ایگزیکٹو"
+            }
         },
         moderation: {
             title: "نگرانی اور انتظام",

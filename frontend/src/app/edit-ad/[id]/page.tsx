@@ -308,21 +308,21 @@ export default function EditAdPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.experience')} <span className="text-red-500">*</span></label>
                         <select required value={formData.specs.experience || ''} className="appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-red-500" onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, experience: e.target.value } }))}>
-                            <option value="">Select Level</option>
-                            <option value="Entry Level">Entry Level</option>
-                            <option value="Mid Level">Mid Level</option>
-                            <option value="Senior Level">Senior Level</option>
-                            <option value="Executive">Executive</option>
+                            <option value="">{t('postAd.placeholders.selectLevel') || 'Select Level'}</option>
+                            <option value="Entry Level">{t('options.experience.entry') || 'Entry Level'}</option>
+                            <option value="Mid Level">{t('options.experience.mid') || 'Mid Level'}</option>
+                            <option value="Senior Level">{t('options.experience.senior') || 'Senior Level'}</option>
+                            <option value="Executive">{t('options.experience.executive') || 'Executive'}</option>
                         </select>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.education')} <span className="text-red-500">*</span></label>
                         <select required value={formData.specs.education || ''} className="appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-red-500" onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, education: e.target.value } }))}>
-                            <option value="">Select Level</option>
-                            <option value="High School">High School</option>
-                            <option value="Bachelor's Degree">Bachelor's Degree</option>
-                            <option value="Master's Degree">Master's Degree</option>
-                            <option value="PhD">PhD</option>
+                            <option value="">{t('postAd.placeholders.selectLevel') || 'Select Level'}</option>
+                            <option value="High School">{t('options.education.highSchool') || 'High School'}</option>
+                            <option value="Bachelor's Degree">{t('options.education.bachelors') || "Bachelor's Degree"}</option>
+                            <option value="Master's Degree">{t('options.education.masters') || "Master's Degree"}</option>
+                            <option value="PhD">{t('options.education.phd') || 'PhD'}</option>
                         </select>
                     </div>
                 </div>
@@ -340,9 +340,9 @@ export default function EditAdPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')} <span className="text-red-500">*</span></label>
                         <select required value={formData.specs.condition || ''} className="appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-red-500" onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}>
-                            <option value="">Select Condition</option>
-                            <option value="New">New</option>
-                            <option value="Used">Used</option>
+                            <option value="">{t('postAd.placeholders.selectCondition') || 'Select Condition'}</option>
+                            <option value="New">{t('options.condition.new') || 'New'}</option>
+                            <option value="Used">{t('options.condition.used') || 'Used'}</option>
                         </select>
                     </div>
                 </div>
@@ -355,11 +355,11 @@ export default function EditAdPage() {
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')} <span className="text-red-500">*</span></label>
                     <select required value={formData.specs.condition || ''} className="appearance-none block w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-red-500" onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}>
-                        <option value="">Select Condition</option>
-                        <option value="New">New</option>
-                        <option value="Used">Used</option>
-                        <option value="Open Box">Open Box</option>
-                        <option value="Refurbished">Refurbished</option>
+                        <option value="">{t('postAd.placeholders.selectCondition') || 'Select Condition'}</option>
+                        <option value="New">{t('options.condition.new') || 'New'}</option>
+                        <option value="Used">{t('options.condition.used') || 'Used'}</option>
+                        <option value="Open Box">{t('options.condition.openBox') || 'Open Box'}</option>
+                        <option value="Refurbished">{t('options.condition.refurbished') || 'Refurbished'}</option>
                     </select>
                 </div>
             );
@@ -379,7 +379,7 @@ export default function EditAdPage() {
             <div className="flex items-center justify-center pb-12 px-4 sm:px-6 lg:px-8 mt-8">
                 <div className="max-w-2xl w-full bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800">
                     <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">✏️ Edit Your Ad</h2>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">✏️ {t('postAd.editTitle') || 'Edit Your Ad'}</h2>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -507,7 +507,7 @@ export default function EditAdPage() {
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.images')}</label>
                             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-700 border-dashed rounded-xl hover:border-red-500 transition-colors cursor-pointer bg-gray-50 dark:bg-gray-800/50">
                                 <label htmlFor="file-upload" className="relative cursor-pointer bg-transparent rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none">
-                                    <span>Add New Images</span>
+                                    <span>{t('postAd.addNewImages') || 'Add New Images'}</span>
                                     <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" multiple />
                                 </label>
                             </div>
@@ -546,7 +546,7 @@ export default function EditAdPage() {
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                         </button>
-                                        <span className="absolute bottom-0 left-0 right-0 bg-green-500 text-white text-xs text-center py-1">New</span>
+                                        <span className="absolute bottom-0 left-0 right-0 bg-green-500 text-white text-xs text-center py-1">{t('postAd.newImage') || 'New'}</span>
                                     </div>
                                 ))}
                             </div>
@@ -584,7 +584,7 @@ export default function EditAdPage() {
                                 type="submit"
                                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition"
                             >
-                                Save Changes & Submit for Review
+                                {t('postAd.saveChanges') || 'Save Changes & Submit for Review'}
                             </button>
                         </div>
                     </form>
