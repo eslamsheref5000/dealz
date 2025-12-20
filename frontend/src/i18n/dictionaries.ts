@@ -413,7 +413,12 @@ export const dictionaries = {
             recentActivity: "Recent Activity",
             justSold: "just sold",
             in: "in",
-            logisticsPartners: "Logistics Partners"
+            logisticsPartners: "Logistics Partners",
+            ecoImpact: "Eco Impact",
+            co2Saved: "kg CO2 saved",
+            dealzElite: "Dealz Elite",
+            joinElite: "Join Elite",
+            statusOperational: "Systems Operational"
         }
     },
     ar: {
@@ -826,7 +831,12 @@ export const dictionaries = {
             recentActivity: "نشاط حديث",
             justSold: "باع للتو",
             in: "في",
-            logisticsPartners: "شركاء الخدمات اللوجستية"
+            logisticsPartners: "شركاء الخدمات اللوجستية",
+            ecoImpact: "الأثر البيئي",
+            co2Saved: "كجم CO2 تم توفيرها",
+            dealzElite: "ديلز إيليت",
+            joinElite: "انضم إلى إيليت",
+            statusOperational: "الأنظمة تعمل"
         }
     },
     fr: {
@@ -1225,7 +1235,12 @@ export const dictionaries = {
             recentActivity: "Activité récente",
             justSold: "vient de vendre",
             in: "à",
-            logisticsPartners: "Partenaires logistiques"
+            logisticsPartners: "Partenaires logistiques",
+            ecoImpact: "Impact Écologique",
+            co2Saved: "kg CO2 économisés",
+            dealzElite: "Dealz Élite",
+            joinElite: "Rejoindre Élite",
+            statusOperational: "Systèmes Opérationnels"
         }
     },
     hi: {
@@ -1610,7 +1625,12 @@ export const dictionaries = {
             recentActivity: "हाल की गतिविधि",
             justSold: "अभी बेचा",
             in: "में",
-            logisticsPartners: "लॉजिस्टिक्स पार्टनर"
+            logisticsPartners: "लॉजिस्टिक्स पार्टनर",
+            ecoImpact: "पर्यावरण प्रभाव",
+            co2Saved: "किलो CO2 बचाई गई",
+            dealzElite: "डील्ज़ एलीट",
+            joinElite: "एलीट में शामिल हों",
+            statusOperational: "सिस्टम चालू हैं"
         }
     },
     ur: {
@@ -2000,7 +2020,12 @@ export const dictionaries = {
             recentActivity: "حالیہ سرگرمی",
             justSold: "ابھی فروخت کیا",
             in: "میں",
-            logisticsPartners: "لاجسٹکس پارٹنرز"
+            logisticsPartners: "لاجسٹکس پارٹنرز",
+            ecoImpact: "ماحولیاتی اثرات",
+            co2Saved: "کلو CO2 بچائی گئی",
+            dealzElite: "ڈیلز ایلیٹ",
+            joinElite: "ایلیٹ میں شامل ہوں",
+            statusOperational: "سسٹمز آپریشنل ہیں"
         }
     },
 };

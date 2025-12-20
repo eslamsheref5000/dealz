@@ -21,7 +21,10 @@ import {
     X,
     Truck,
     Globe,
-    Zap
+    Zap,
+    Leaf,
+    Crown,
+    Server
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -42,7 +45,7 @@ export default function Footer() {
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveTickerIndex((prev) => (prev + 1) % activities.length);
-        }, 4000); // Change every 4 seconds
+        }, 4000);
 
         // Mock cookie check
         const consent = localStorage.getItem("dealz_cookie_consent");
@@ -114,7 +117,7 @@ export default function Footer() {
 
     return (
         <div className="relative">
-            {/* V5 Exclusive: Live Activity Ticker & Stats */}
+            {/* V6 Exclusive: Eco-Impact & Ticker */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
@@ -125,7 +128,7 @@ export default function Footer() {
                             <Zap size={12} className="fill-current animate-pulse" />
                             {t('footer.recentActivity')}
                         </div>
-                        <div className="h-4 w-[1px] bg-gray-600"></div>
+                        <div className="h-4 w-[1px] bg-gray-600 hidden md:block"></div>
                         <div className="text-xs text-gray-300 truncate w-full md:w-64 relative h-4">
                             {activities.map((activity, idx) => (
                                 <div
@@ -139,7 +142,15 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Stats (Desktop Only) */}
+                    {/* V6: Eco-Impact Widget (Desktop Only) */}
+                    <div className="hidden md:flex items-center gap-3 bg-green-900/20 border border-green-500/30 px-3 py-1.5 rounded-full">
+                        <Leaf size={14} className="text-green-500 animate-bounce" />
+                        <div className="text-[10px] font-medium text-green-100">
+                            <span className="font-bold text-white">12,450</span> {t('footer.co2Saved')}
+                        </div>
+                    </div>
+
+                    {/* Stats */}
                     <div className="hidden md:flex gap-12 border-l border-gray-800 pl-8">
                         {stats.map((stat, idx) => (
                             <div key={idx} className="flex items-center gap-2 group cursor-default">
@@ -167,7 +178,7 @@ export default function Footer() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
 
-                        {/* Brand & Newsletter Column */}
+                        {/* Brand Column */}
                         <div className="lg:col-span-4 space-y-6">
                             <Link href="/" className="group inline-block">
                                 <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 tracking-tighter hover:to-red-800 transition-all">
@@ -178,7 +189,7 @@ export default function Footer() {
                                 {t('footer.brandParams')}
                             </p>
 
-                            {/* V5: Currency/Language Selector Placeholder */}
+                            {/* Currency/Language Selector */}
                             <div className="flex gap-2">
                                 <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                                     <Globe size={14} className="text-gray-500" />
@@ -190,20 +201,24 @@ export default function Footer() {
                                 </button>
                             </div>
 
-                            <div className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden group/newsletter">
-                                <div className="absolute -right-10 -top-10 w-20 h-20 bg-red-500/10 rounded-full blur-2xl group-hover/newsletter:bg-red-500/20 transition-all"></div>
-                                <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-2 relative z-10">{t('footer.newsletterTitle')}</h4>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 relative z-10">{t('footer.newsletterDesc')}</p>
-                                <div className="flex gap-2 relative z-10">
-                                    <input
-                                        type="email"
-                                        placeholder={t('footer.emailPlaceholder')}
-                                        className="flex-1 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 hover:border-red-300 dark:hover:border-red-800 transition-colors text-gray-900 dark:text-white placeholder:text-gray-400"
-                                    />
-                                    <button className="bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95">
-                                        <Send size={18} />
-                                    </button>
+                            {/* V6: Dealz Elite Card (Replacing Newsletter) */}
+                            <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-yellow-500/30 shadow-xl relative overflow-hidden group/elite">
+                                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+                                <div className="absolute -right-10 -top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl group-hover/elite:bg-yellow-500/30 transition-all"></div>
+
+                                <div className="flex items-start justify-between relative z-10 mb-4">
+                                    <div>
+                                        <h4 className="font-bold text-yellow-500 text-lg mb-1 flex items-center gap-2">
+                                            <Crown size={18} className="fill-current" />
+                                            {t('footer.dealzElite')}
+                                        </h4>
+                                        <p className="text-xs text-gray-400">Unlock 0% fees & priority support.</p>
+                                    </div>
                                 </div>
+
+                                <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md hover:shadow-yellow-500/20 text-sm relative z-10">
+                                    {t('footer.joinElite')}
+                                </button>
                             </div>
                         </div>
 
@@ -278,7 +293,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Bottom Bar: Logistics & Payment */}
+                    {/* Bottom Bar */}
                     <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mt-8">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
 
@@ -286,11 +301,15 @@ export default function Footer() {
                                 <p className="text-sm text-gray-400">
                                     © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                                 </p>
-                                <div className="hidden md:flex items-center gap-3 text-xs text-gray-400">
-                                    <span className="font-semibold text-gray-500">{t('footer.logisticsPartners')}:</span>
-                                    <div className="flex gap-2 opacity-70">
-                                        <Truck size={14} /> <span className="text-[10px] bg-gray-100 dark:bg-gray-800 px-1 rounded">DHL</span>
-                                        <Truck size={14} /> <span className="text-[10px] bg-gray-100 dark:bg-gray-800 px-1 rounded">ARAMEX</span>
+                                <div className="hidden md:flex items-center gap-4 text-xs text-gray-400">
+                                    <div className="flex items-center gap-2 text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                        {t('footer.statusOperational')}
+                                    </div>
+                                    <div className="h-3 w-px bg-gray-200 dark:bg-gray-700"></div>
+                                    <div className="flex gap-2 opacity-70 items-center">
+                                        <span className="text-[10px] font-semibold">{t('footer.logisticsPartners')}:</span>
+                                        <Truck size={12} /> <span className="text-[10px]">DHL</span>
                                     </div>
                                 </div>
                             </div>
