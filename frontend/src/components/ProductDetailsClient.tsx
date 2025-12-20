@@ -107,6 +107,15 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                     <span className="text-gray-500 dark:text-gray-400">{t('postAd.labels.city')}</span>
                                     <span className="font-medium text-gray-900 dark:text-white">{attrs.city}</span>
                                 </div>
+                                {attrs.specifications && Object.entries(attrs.specifications).map(([key, value]) => (
+                                    <div key={key} className="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+                                        <span className="text-gray-500 dark:text-gray-400 capitalize">
+                                            {/* Try to map to dictionary, fallback to key */}
+                                            {t(`filters.${key}`) !== `filters.${key}` ? t(`filters.${key}`) : key}
+                                        </span>
+                                        <span className="font-medium text-gray-900 dark:text-white">{value as string}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

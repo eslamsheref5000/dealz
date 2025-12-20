@@ -103,6 +103,9 @@
             "relation": "manyToOne",
             "target": "api::sub-category.sub-category",
             "inversedBy": "products"
+        },
+        "specifications": {
+            "type": "json"
         }
     }
 }

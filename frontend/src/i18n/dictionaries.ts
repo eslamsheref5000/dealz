@@ -331,7 +331,11 @@ export const dictionaries = {
             mileage: "Mileage (km)",
             bedrooms: "Bedrooms",
             bathrooms: "Bathrooms",
-            area: "Area (sqft)"
+            area: "Area (sqft)",
+            condition: "Condition",
+            size: "Size",
+            experience: "Experience Level",
+            education: "Education Level"
         },
         profile: {
             identityVerification: "Identity Verification",
@@ -695,7 +699,11 @@ export const dictionaries = {
             mileage: "المسافة المقطوعة (کم)",
             bedrooms: "غرف النوم",
             bathrooms: "الحمامات",
-            area: "المساحة (قدم مربع)"
+            area: "المساحة (قدم مربع)",
+            condition: "الحالة",
+            size: "المقاس",
+            experience: "مستوى الخبرة",
+            education: "المستوى التعليمي"
         },
         profile: {
             identityVerification: "توثيق الهوية",
@@ -1045,7 +1053,11 @@ export const dictionaries = {
             mileage: "Kilométrage (km)",
             bedrooms: "Chambres",
             bathrooms: "Salles de bain",
-            area: "Superficie (pi²)"
+            area: "Superficie (pi²)",
+            condition: "État",
+            size: "Taille",
+            experience: "Niveau d'expérience",
+            education: "Niveau d'éducation"
         },
         profile: {
             identityVerification: "Vérification d'identité",
@@ -1376,7 +1388,16 @@ export const dictionaries = {
             min: "न्यूनतम",
             max: "अधिकतम",
             apply: "फिल्टर लागू करें",
-            selectCity: "शहर चुनें"
+            selectCity: "शहर चुनें",
+            year: "वर्ष",
+            mileage: "माइलेज (किमी)",
+            bedrooms: "बेडरूम",
+            bathrooms: "बाथरूम",
+            area: "क्षेत्र (वर्ग फुट)",
+            condition: "स्थिति",
+            size: "आकार",
+            experience: "अनुभव",
+            education: "शिक्षा"
         },
         profile: {
             identityVerification: "पहचान सत्यापन",
@@ -1717,7 +1738,11 @@ export const dictionaries = {
             mileage: "مائلیج (کلومیٹر)",
             bedrooms: "بیڈروم",
             bathrooms: "باتھ روم",
-            area: "رقبہ (مربع فٹ)"
+            area: "رقبہ (مربع فٹ)",
+            condition: "حالت",
+            size: "سائز",
+            experience: "تجربہ",
+            education: "تعلیم"
         },
         profile: {
             identityVerification: "شناخت کی تصدیق",

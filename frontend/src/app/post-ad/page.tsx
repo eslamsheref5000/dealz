@@ -23,6 +23,7 @@ export default function PostAdPage() {
         phone: "",
         countryCode: "",
         images: [] as File[],
+        specs: {} as any
     });
 
     // Payment State
@@ -188,7 +189,8 @@ export default function PostAdPage() {
                 isFeatured: isFeatured, // Will be pending approval
                 paymentMethod: isFeatured ? 'instapay' : 'none',
                 paymentStatus: isFeatured ? 'pending' : 'unpaid',
-                paymentTransactionId: isFeatured ? transactionId : null
+                paymentTransactionId: isFeatured ? transactionId : null,
+                specifications: formData.specs
             };
 
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
@@ -314,6 +316,172 @@ export default function PostAdPage() {
                                 </select>
                             </div>
                         )}
+
+                        {/* Dynamic Specifications */}
+                        {/* Dynamic Specifications */}
+                        {(() => {
+                            const cat = categories.find(c => (c.documentId === formData.category || c.id === formData.category));
+                            const catName = cat?.attributes?.name || cat?.name || '';
+                            const subCat = subCategories.find(s => (s.documentId === formData.sub_category || s.id === formData.sub_category));
+                            const subCatName = subCat?.attributes?.name || subCat?.name || '';
+
+                            // 1. Properties Logic
+                            if (catName === 'Properties') {
+                                const showBedBath = ['Apartment', 'Villa', 'Townhouse', 'Penthouse'].some(k => subCatName.includes(k));
+                                // Show Area for everything in Properties
+                                return (
+                                    <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                                        {showBedBath && (
+                                            <>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bedrooms')}</label>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="e.g. 3"
+                                                        className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                        onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, bedrooms: e.target.value } }))}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.bathrooms')}</label>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="e.g. 2"
+                                                        className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                        onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, bathrooms: e.target.value } }))}
+                                                    />
+                                                </div>
+                                            </>
+                                        )}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.area')}</label>
+                                            <input
+                                                type="number"
+                                                placeholder="e.g. 1200"
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, area: e.target.value } }))}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            // 2. Motors Logic
+                            if (catName === 'Motors') {
+                                const isVehicle = ['Car', 'Motorcycle', 'Heavy', 'Truck', 'Bus'].some(k => subCatName.includes(k));
+                                if (isVehicle) {
+                                    return (
+                                        <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.year')}</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="e.g. 2023"
+                                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, year: e.target.value } }))}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.mileage')}</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="e.g. 50000"
+                                                    className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, mileage: e.target.value } }))}
+                                                />
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                            }
+
+                            // 3. Jobs Logic
+                            if (catName === 'Jobs') {
+                                return (
+                                    <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.experience')}</label>
+                                            <select
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, experience: e.target.value } }))}
+                                            >
+                                                <option value="">Select Level</option>
+                                                <option value="Entry Level">Entry Level</option>
+                                                <option value="Mid Level">Mid Level</option>
+                                                <option value="Senior Level">Senior Level</option>
+                                                <option value="Executive">Executive</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.education')}</label>
+                                            <select
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, education: e.target.value } }))}
+                                            >
+                                                <option value="">Select Level</option>
+                                                <option value="High School">High School</option>
+                                                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                                <option value="Master's Degree">Master's Degree</option>
+                                                <option value="PhD">PhD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            // 4. Fashion (Size + Condition)
+                            if (catName.includes('Fashion')) {
+                                return (
+                                    <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.size')}</label>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. Medium, 42, 10"
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, size: e.target.value } }))}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')}</label>
+                                            <select
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
+                                            >
+                                                <option value="">Select Condition</option>
+                                                <option value="New">New</option>
+                                                <option value="Used">Used</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+
+                            // 5. Generic Condition (Electronics, Furniture, etc.)
+                            const needsCondition = ['Mobiles', 'Electronics', 'Furniture', 'Home Appliances', 'Sports', 'Computers'].some(k => catName.includes(k));
+                            if (needsCondition) {
+                                return (
+                                    <div className="grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('filters.condition')}</label>
+                                            <select
+                                                className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                                onChange={(e) => setFormData(prev => ({ ...prev, specs: { ...prev.specs, condition: e.target.value } }))}
+                                            >
+                                                <option value="">Select Condition</option>
+                                                <option value="New">New</option>
+                                                <option value="Used">Used</option>
+                                                <option value="Open Box">Open Box</option>
+                                                <option value="Refurbished">Refurbished</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            return null;
+                        })()}
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.description')}</label>
