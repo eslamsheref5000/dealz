@@ -18,7 +18,10 @@ import {
     Users,
     Tag,
     ShieldCheck,
-    X
+    X,
+    Truck,
+    Globe,
+    Zap
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -26,14 +29,29 @@ export default function Footer() {
     const { t, locale } = useLanguage();
     const [openSection, setOpenSection] = useState<string | null>(null);
     const [showCookieConsent, setShowCookieConsent] = useState(false);
+    const [activeTickerIndex, setActiveTickerIndex] = useState(0);
+
+    // Mock Live Activity Data
+    const activities = [
+        { user: "Ali", action: t('footer.justSold'), item: "iPhone 15 Pro", location: "Dubai" },
+        { user: "Sarah", action: t('footer.justSold'), item: "Toyota Camry", location: "Abu Dhabi" },
+        { user: "Ahmed", action: t('footer.justSold'), item: "PS5 Console", location: "Sharjah" },
+        { user: "John", action: t('footer.justSold'), item: "MacBook Air", location: "Riyadh" },
+    ];
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveTickerIndex((prev) => (prev + 1) % activities.length);
+        }, 4000); // Change every 4 seconds
+
         // Mock cookie check
         const consent = localStorage.getItem("dealz_cookie_consent");
         if (!consent) {
             setTimeout(() => setShowCookieConsent(true), 1500);
         }
-    }, []);
+
+        return () => clearInterval(interval);
+    }, [activities.length]);
 
     const handleAcceptCookies = () => {
         localStorage.setItem("dealz_cookie_consent", "true");
@@ -96,21 +114,39 @@ export default function Footer() {
 
     return (
         <div className="relative">
-            {/* Live Stats Strip */}
-            <div className="bg-gray-900 border-t-4 border-red-600 text-white py-3 overflow-hidden relative">
+            {/* V5 Exclusive: Live Activity Ticker & Stats */}
+            <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center md:justify-between items-center relative z-10">
-                    <div className="hidden md:flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider">
-                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                        Live Stats
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
+
+                    {/* Live Ticker */}
+                    <div className="flex items-center gap-4 bg-gray-800/50 py-1.5 px-4 rounded-full border border-gray-700 w-full md:w-auto overflow-hidden">
+                        <div className="flex items-center gap-2 text-red-500 font-bold text-[10px] uppercase tracking-wider whitespace-nowrap">
+                            <Zap size={12} className="fill-current animate-pulse" />
+                            {t('footer.recentActivity')}
+                        </div>
+                        <div className="h-4 w-[1px] bg-gray-600"></div>
+                        <div className="text-xs text-gray-300 truncate w-full md:w-64 relative h-4">
+                            {activities.map((activity, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`absolute inset-0 transition-all duration-500 transform ${idx === activeTickerIndex ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                                        }`}
+                                >
+                                    <span className="font-bold text-white">{activity.user}</span> {activity.action} <span className="text-red-400">{activity.item}</span> {t('footer.in')} {activity.location}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex gap-8 md:gap-16">
+
+                    {/* Stats (Desktop Only) */}
+                    <div className="hidden md:flex gap-12 border-l border-gray-800 pl-8">
                         {stats.map((stat, idx) => (
                             <div key={idx} className="flex items-center gap-2 group cursor-default">
-                                <stat.icon size={16} className="text-red-500 group-hover:scale-110 transition-transform" />
-                                <div className="text-center md:text-left">
-                                    <div className="font-bold text-sm md:text-base leading-none">{stat.value}</div>
-                                    <div className="text-[10px] md:text-xs text-gray-400 font-medium uppercase">{stat.label}</div>
+                                <stat.icon size={14} className="text-red-500 group-hover:scale-110 transition-transform" />
+                                <div className="text-left">
+                                    <div className="font-bold text-sm leading-none">{stat.value}</div>
+                                    <div className="text-[9px] text-gray-500 font-medium uppercase">{stat.label}</div>
                                 </div>
                             </div>
                         ))}
@@ -118,7 +154,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 transition-colors duration-300 relative group/footer">
+            <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pt-12 pb-8 transition-colors duration-300 relative group/footer">
                 {/* Back to Top Button */}
                 <button
                     onClick={scrollToTop}
@@ -141,6 +177,18 @@ export default function Footer() {
                             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed border-l-2 border-red-100 dark:border-red-900 pl-4">
                                 {t('footer.brandParams')}
                             </p>
+
+                            {/* V5: Currency/Language Selector Placeholder */}
+                            <div className="flex gap-2">
+                                <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                    <Globe size={14} className="text-gray-500" />
+                                    {locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو'}
+                                </button>
+                                <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                    <span className="text-gray-500 font-bold">$</span>
+                                    USD
+                                </button>
+                            </div>
 
                             <div className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden group/newsletter">
                                 <div className="absolute -right-10 -top-10 w-20 h-20 bg-red-500/10 rounded-full blur-2xl group-hover/newsletter:bg-red-500/20 transition-all"></div>
@@ -230,12 +278,22 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Bottom Bar */}
+                    {/* Bottom Bar: Logistics & Payment */}
                     <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mt-8">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                            <p className="text-sm text-gray-400 text-center md:text-left">
-                                © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
-                            </p>
+
+                            <div className="space-y-2 text-center md:text-left">
+                                <p className="text-sm text-gray-400">
+                                    © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
+                                </p>
+                                <div className="hidden md:flex items-center gap-3 text-xs text-gray-400">
+                                    <span className="font-semibold text-gray-500">{t('footer.logisticsPartners')}:</span>
+                                    <div className="flex gap-2 opacity-70">
+                                        <Truck size={14} /> <span className="text-[10px] bg-gray-100 dark:bg-gray-800 px-1 rounded">DHL</span>
+                                        <Truck size={14} /> <span className="text-[10px] bg-gray-100 dark:bg-gray-800 px-1 rounded">ARAMEX</span>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div className="flex items-center gap-3 text-gray-400">
                                 <div className="h-6 px-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded flex items-center justify-center"><CreditCard size={14} /></div>

@@ -409,7 +409,11 @@ export const dictionaries = {
             dailyDeals: "Daily Deals",
             cookieTitle: "We use cookies",
             cookieDesc: "We use cookies to improve your experience.",
-            accept: "Accept"
+            accept: "Accept",
+            recentActivity: "Recent Activity",
+            justSold: "just sold",
+            in: "in",
+            logisticsPartners: "Logistics Partners"
         }
     },
     ar: {
@@ -818,7 +822,11 @@ export const dictionaries = {
             dailyDeals: "صفقة يومية",
             cookieTitle: "نحن نستخدم ملفات تعريف الارتباط",
             cookieDesc: "نستخدم ملفات تعريف الارتباط لتحسين تجربتك.",
-            accept: "قبول"
+            accept: "قبول",
+            recentActivity: "نشاط حديث",
+            justSold: "باع للتو",
+            in: "في",
+            logisticsPartners: "شركاء الخدمات اللوجستية"
         }
     },
     fr: {
@@ -1213,7 +1221,11 @@ export const dictionaries = {
             dailyDeals: "Offres quotidiennes",
             cookieTitle: "Nous utilisons des cookies",
             cookieDesc: "Nous utilisons des cookies pour améliorer votre expérience.",
-            accept: "Accepter"
+            accept: "Accepter",
+            recentActivity: "Activité récente",
+            justSold: "vient de vendre",
+            in: "à",
+            logisticsPartners: "Partenaires logistiques"
         }
     },
     hi: {
@@ -1594,7 +1606,11 @@ export const dictionaries = {
             dailyDeals: "दैनिक सौदे",
             cookieTitle: "हम कुकीज़ का उपयोग करते हैं",
             cookieDesc: "हम आपके अनुभव को बेहतर बनाने के लिए कुकीज़ का उपयोग करते हैं।",
-            accept: "स्वीकार करें"
+            accept: "स्वीकार करें",
+            recentActivity: "हाल की गतिविधि",
+            justSold: "अभी बेचा",
+            in: "में",
+            logisticsPartners: "लॉजिस्टिक्स पार्टनर"
         }
     },
     ur: {
@@ -1980,7 +1996,11 @@ export const dictionaries = {
             dailyDeals: "روزانہ ڈیلز",
             cookieTitle: "ہم کوکیز کا استعمال کرتے ہیں",
             cookieDesc: "ہم آپ کے تجربے کو بہتر بنانے کے لیے کوکیز کا استعمال کرتے ہیں۔",
-            accept: "قبول کریں"
+            accept: "قبول کریں",
+            recentActivity: "حالیہ سرگرمی",
+            justSold: "ابھی فروخت کیا",
+            in: "میں",
+            logisticsPartners: "لاجسٹکس پارٹنرز"
         }
     },
 };
