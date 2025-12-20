@@ -428,7 +428,11 @@ export const dictionaries = {
             enterVR: "Enter VR Mode",
             quantumSecured: "Quantum Secured",
             haptics: "Haptics On",
-            nftGallery: "NFT Gallery"
+            nftGallery: "NFT Gallery",
+            neuralLink: "Neural Link",
+            droneDelivery: "Drone Delivery",
+            galacticLang: "Galactic",
+            zeroLatency: "0ms Latency"
         }
     },
     ar: {
@@ -856,7 +860,11 @@ export const dictionaries = {
             enterVR: "دخول عالم VR",
             quantumSecured: "أمان كمي",
             haptics: "لمس ذكي",
-            nftGallery: "معرض NFT"
+            nftGallery: "معرض NFT",
+            neuralLink: "رابط عصبي",
+            droneDelivery: "توصيل طائرة بدون طيار",
+            galacticLang: "مجري",
+            zeroLatency: "بدون تأخير"
         }
     },
     fr: {
@@ -1270,7 +1278,11 @@ export const dictionaries = {
             enterVR: "Mode VR",
             quantumSecured: "Sécurité Quantique",
             haptics: "Haptique Active",
-            nftGallery: "Galerie NFT"
+            nftGallery: "Galerie NFT",
+            neuralLink: "Lien Neural",
+            droneDelivery: "Livraison par Drone",
+            galacticLang: "Galactique",
+            zeroLatency: "Latence 0ms"
         }
     },
     hi: {
@@ -1670,7 +1682,11 @@ export const dictionaries = {
             enterVR: "VR मोड दर्ज करें",
             quantumSecured: "क्वांटम सुरक्षित",
             haptics: "हैप्टिक्स चालू",
-            nftGallery: "NFT गैलरी"
+            nftGallery: "NFT गैलरी",
+            neuralLink: "न्यूरल लिंक",
+            droneDelivery: "ड्रोन डिलीवरी",
+            galacticLang: "गेलेक्टिक",
+            zeroLatency: "0ms विलंबता"
         }
     },
     ur: {
@@ -2075,7 +2091,11 @@ export const dictionaries = {
             enterVR: "VR موڈ داخل کریں",
             quantumSecured: "کوانٹم محفوظ",
             haptics: "ہیپٹکس آن",
-            nftGallery: "NFT گیلری"
+            nftGallery: "NFT گیلری",
+            neuralLink: "نیورل لنک",
+            droneDelivery: "ڈرون ڈیلیوری",
+            galacticLang: "کشंगे",
+            zeroLatency: "0ms تاخیر"
         }
     },
 };

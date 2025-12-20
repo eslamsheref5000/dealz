@@ -34,7 +34,11 @@ import {
     Glasses,
     Box,
     Fingerprint,
-    Cpu
+    Cpu,
+    BrainCircuit,
+    Plane,
+    Languages,
+    Wifi
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -137,12 +141,12 @@ export default function Footer() {
 
     return (
         <div className="relative">
-            {/* V8/V9 Exclusive: Hyper-Tech Top Bar */}
+            {/* V10 Exclusive: Singularity Top Bar */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
 
-                    {/* Live Ticker & V8: DLZ Token */}
+                    {/* Live Ticker & V8: DLZ Token & V10: Zero Latency */}
                     <div className="flex items-center gap-4 bg-gray-800/50 py-1.5 px-4 rounded-full border border-gray-700 w-full md:w-auto overflow-hidden">
                         <div className="flex items-center gap-2 text-red-500 font-bold text-[10px] uppercase tracking-wider whitespace-nowrap">
                             <Zap size={12} className="fill-current animate-pulse" />
@@ -161,30 +165,32 @@ export default function Footer() {
                             ))}
                         </div>
                         {/* V8 DLZ Token */}
-                        <div className="hidden md:flex items-center gap-2 border-l border-gray-600 pl-4">
+                        <div className="hidden md:flex items-center gap-2 border-l border-gray-600 pl-4 border-r pr-4">
                             <TrendingUp size={12} className="text-green-500" />
                             <span className="text-[10px] font-mono text-gray-300">
                                 {t('footer.dlzToken')}: <span className="text-green-400 font-bold">$42.50</span> <span className="text-green-600 text-[9px]">(+2.4%)</span>
                             </span>
                         </div>
+                        {/* V10 Zero Latency */}
+                        <div className="hidden lg:flex items-center gap-1.5 text-[9px] text-gray-400">
+                            <Wifi size={10} className="text-emerald-500" />
+                            <span>{t('footer.zeroLatency')}</span>
+                        </div>
                     </div>
 
-                    {/* V7: Global Markets & V8: Weather & V9: VR Mode */}
-                    <div className="hidden lg:flex items-center gap-6 text-[10px] text-gray-400 font-mono">
+                    {/* V9: VR Mode & V10: Neural Link */}
+                    <div className="hidden lg:flex items-center gap-4 text-[10px] text-gray-400 font-mono">
+                        {/* V10: Neural Link Button */}
+                        <button className="flex items-center gap-2 px-3 py-1 bg-pink-900/30 border border-pink-500/30 rounded-full hover:bg-pink-900/50 transition-colors group/neural">
+                            <BrainCircuit size={14} className="text-pink-400 group-hover/neural:animate-pulse" />
+                            <span className="text-pink-200 font-bold">{t('footer.neuralLink')}</span>
+                        </button>
+
                         {/* V9: VR Mode Button */}
                         <button className="flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded-full hover:bg-purple-900/50 transition-colors group/vr">
                             <Glasses size={14} className="text-purple-400 group-hover/vr:rotate-180 transition-transform duration-700" />
                             <span className="text-purple-200 font-bold">{t('footer.enterVR')}</span>
-                            <span className="flex h-2 w-2 relative">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-                            </span>
                         </button>
-
-                        <div className="flex items-center gap-2 px-2 py-0.5 bg-blue-900/10 rounded border border-blue-500/20">
-                            <CloudSun size={12} className="text-blue-400" />
-                            <span className="text-blue-200">{t('footer.weather')} 32°C</span>
-                        </div>
 
                         <div className="flex items-center gap-2">
                             <Clock size={12} className="text-gray-500" />
@@ -237,11 +243,13 @@ export default function Footer() {
                                 {t('footer.brandParams')}
                             </p>
 
-                            {/* Currency/Language Selector */}
+                            {/* V10: Galactic Language & V5: Currency Selector */}
                             <div className="flex gap-2">
                                 <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                                    <Globe size={14} className="text-gray-500" />
+                                    <Languages size={14} className="text-gray-500" />
+                                    {/* V10 Galactic Lang Option */}
                                     {locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو'}
+                                    <span className="text-[9px] text-purple-500 ml-1">({t('footer.galacticLang')})</span>
                                 </button>
                                 <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                                     <span className="text-gray-500 font-bold">$</span>
@@ -356,7 +364,7 @@ export default function Footer() {
                                 <p className="text-sm text-gray-400">
                                     © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                                 </p>
-                                {/* V9: Haptics Indicator */}
+                                {/* V9: Haptics & V10: Drone Delivery */}
                                 <div className="hidden md:flex items-center gap-4 text-xs text-gray-400">
                                     <div className="flex items-center gap-2 text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">
                                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
@@ -365,6 +373,10 @@ export default function Footer() {
                                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-gray-100 dark:border-gray-800">
                                         <Fingerprint size={10} className="text-indigo-500" />
                                         <span className="text-[9px] text-indigo-400 uppercase tracking-widest font-bold">{t('footer.haptics')}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/10 text-blue-500">
+                                        <Plane size={10} className="text-blue-500" />
+                                        <span className="text-[9px] uppercase font-bold">{t('footer.droneDelivery')}</span>
                                     </div>
                                 </div>
                             </div>
