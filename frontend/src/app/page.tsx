@@ -288,6 +288,7 @@ export default function Home() {
         <div className="mb-12 text-center">
           <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-[72px] z-30 shadow-sm/50 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80">
             <div className="container mx-auto">
+              <CategoryIcons />
             </div>
           </div>
         </div>
