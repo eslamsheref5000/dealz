@@ -792,7 +792,6 @@ export const dictionaries = {
             followUs: "تواصل معنا",
             rights: "جميع الحقوق محفوظة",
             privacyShort: "الخصوصية",
-            privacyShort: "الخصوصية",
             termsShort: "الشروط",
             newsletterTitle: "اشترك في نشرتنا الإخبارية",
             newsletterDesc: "احصل على آخر التحديثات والصفقات.",
