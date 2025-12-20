@@ -21,14 +21,27 @@ export default function GoogleRedirectPage() {
             }
 
             try {
-                // Remove 'Bearer ' if present (Strapi sometimes adds it, sometimes not in query)
-                const jwt = accessToken.replace("Bearer ", "");
+                // Log all params for debugging
+                console.log("Redirect Params:", Object.fromEntries(searchParams.entries()));
+
+                // Strapi might return 'access_token', 'jwt', or 'token'
+                let jwt = accessToken || searchParams.get("jwt") || searchParams.get("token");
+
+                if (!jwt) {
+                    throw new Error("No token found in URL");
+                }
+
+                // Clean token
+                jwt = jwt.replace("Bearer ", "");
+                console.log("Using JWT:", jwt.substring(0, 10) + "...");
 
                 // Store JWT
                 localStorage.setItem("jwt", jwt);
 
                 // Fetch User Details
                 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                console.log("Fetching user from:", `${API_URL}/api/users/me`);
+
                 const res = await fetch(`${API_URL}/api/users/me`, {
                     headers: {
                         Authorization: `Bearer ${jwt}`,
@@ -39,16 +52,20 @@ export default function GoogleRedirectPage() {
                     const user = await res.json();
                     localStorage.setItem("user", JSON.stringify(user));
                     setStatus("success");
-                    // Force refresh to update Auth state in components
                     window.location.href = "/";
                 } else {
+                    const errorText = await res.text();
+                    console.error("User Fetch Failed:", res.status, errorText);
                     setStatus("error");
-                    setTimeout(() => router.push("/login"), 3000);
+                    // Update UI to show error (temporary)
+                    alert(`Login Failed: ${res.status} - ${errorText}`);
+                    setTimeout(() => router.push("/login"), 5000);
                 }
             } catch (err) {
                 console.error("Google Login Error:", err);
                 setStatus("error");
-                setTimeout(() => router.push("/login"), 3000);
+                alert(`Login Script Error: ${err}`);
+                setTimeout(() => router.push("/login"), 5000);
             }
         };
 
