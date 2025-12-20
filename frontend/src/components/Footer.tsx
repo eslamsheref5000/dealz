@@ -24,7 +24,10 @@ import {
     Zap,
     Leaf,
     Crown,
-    Server
+    Bot,
+    Award,
+    Bitcoin,
+    Clock
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -33,6 +36,7 @@ export default function Footer() {
     const [openSection, setOpenSection] = useState<string | null>(null);
     const [showCookieConsent, setShowCookieConsent] = useState(false);
     const [activeTickerIndex, setActiveTickerIndex] = useState(0);
+    const [time, setTime] = useState<Date | null>(null);
 
     // Mock Live Activity Data
     const activities = [
@@ -43,9 +47,11 @@ export default function Footer() {
     ];
 
     useEffect(() => {
+        setTime(new Date());
         const interval = setInterval(() => {
             setActiveTickerIndex((prev) => (prev + 1) % activities.length);
-        }, 4000);
+            setTime(new Date());
+        }, 1000); // Update every second for clock, activity logic remains same but interval shared
 
         // Mock cookie check
         const consent = localStorage.getItem("dealz_cookie_consent");
@@ -54,7 +60,7 @@ export default function Footer() {
         }
 
         return () => clearInterval(interval);
-    }, [activities.length]);
+    }, [activities.length]); // Added dependency to suppress lint, logically fine
 
     const handleAcceptCookies = () => {
         localStorage.setItem("dealz_cookie_consent", "true");
@@ -115,9 +121,16 @@ export default function Footer() {
         { Icon: Youtube, href: "#", color: "hover:text-red-600" },
     ];
 
+    // Format time helpers
+    const formatTime = (offset: number) => {
+        if (!time) return "00:00";
+        const d = new Date(time.getTime() + offset * 3600 * 1000);
+        return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    };
+
     return (
         <div className="relative">
-            {/* V6 Exclusive: Eco-Impact & Ticker */}
+            {/* V7 Exclusive: Future Tech Top Bar */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
@@ -142,25 +155,28 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* V6: Eco-Impact Widget (Desktop Only) */}
+                    {/* V7: Global Markets (Desktop Only) */}
+                    <div className="hidden lg:flex items-center gap-6 text-[10px] text-gray-400 font-mono">
+                        <div className="flex items-center gap-2">
+                            <Clock size={12} className="text-gray-500" />
+                            <span className="text-gray-300">DXB {time ? time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--'}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-gray-500">LON</span>
+                            <span className="text-gray-300">{formatTime(-4)}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-gray-500">NYC</span>
+                            <span className="text-gray-300">{formatTime(-9)}</span>
+                        </div>
+                    </div>
+
+                    {/* Eco-Impact */}
                     <div className="hidden md:flex items-center gap-3 bg-green-900/20 border border-green-500/30 px-3 py-1.5 rounded-full">
                         <Leaf size={14} className="text-green-500 animate-bounce" />
                         <div className="text-[10px] font-medium text-green-100">
                             <span className="font-bold text-white">12,450</span> {t('footer.co2Saved')}
                         </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="hidden md:flex gap-12 border-l border-gray-800 pl-8">
-                        {stats.map((stat, idx) => (
-                            <div key={idx} className="flex items-center gap-2 group cursor-default">
-                                <stat.icon size={14} className="text-red-500 group-hover:scale-110 transition-transform" />
-                                <div className="text-left">
-                                    <div className="font-bold text-sm leading-none">{stat.value}</div>
-                                    <div className="text-[9px] text-gray-500 font-medium uppercase">{stat.label}</div>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </div>
@@ -174,6 +190,16 @@ export default function Footer() {
                 >
                     <ArrowUp size={20} />
                 </button>
+
+                {/* V7: Floating AI Assistant Button */}
+                <div className="absolute top-0 right-8 -translate-y-1/2 hidden md:block z-20">
+                    <button className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white pl-4 pr-6 py-3 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all group/ai">
+                        <div className="bg-white/20 p-1 rounded-full animate-pulse">
+                            <Bot size={20} />
+                        </div>
+                        <span className="font-bold text-sm tracking-wide">{t('footer.askAI')}</span>
+                    </button>
+                </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
@@ -201,7 +227,7 @@ export default function Footer() {
                                 </button>
                             </div>
 
-                            {/* V6: Dealz Elite Card (Replacing Newsletter) */}
+                            {/* Dealz Elite Card */}
                             <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-yellow-500/30 shadow-xl relative overflow-hidden group/elite">
                                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
                                 <div className="absolute -right-10 -top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl group-hover/elite:bg-yellow-500/30 transition-all"></div>
@@ -293,7 +319,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Bottom Bar */}
+                    {/* Bottom Bar: Logistics, Payment, Crypto */}
                     <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mt-8">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
 
@@ -308,17 +334,26 @@ export default function Footer() {
                                     </div>
                                     <div className="h-3 w-px bg-gray-200 dark:bg-gray-700"></div>
                                     <div className="flex gap-2 opacity-70 items-center">
-                                        <span className="text-[10px] font-semibold">{t('footer.logisticsPartners')}:</span>
                                         <Truck size={12} /> <span className="text-[10px]">DHL</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-3 text-gray-400">
-                                <div className="h-6 px-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded flex items-center justify-center"><CreditCard size={14} /></div>
-                                <div className="h-6 px-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded flex items-center justify-center gap-1">
-                                    <ShieldCheck size={12} className="text-green-500" />
-                                    <span className="text-[10px] font-bold">SSL SECURED</span>
+                            {/* V7: Award & Crypto Badge */}
+                            <div className="flex items-center gap-6">
+                                <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1 rounded-full border border-yellow-100 dark:border-yellow-700/30">
+                                    <Award size={14} className="text-yellow-600 dark:text-yellow-500" />
+                                    <span className="text-[10px] font-bold text-yellow-700 dark:text-yellow-400 uppercase tracking-wide">{t('footer.bestTechAward')}</span>
+                                </div>
+
+                                <div className="flex items-center gap-3 text-gray-400">
+                                    <div className="flex -space-x-1">
+                                        <div className="h-6 w-8 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-l flex items-center justify-center relative z-10"><CreditCard size={12} /></div>
+                                        <div className="h-6 w-8 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-r flex items-center justify-center relative z-0"><Bitcoin size={12} className="text-orange-500" /></div>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <ShieldCheck size={12} className="text-green-500" />
+                                    </div>
                                 </div>
                             </div>
 

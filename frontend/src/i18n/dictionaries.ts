@@ -418,7 +418,10 @@ export const dictionaries = {
             co2Saved: "kg CO2 saved",
             dealzElite: "Dealz Elite",
             joinElite: "Join Elite",
-            statusOperational: "Systems Operational"
+            statusOperational: "Systems Operational",
+            askAI: "Ask Dealz AI",
+            bestTechAward: "Best Tech 2025",
+            cryptoAccepted: "Crypto Accepted"
         }
     },
     ar: {
@@ -836,7 +839,10 @@ export const dictionaries = {
             co2Saved: "كجم CO2 تم توفيرها",
             dealzElite: "ديلز إيليت",
             joinElite: "انضم إلى إيليت",
-            statusOperational: "الأنظمة تعمل"
+            statusOperational: "الأنظمة تعمل",
+            askAI: "اسأل ديلز AI",
+            bestTechAward: "أفضل تقنية 2025",
+            cryptoAccepted: "العملات الرقمية مقبولة"
         }
     },
     fr: {
@@ -1240,7 +1246,10 @@ export const dictionaries = {
             co2Saved: "kg CO2 économisés",
             dealzElite: "Dealz Élite",
             joinElite: "Rejoindre Élite",
-            statusOperational: "Systèmes Opérationnels"
+            statusOperational: "Systèmes Opérationnels",
+            askAI: "Demander à Dealz AI",
+            bestTechAward: "Meilleure Tech 2025",
+            cryptoAccepted: "Crypto Acceptée"
         }
     },
     hi: {
@@ -1630,7 +1639,10 @@ export const dictionaries = {
             co2Saved: "किलो CO2 बचाई गई",
             dealzElite: "डील्ज़ एलीट",
             joinElite: "एलीट में शामिल हों",
-            statusOperational: "सिस्टम चालू हैं"
+            statusOperational: "सिस्टम चालू हैं",
+            askAI: "डील्ज़ AI से पूछें",
+            bestTechAward: "सर्वश्रेष्ठ तकनीक 2025",
+            cryptoAccepted: "क्रिप्टो स्वीकार्य"
         }
     },
     ur: {
@@ -2025,7 +2037,10 @@ export const dictionaries = {
             co2Saved: "کلو CO2 بچائی گئی",
             dealzElite: "ڈیلز ایلیٹ",
             joinElite: "ایلیٹ میں شامل ہوں",
-            statusOperational: "سسٹمز آپریشنل ہیں"
+            statusOperational: "سسٹمز آپریشنل ہیں",
+            askAI: "ڈیلز AI سے پوچھیں",
+            bestTechAward: "بہترین ٹیکنالوجی 2025",
+            cryptoAccepted: "کرپٹو قبول ہے"
         }
     },
 };
