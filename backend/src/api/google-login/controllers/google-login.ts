@@ -1,7 +1,4 @@
-
-import { factories } from '@strapi/strapi';
-
-export default factories.createCoreController('api::google-login.google-login', ({ strapi }) => ({
+export default {
     async exchange(ctx) {
         try {
             const { access_token } = ctx.request.body;
@@ -74,4 +71,4 @@ export default factories.createCoreController('api::google-login.google-login', 
             return ctx.badRequest('Internal Exchange Error: ' + err.message);
         }
     }
-}));
+};
