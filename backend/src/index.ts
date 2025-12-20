@@ -16,6 +16,8 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
+    console.log("!!! BOOTSTRAP STARTED !!!");
+
     // 0. Backfill Slugs (SEO)
     const makeSlug = (str) => {
       return str
@@ -194,12 +196,15 @@ export default {
       });
 
       for (const action of authPermissions) {
-        if (!existingPerms.find((p) => p.action === action)) {
+        const hasPerm = existingPerms.find((p) => p.action === action);
+        if (!hasPerm) {
+          console.log(`Granting ${action} to Authenticated Role`);
           await strapi.query("plugin::users-permissions.permission").create({
             data: { action, role: authRole.id }
           });
         }
       }
+      console.log("Authenticated permissions verification complete.");
     }
 
     // 2. Seed Categories
