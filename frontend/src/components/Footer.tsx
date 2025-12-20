@@ -40,7 +40,7 @@ import {
     Languages,
     Wifi
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Footer() {
     const { t, locale } = useLanguage();
@@ -48,6 +48,15 @@ export default function Footer() {
     const [showCookieConsent, setShowCookieConsent] = useState(false);
     const [activeTickerIndex, setActiveTickerIndex] = useState(0);
     const [time, setTime] = useState<Date | null>(null);
+
+    // Activation States
+    const [showChat, setShowChat] = useState(false);
+    const [showVR, setShowVR] = useState(false);
+    const [showNeural, setShowNeural] = useState(false);
+    const [chatMessages, setChatMessages] = useState<{ sender: 'bot' | 'user', text: string }[]>([]);
+    const [chatInput, setChatInput] = useState("");
+    const [tokenPrice, setTokenPrice] = useState(42.50);
+    const chatEndRef = useRef<HTMLDivElement>(null);
 
     // Mock Live Activity Data
     const activities = [
@@ -59,10 +68,13 @@ export default function Footer() {
 
     useEffect(() => {
         setTime(new Date());
+
+        // Dynamic Ticker & Token Price
         const interval = setInterval(() => {
             setActiveTickerIndex((prev) => (prev + 1) % activities.length);
             setTime(new Date());
-        }, 1000);
+            setTokenPrice(prev => prev + (Math.random() - 0.4) * 0.1); // Fluctuate price
+        }, 3000);
 
         // Mock cookie check
         const consent = localStorage.getItem("dealz_cookie_consent");
@@ -70,8 +82,18 @@ export default function Footer() {
             setTimeout(() => setShowCookieConsent(true), 1500);
         }
 
+        // Initialize Chat
+        if (chatMessages.length === 0) {
+            setChatMessages([{ sender: 'bot', text: t('footer.chatWelcome') }]);
+        }
+
         return () => clearInterval(interval);
-    }, [activities.length]);
+    }, [activities.length, chatMessages.length, t]);
+
+    // Auto-scroll chat
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [chatMessages]);
 
     const handleAcceptCookies = () => {
         localStorage.setItem("dealz_cookie_consent", "true");
@@ -84,6 +106,19 @@ export default function Footer() {
 
     const toggleSection = (title: string) => {
         setOpenSection(openSection === title ? null : title);
+    };
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!chatInput.trim()) return;
+
+        setChatMessages(prev => [...prev, { sender: 'user', text: chatInput }]);
+        setChatInput("");
+
+        // Mock Response
+        setTimeout(() => {
+            setChatMessages(prev => [...prev, { sender: 'bot', text: "I am a demo AI. Actual intelligence coming in V11! 🤖" }]);
+        }, 1000);
     };
 
     const stats = [
@@ -164,11 +199,11 @@ export default function Footer() {
                                 </div>
                             ))}
                         </div>
-                        {/* V8 DLZ Token */}
+                        {/* V8 DLZ Token (Active) */}
                         <div className="hidden md:flex items-center gap-2 border-l border-gray-600 pl-4 border-r pr-4">
                             <TrendingUp size={12} className="text-green-500" />
                             <span className="text-[10px] font-mono text-gray-300">
-                                {t('footer.dlzToken')}: <span className="text-green-400 font-bold">$42.50</span> <span className="text-green-600 text-[9px]">(+2.4%)</span>
+                                {t('footer.dlzToken')}: <span className="text-green-400 font-bold">${tokenPrice.toFixed(2)}</span> <span className="text-green-600 text-[9px]">(+{(tokenPrice - 40).toFixed(1)}%)</span>
                             </span>
                         </div>
                         {/* V10 Zero Latency */}
@@ -180,14 +215,20 @@ export default function Footer() {
 
                     {/* V9: VR Mode & V10: Neural Link */}
                     <div className="hidden lg:flex items-center gap-4 text-[10px] text-gray-400 font-mono">
-                        {/* V10: Neural Link Button */}
-                        <button className="flex items-center gap-2 px-3 py-1 bg-pink-900/30 border border-pink-500/30 rounded-full hover:bg-pink-900/50 transition-colors group/neural">
+                        {/* V10: Neural Link Button (Active) */}
+                        <button
+                            onClick={() => setShowNeural(true)}
+                            className="flex items-center gap-2 px-3 py-1 bg-pink-900/30 border border-pink-500/30 rounded-full hover:bg-pink-900/50 transition-colors group/neural"
+                        >
                             <BrainCircuit size={14} className="text-pink-400 group-hover/neural:animate-pulse" />
                             <span className="text-pink-200 font-bold">{t('footer.neuralLink')}</span>
                         </button>
 
-                        {/* V9: VR Mode Button */}
-                        <button className="flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded-full hover:bg-purple-900/50 transition-colors group/vr">
+                        {/* V9: VR Mode Button (Active) */}
+                        <button
+                            onClick={() => setShowVR(true)}
+                            className="flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded-full hover:bg-purple-900/50 transition-colors group/vr"
+                        >
                             <Glasses size={14} className="text-purple-400 group-hover/vr:rotate-180 transition-transform duration-700" />
                             <span className="text-purple-200 font-bold">{t('footer.enterVR')}</span>
                         </button>
@@ -210,13 +251,16 @@ export default function Footer() {
                     <ArrowUp size={20} />
                 </button>
 
-                {/* V7/V8: AI Assistant with Voice */}
+                {/* V7/V8: AI Assistant with Voice (Active) */}
                 <div className="absolute top-0 right-8 -translate-y-1/2 hidden md:block z-20">
                     <div className="flex items-center gap-2">
                         <div className="bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/ai-btn:opacity-100 transition-opacity whitespace-nowrap">
                             {t('footer.voiceCmd')}
                         </div>
-                        <button className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white pl-4 pr-6 py-3 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all group/ai-btn relative overflow-hidden">
+                        <button
+                            onClick={() => setShowChat(!showChat)}
+                            className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white pl-4 pr-6 py-3 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all group/ai-btn relative overflow-hidden"
+                        >
                             <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/ai-btn:translate-x-[100%] transition-transform duration-1000"></div>
                             <div className="bg-white/20 p-1.5 rounded-full animate-pulse">
                                 <Bot size={18} />
@@ -227,6 +271,37 @@ export default function Footer() {
                             </div>
                         </button>
                     </div>
+                    {/* Active Chat Window */}
+                    {showChat && (
+                        <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">
+                            <div className="bg-violet-600 p-4 text-white flex justify-between items-center">
+                                <h4 className="font-bold flex items-center gap-2"><Bot size={16} /> Dealz AI</h4>
+                                <button onClick={() => setShowChat(false)}><X size={16} /></button>
+                            </div>
+                            <div className="h-64 p-4 overflow-y-auto bg-gray-50 dark:bg-black/50 space-y-3">
+                                {chatMessages.map((msg, idx) => (
+                                    <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${msg.sender === 'user' ? 'bg-violet-600 text-white' : 'bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200'}`}>
+                                            {msg.text}
+                                        </div>
+                                    </div>
+                                ))}
+                                <div ref={chatEndRef} />
+                            </div>
+                            <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-100 dark:border-gray-800 flex gap-2">
+                                <input
+                                    type="text"
+                                    value={chatInput}
+                                    onChange={(e) => setChatInput(e.target.value)}
+                                    placeholder={t('footer.chatPlaceholder')}
+                                    className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                />
+                                <button type="submit" className="bg-violet-600 text-white p-2 rounded-full hover:bg-violet-700 transition-colors">
+                                    <Send size={16} />
+                                </button>
+                            </form>
+                        </div>
+                    )}
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -444,6 +519,55 @@ export default function Footer() {
                         >
                             Close
                         </button>
+                    </div>
+                </div>
+            )}
+
+            {/* V10: VR Mode Modal */}
+            {showVR && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl animate-in fade-in duration-500">
+                    <div className="text-center space-y-6 max-w-md px-4">
+                        <div className="relative mx-auto w-24 h-24">
+                            <div className="absolute inset-0 bg-purple-500 rounded-full blur-3xl opacity-50 animate-pulse"></div>
+                            <Glasses size={96} className="text-white relative z-10" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-black text-white mb-2">{t('footer.vrTitle')}</h2>
+                            <p className="text-purple-200 text-lg">{t('footer.vrDesc')}</p>
+                        </div>
+                        <div className="flex flex-col gap-3 pt-8">
+                            <div className="flex items-center justify-center gap-2 text-white/50 text-sm uppercase tracking-widest font-mono">
+                                <div className="w-2 h-2 bg-purple-500 rounded-full animate-ping"></div>
+                                {t('footer.simulated')}
+                            </div>
+                            <button onClick={() => setShowVR(false)} className="text-white hover:text-purple-400 transition-colors">Close Simulation</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* V10: Neural Link Modal */}
+            {showNeural && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-3xl animate-in fade-in duration-500">
+                    <div className="text-center space-y-6 max-w-md px-4">
+                        <div className="relative mx-auto w-32 h-32 flex items-center justify-center">
+                            <div className="absolute inset-0 border-4 border-pink-500/30 rounded-full animate-[spin_3s_linear_infinite]"></div>
+                            <div className="absolute inset-4 border-4 border-pink-500/50 rounded-full animate-[spin_2s_linear_infinite_reverse]"></div>
+                            <BrainCircuit size={64} className="text-pink-500 relative z-10" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2">{t('footer.neuralTitle')}</h2>
+                            <p className="text-pink-200/50 font-mono text-sm">{t('footer.neuralDesc')}</p>
+                        </div>
+                        <div className="h-1 w-full bg-gray-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-pink-500 w-2/3 animate-[shimmer_1s_infinite]"></div>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <div className="text-pink-500 text-xs font-mono animate-pulse">
+                                {t('footer.connecting')}
+                            </div>
+                            <button onClick={() => setShowNeural(false)} className="text-gray-500 hover:text-white transition-colors text-xs mt-8">Abort Connection</button>
+                        </div>
                     </div>
                 </div>
             )}

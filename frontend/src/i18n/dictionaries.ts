@@ -432,7 +432,16 @@ export const dictionaries = {
             neuralLink: "Neural Link",
             droneDelivery: "Drone Delivery",
             galacticLang: "Galactic",
-            zeroLatency: "0ms Latency"
+            zeroLatency: "0ms Latency",
+            chatWelcome: "Hello! How can Dealz AI help you?",
+            chatPlaceholder: "Type your question...",
+            send: "Send",
+            vrTitle: "Dealz VR Showroom",
+            vrDesc: "Immerse yourself in our virtual shopping experience. Compatible with all major VR headsets.",
+            neuralTitle: "Neural Link",
+            neuralDesc: "Establishing secure neural connection... Please focus your thoughts on your desired product.",
+            connecting: "Connecting...",
+            simulated: "Simulated"
         }
     },
     ar: {
@@ -864,7 +873,16 @@ export const dictionaries = {
             neuralLink: "رابط عصبي",
             droneDelivery: "توصيل طائرة بدون طيار",
             galacticLang: "مجري",
-            zeroLatency: "بدون تأخير"
+            zeroLatency: "بدون تأخير",
+            chatWelcome: "مرحباً! كيف يمكن لـ Dealz AI مساعدتك؟",
+            chatPlaceholder: "اكتب سؤالك...",
+            send: "إرسال",
+            vrTitle: "معرض ديلز الافتراضي",
+            vrDesc: "انغمس في تجربة التسوق الافتراضية لدينا. متوافق مع جميع سماعات VR الرئيسية.",
+            neuralTitle: "الرابط العصبي",
+            neuralDesc: "جاري إنشاء اتصال عصبي آمن... يرجى تركيز أفكارك على المنتج المطلوب.",
+            connecting: "جاري الاتصال...",
+            simulated: "محاكاة"
         }
     },
     fr: {
@@ -1282,7 +1300,16 @@ export const dictionaries = {
             neuralLink: "Lien Neural",
             droneDelivery: "Livraison par Drone",
             galacticLang: "Galactique",
-            zeroLatency: "Latence 0ms"
+            zeroLatency: "Latence 0ms",
+            chatWelcome: "Bonjour! Comment Dealz AI peut-il vous aider?",
+            chatPlaceholder: "Tapez votre question...",
+            send: "Envoyer",
+            vrTitle: "Showroom VR Dealz",
+            vrDesc: "Plongez dans notre expérience d'achat virtuel. Compatible avec tous les casques VR majeurs.",
+            neuralTitle: "Lien Neural",
+            neuralDesc: "Établissement d'une connexion neuronale sécurisée... Veuillez concentrer vos pensées.",
+            connecting: "Connexion...",
+            simulated: "Simulé"
         }
     },
     hi: {
@@ -1686,7 +1713,16 @@ export const dictionaries = {
             neuralLink: "न्यूरल लिंक",
             droneDelivery: "ड्रोन डिलीवरी",
             galacticLang: "गेलेक्टिक",
-            zeroLatency: "0ms विलंबता"
+            zeroLatency: "0ms विलंबता",
+            chatWelcome: "नमस्ते! Dealz AI आपकी कैसे मदद कर सकता है?",
+            chatPlaceholder: "अपना प्रश्न लिखें...",
+            send: "भेजें",
+            vrTitle: "Dealz VR शोरूम",
+            vrDesc: "हमारे आभासी खरीदारी अनुभव में डूब जाएं। सभी प्रमुख VR हेडसेट के साथ संगत।",
+            neuralTitle: "न्यूरल लिंक",
+            neuralDesc: "सुरक्षित तंत्रिका कनेक्शन स्थापित कर रहा है... कृपया अपने विचारों को केंद्रित करें।",
+            connecting: "कनेक्ट हो रहा है...",
+            simulated: "सिम्युलेटेड"
         }
     },
     ur: {
@@ -2095,7 +2131,16 @@ export const dictionaries = {
             neuralLink: "نیورل لنک",
             droneDelivery: "ڈرون ڈیلیوری",
             galacticLang: "کشंगे",
-            zeroLatency: "0ms تاخیر"
+            zeroLatency: "0ms تاخیر",
+            chatWelcome: "ہیلو! Dealz AI آپ کی کیسے مدد کر سکتا ہے؟",
+            chatPlaceholder: "اپنا سوال لکھیں...",
+            send: "بھیجیں",
+            vrTitle: "ڈیلز VR شو روم",
+            vrDesc: "ہمارے ورچوئل شاپنگ کے تجربے میں غرق ہو جائیں۔ تمام بڑے VR ہیڈسیٹ کے ساتھ ہم آہنگ۔",
+            neuralTitle: "نیورل لنک",
+            neuralDesc: "محفوظ اعصابی رابطہ قائم کیا جا رہا ہے... براہ کرم اپنی سوچوں کو مرکوز کریں۔",
+            connecting: "رابطہ ہو رہا ہے...",
+            simulated: "نقلی"
         }
     },
 };
