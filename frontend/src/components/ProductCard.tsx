@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useLanguage } from "../context/LanguageContext";
 import { useFavorites } from "../context/FavoriteContext";
 import { useComparison } from "../context/ComparisonContext";
-import { useCountry, countries } from "../context/CountryContext";
+import { useCountry } from "../context/CountryContext";
+import { countries } from "../data/countries";
 import { isWithinTwoHours } from "../utils/dateUtils";
 
 interface ProductCardProps {

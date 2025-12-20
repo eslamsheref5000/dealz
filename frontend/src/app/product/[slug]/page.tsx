@@ -1,7 +1,6 @@
-
 import { Metadata } from "next";
 import ProductDetailsClient from "../../../components/ProductDetailsClient";
-import { countries } from "../../../context/CountryContext";
+import { countries } from "../../../data/countries";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
 

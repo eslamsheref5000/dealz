@@ -6,7 +6,7 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import { useLanguage } from "../../context/LanguageContext";
 import { useFavorites } from "../../context/FavoriteContext";
-import { countries } from "../../context/CountryContext";
+import { countries } from "../../data/countries";
 import { useToast } from "../../context/ToastContext";
 
 export default function ProfilePage() {

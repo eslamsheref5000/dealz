@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import moment from "moment";
 import { useLanguage } from "../context/LanguageContext";
 import { useFavorites } from "../context/FavoriteContext";
-import { countries } from "../context/CountryContext";
+import { countries } from "../data/countries";
 import { useToast } from "../context/ToastContext";
 import { useRecentlyViewed } from "../context/RecentlyViewedContext";
 import Breadcrumb from "./Breadcrumb";

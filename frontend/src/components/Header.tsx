@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
-import { useCountry, countries } from "../context/CountryContext";
+import { useCountry } from "../context/CountryContext";
+import { countries } from "../data/countries";
 
 export default function Header() {
     const router = useRouter();

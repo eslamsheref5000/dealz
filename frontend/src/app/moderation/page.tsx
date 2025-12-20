@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useLanguage } from "../../context/LanguageContext";
 import { useToast } from "../../context/ToastContext";
-import { countries } from "../../context/CountryContext";
+import { countries } from "../../data/countries";
 import moment from "moment";
 
 export default function ModerationPage() {
