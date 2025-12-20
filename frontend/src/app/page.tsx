@@ -10,6 +10,7 @@ import CategoryRow from "../components/CategoryRow";
 import RecentlyViewed from "../components/RecentlyViewed";
 import AdvancedFilters from "../components/AdvancedFilters";
 import ProductSkeleton from "../components/ProductSkeleton";
+import ProductCard from "../components/ProductCard";
 import { useLanguage } from "../context/LanguageContext";
 import { useFavorites } from "../context/FavoriteContext";
 import { useCountry } from "../context/CountryContext";
@@ -285,9 +286,9 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8">
         {/* Categories */}
         <div className="mb-12 text-center">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">{t('home.browseCategories')}</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <CategoryIcons selectedCategory={selectedCategory} onSelect={handleCategoryClick} />
+          <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-[72px] z-30 shadow-sm/50 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80">
+            <div className="container mx-auto">
+            </div>
           </div>
         </div>
 
@@ -365,106 +366,13 @@ export default function Home() {
             {products.map((ad: any, index: number) => (
               <div
                 key={ad.documentId || ad.id}
-                className={`group bg-white dark:bg-gray-900 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 overflow-hidden border ${ad.isFeatured ? 'border-yellow-400 ring-4 ring-yellow-400/10' : 'border-gray-100 dark:border-gray-800'} h-full flex flex-col relative hover:translate-y-[-8px] animate-in fade-in slide-in-from-bottom-8 duration-700`}
+                className={`group h-full animate-in fade-in slide-in-from-bottom-8 duration-700`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {ad.isFeatured && (
-                  <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md">
-                    <span className="animate-spin-slow text-xs">⭐</span> {t('common.dealz')}
-                  </div>
-                )}
-                {isWithinTwoHours(ad.publishedAt || ad.createdAt) && (
-                  <div className={`absolute top-4 ${ad.isFeatured ? 'left-28' : 'left-4'} z-10 bg-gradient-to-r from-green-500 to-green-700 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md`}>
-                    <span className="animate-pulse">✨</span> {t('home.newBadge')}
-                  </div>
-                )}
-
-                <Link href={`/product/${ad.slug || ad.documentId || ad.id}`} className="h-full flex flex-col">
-                  {/* Image container with zoom effect */}
-                  <div className="relative h-56 w-full bg-gray-50 dark:bg-gray-800 overflow-hidden">
-                    <img
-                      src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
-                      alt={ad.title}
-                      className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                    <div className="absolute bottom-4 left-4 text-white text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ltr:left-4 rtl:right-4 rtl:left-auto">
-                      {ad.category?.name || "General"}
-                    </div>
-                  </div>
-
-                  {/* Content Area */}
-                  <div className="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-bold text-xl text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-red-600 transition-colors duration-300 mb-3">
-                        {ad.title}
-                      </h3>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-red-600 font-extrabold text-2xl tracking-tight">
-                          {ad.price?.toLocaleString()}
-                        </span>
-                        <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">{selectedCountry.currency}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-50 dark:border-gray-800">
-                      <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-sm">
-                        <span className="text-red-500 flex items-center justify-center w-6 h-6 rounded-lg bg-red-50 dark:bg-red-900/10">📍</span>
-                        {ad.city}
-                      </div>
-
-                      <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/10 flex items-center justify-center text-red-600 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Heart/Favorite Button */}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleFavorite(ad.documentId);
-                  }}
-                  className={`absolute top-4 right-4 p-3 rounded-2xl shadow-xl transition-all duration-300 z-20 group/heart ${isFavorite(ad.documentId)
-                    ? 'bg-red-600 text-white scale-110'
-                    : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-red-500 hover:scale-110'
-                    }`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill={isFavorite(ad.documentId) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 transition-transform group-hover/heart:scale-125">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                  </svg>
-                </button>
-
-                {/* Add to Compare Button */}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (isInCompare(ad.documentId || ad.id)) {
-                      removeFromCompare(ad.documentId || ad.id);
-                    } else {
-                      addToCompare(ad);
-                    }
-                  }}
-                  className={`absolute bottom-[85px] right-4 p-2 rounded-xl shadow-lg hover:scale-110 transition duration-300 border ${isInCompare(ad.documentId || ad.id)
-                    ? 'bg-blue-600 text-white opacity-100'
-                    : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 border-gray-100 dark:border-gray-700'
-                    }`}
-                  title={isInCompare(ad.documentId || ad.id) ? "Remove from Compare" : "Compare Product"}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                  </svg>
-                </button>
+                <ProductCard product={ad} />
               </div>
             ))}
           </div>
-
         )}
         {/* Load More Button */}
         {hasMore && !loading && products.length > 0 && (
