@@ -30,7 +30,11 @@ import {
     Clock,
     TrendingUp,
     Mic,
-    CloudSun
+    CloudSun,
+    Glasses,
+    Box,
+    Fingerprint,
+    Cpu
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -133,7 +137,7 @@ export default function Footer() {
 
     return (
         <div className="relative">
-            {/* V8 Exclusive: Hyper-Tech Top Bar */}
+            {/* V8/V9 Exclusive: Hyper-Tech Top Bar */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
@@ -145,14 +149,14 @@ export default function Footer() {
                             {t('footer.recentActivity')}
                         </div>
                         <div className="h-4 w-[1px] bg-gray-600 hidden md:block"></div>
-                        <div className="text-xs text-gray-300 truncate w-full md:w-48 relative h-4">
+                        <div className="text-xs text-gray-300 truncate w-full md:w-36 relative h-4">
                             {activities.map((activity, idx) => (
                                 <div
                                     key={idx}
                                     className={`absolute inset-0 transition-all duration-500 transform ${idx === activeTickerIndex ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
                                         }`}
                                 >
-                                    <span className="font-bold text-white">{activity.user}</span> {activity.action} <span className="text-red-400">{activity.item}</span> {t('footer.in')} {activity.location}
+                                    <span className="font-bold text-white">{activity.user}</span> {activity.action} <span className="text-red-400">{activity.item}</span>
                                 </div>
                             ))}
                         </div>
@@ -165,31 +169,26 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* V7: Global Markets & V8: Weather (Desktop Only) */}
+                    {/* V7: Global Markets & V8: Weather & V9: VR Mode */}
                     <div className="hidden lg:flex items-center gap-6 text-[10px] text-gray-400 font-mono">
+                        {/* V9: VR Mode Button */}
+                        <button className="flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded-full hover:bg-purple-900/50 transition-colors group/vr">
+                            <Glasses size={14} className="text-purple-400 group-hover/vr:rotate-180 transition-transform duration-700" />
+                            <span className="text-purple-200 font-bold">{t('footer.enterVR')}</span>
+                            <span className="flex h-2 w-2 relative">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                            </span>
+                        </button>
+
                         <div className="flex items-center gap-2 px-2 py-0.5 bg-blue-900/10 rounded border border-blue-500/20">
                             <CloudSun size={12} className="text-blue-400" />
                             <span className="text-blue-200">{t('footer.weather')} 32°C</span>
                         </div>
+
                         <div className="flex items-center gap-2">
                             <Clock size={12} className="text-gray-500" />
                             <span className="text-gray-300">DXB {time ? time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--'}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-gray-500">LON</span>
-                            <span className="text-gray-300">{formatTime(-4)}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-gray-500">NYC</span>
-                            <span className="text-gray-300">{formatTime(-9)}</span>
-                        </div>
-                    </div>
-
-                    {/* Eco-Impact */}
-                    <div className="hidden md:flex items-center gap-3 bg-green-900/20 border border-green-500/30 px-3 py-1.5 rounded-full">
-                        <Leaf size={14} className="text-green-500 animate-bounce" />
-                        <div className="text-[10px] font-medium text-green-100">
-                            <span className="font-bold text-white">12,450</span> {t('footer.co2Saved')}
                         </div>
                     </div>
                 </div>
@@ -250,11 +249,10 @@ export default function Footer() {
                                 </button>
                             </div>
 
-                            {/* V8: Holographic Elite Card */}
+                            {/* V8: Holographic Elite Card & V9: NFT Gallery Link */}
                             <div className="group/elite perspective-1000">
                                 <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-yellow-500/30 shadow-xl relative overflow-hidden transition-transform duration-500 transform preserve-3d group-hover/elite:rotate-x-12 group-hover/elite:rotate-y-12 group-hover/elite:scale-105">
                                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-                                    <div className="absolute -right-10 -top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl group-hover/elite:bg-yellow-500/30 transition-all"></div>
 
                                     <div className="flex items-start justify-between relative z-10 mb-4 translate-z-10">
                                         <div>
@@ -266,9 +264,15 @@ export default function Footer() {
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md hover:shadow-yellow-500/20 text-sm relative z-10 translate-z-20">
-                                        {t('footer.joinElite')}
-                                    </button>
+                                    <div className="space-y-2 relative z-10 translate-z-20">
+                                        <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md text-sm">
+                                            {t('footer.joinElite')}
+                                        </button>
+                                        <button className="flex items-center justify-center gap-2 w-full bg-white/5 hover:bg-white/10 text-gray-300 py-2 rounded-xl text-xs transition-colors backdrop-blur-sm border border-white/5">
+                                            <Box size={12} />
+                                            {t('footer.nftGallery')}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -352,19 +356,20 @@ export default function Footer() {
                                 <p className="text-sm text-gray-400">
                                     © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                                 </p>
+                                {/* V9: Haptics Indicator */}
                                 <div className="hidden md:flex items-center gap-4 text-xs text-gray-400">
                                     <div className="flex items-center gap-2 text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">
                                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                                         {t('footer.statusOperational')}
                                     </div>
-                                    <div className="h-3 w-px bg-gray-200 dark:bg-gray-700"></div>
-                                    <div className="flex gap-2 opacity-70 items-center">
-                                        <Truck size={12} /> <span className="text-[10px]">DHL</span>
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-gray-100 dark:border-gray-800">
+                                        <Fingerprint size={10} className="text-indigo-500" />
+                                        <span className="text-[9px] text-indigo-400 uppercase tracking-widest font-bold">{t('footer.haptics')}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* V7: Award & Crypto Badge */}
+                            {/* V7: Award & Crypto Badge & V9 Quantum Badge */}
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1 rounded-full border border-yellow-100 dark:border-yellow-700/30">
                                     <Award size={14} className="text-yellow-600 dark:text-yellow-500" />
@@ -376,8 +381,10 @@ export default function Footer() {
                                         <div className="h-6 w-8 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-l flex items-center justify-center relative z-10"><CreditCard size={12} /></div>
                                         <div className="h-6 w-8 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-r flex items-center justify-center relative z-0"><Bitcoin size={12} className="text-orange-500" /></div>
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <ShieldCheck size={12} className="text-green-500" />
+                                    {/* V9 Quantum Badge */}
+                                    <div className="flex items-center gap-1 bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/20">
+                                        <Cpu size={10} className="text-cyan-500" />
+                                        <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400">{t('footer.quantumSecured')}</span>
                                     </div>
                                 </div>
                             </div>

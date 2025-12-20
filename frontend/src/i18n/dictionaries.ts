@@ -424,7 +424,11 @@ export const dictionaries = {
             cryptoAccepted: "Crypto Accepted",
             dlzToken: "DLZ Token",
             weather: "Dubai",
-            voiceCmd: "Voice Enabled"
+            voiceCmd: "Voice Enabled",
+            enterVR: "Enter VR Mode",
+            quantumSecured: "Quantum Secured",
+            haptics: "Haptics On",
+            nftGallery: "NFT Gallery"
         }
     },
     ar: {
@@ -848,7 +852,11 @@ export const dictionaries = {
             cryptoAccepted: "العملات الرقمية مقبولة",
             dlzToken: "عملة DLZ",
             weather: "دبي",
-            voiceCmd: "مفعل صوتياً"
+            voiceCmd: "مفعل صوتياً",
+            enterVR: "دخول عالم VR",
+            quantumSecured: "أمان كمي",
+            haptics: "لمس ذكي",
+            nftGallery: "معرض NFT"
         }
     },
     fr: {
@@ -1258,7 +1266,11 @@ export const dictionaries = {
             cryptoAccepted: "Crypto Acceptée",
             dlzToken: "Jeton DLZ",
             weather: "Dubaï",
-            voiceCmd: "Commande Vocale"
+            voiceCmd: "Commande Vocale",
+            enterVR: "Mode VR",
+            quantumSecured: "Sécurité Quantique",
+            haptics: "Haptique Active",
+            nftGallery: "Galerie NFT"
         }
     },
     hi: {
@@ -1654,7 +1666,11 @@ export const dictionaries = {
             cryptoAccepted: "क्रिप्टो स्वीकार्य",
             dlzToken: "DLZ टोकन",
             weather: "दुबई",
-            voiceCmd: "आवाज़ सक्षम"
+            voiceCmd: "आवाज़ सक्षम",
+            enterVR: "VR मोड दर्ज करें",
+            quantumSecured: "क्वांटम सुरक्षित",
+            haptics: "हैप्टिक्स चालू",
+            nftGallery: "NFT गैलरी"
         }
     },
     ur: {
@@ -2055,7 +2071,11 @@ export const dictionaries = {
             cryptoAccepted: "کرپٹو قبول ہے",
             dlzToken: "DLZ ٹوکن",
             weather: "دبئی",
-            voiceCmd: "آواز فعال"
+            voiceCmd: "آواز فعال",
+            enterVR: "VR موڈ داخل کریں",
+            quantumSecured: "کوانٹم محفوظ",
+            haptics: "ہیپٹکس آن",
+            nftGallery: "NFT گیلری"
         }
     },
 };
