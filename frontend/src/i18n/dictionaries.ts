@@ -446,7 +446,12 @@ export const dictionaries = {
             droneETA: "ETA: 2 mins",
             quantumScan: "Quantum Encryption: Active",
             quantumSafe: "Connection 100% Secure",
-            hapticsResponse: "Haptics Calibrated"
+            hapticsResponse: "Haptics Calibrated",
+            eliteTitle: "Dealz Elite Membership",
+            eliteDesc: "Unlock exclusive access to premium listings, 0% commission, and AI concierge.",
+            nftTitle: "Digital Collectibles Gallery",
+            nftDesc: "Verify ownership of unique digital assets on the Dealz Chain.",
+            appComingSoon: "Mobile App Launching Q1 2026"
         }
     },
     ar: {
@@ -892,7 +897,12 @@ export const dictionaries = {
             droneETA: "الوصول: دقيقتين",
             quantumScan: "تشفير كمي: نشط",
             quantumSafe: "الاتصال آمن 100٪",
-            hapticsResponse: "معايرة اللمس"
+            hapticsResponse: "معايرة اللمس",
+            eliteTitle: "عضوية ديلز النخبة",
+            eliteDesc: "افتح الوصول الحصري إلى القوائم المميزة، وعمولة 0٪، ومساعد الذكاء الاصطناعي.",
+            nftTitle: "معرض المقتنيات الرقمية",
+            nftDesc: "تحقق من ملكية الأصول الرقمية الفريدة على سلسلة ديلز.",
+            appComingSoon: "إطلاق تطبيق الهاتف في الربع الأول 2026"
         }
     },
     fr: {
@@ -1324,7 +1334,12 @@ export const dictionaries = {
             droneETA: "ETA: 2 min",
             quantumScan: "Chiffrement Quantique: Actif",
             quantumSafe: "Connexion 100% Sécurisée",
-            hapticsResponse: "Haptique Calibrée"
+            hapticsResponse: "Haptique Calibrée",
+            eliteTitle: "Adhésion Dealz Élite",
+            eliteDesc: "Débloquez un accès exclusif aux annonces premium, 0% de commission et conciergerie IA.",
+            nftTitle: "Galerie de Collection Numérique",
+            nftDesc: "Vérifiez la propriété d'actifs numériques uniques sur la Dealz Chain.",
+            appComingSoon: "Lancement de l'application mobile T1 2026"
         }
     },
     hi: {
@@ -1742,7 +1757,12 @@ export const dictionaries = {
             droneETA: "आगमन: 2 मिनट",
             quantumScan: "क्वांटम एन्क्रिप्शन: सक्रिय",
             quantumSafe: "कनेक्शन 100% सुरक्षित",
-            hapticsResponse: "हैप्टिक्स कैलिब्रेटेड"
+            hapticsResponse: "हैप्टिक्स कैलिब्रेटेड",
+            eliteTitle: "डील्ज़ एलीट सदस्यता",
+            eliteDesc: "प्रीमियम लिस्टिंग, 0% कमीशन और एआई कंसीयज तक विशेष पहुंच अनलॉक करें।",
+            nftTitle: "डिजिटल कलेक्टिबल्स गैलरी",
+            nftDesc: "डील्ज़ चेन पर अद्वितीय डिजिटल संपत्ति के स्वामित्व को सत्यापित करें।",
+            appComingSoon: "मोबाइल ऐप लॉन्च Q1 2026"
         }
     },
     ur: {
@@ -2165,7 +2185,12 @@ export const dictionaries = {
             droneETA: "آمد: 2 منٹ",
             quantumScan: "کوانٹم انکرپشن: فعال",
             quantumSafe: "کنکشن 100٪ محفوظ",
-            hapticsResponse: "ہیپٹکس کیلیبریٹڈ"
+            hapticsResponse: "ہیپٹکس کیلیبریٹڈ",
+            eliteTitle: "ڈیلز ایلیٹ ممبرشپ",
+            eliteDesc: "پریمیم فہرستوں، 0٪ کمیشن، اور AI دربان تک خصوصی رسائی کو غیر مقفل کریں۔",
+            nftTitle: "ڈیجیٹل کلیکٹیبلز گیلری",
+            nftDesc: "ڈیلز چین پر منفرد ڈیجیٹل اثاثوں کی ملکیت کی تصدیق کریں۔",
+            appComingSoon: "موبائل ایپ کا آغاز Q1 2026"
         }
     },
 };

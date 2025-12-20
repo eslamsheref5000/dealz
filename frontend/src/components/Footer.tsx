@@ -40,7 +40,9 @@ import {
     Languages,
     Wifi,
     MapPin,
-    Radio
+    Radio,
+    Gem,
+    Image as ImageIcon
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -56,6 +58,9 @@ export default function Footer() {
     const [showVR, setShowVR] = useState(false);
     const [showNeural, setShowNeural] = useState(false);
     const [showDrone, setShowDrone] = useState(false);
+    const [showElite, setShowElite] = useState(false);
+    const [showNFT, setShowNFT] = useState(false);
+    const [showAppToast, setShowAppToast] = useState(false);
     const [isQuantumScanning, setIsQuantumScanning] = useState(false);
     const [galacticMode, setGalacticMode] = useState(false);
 
@@ -138,6 +143,11 @@ export default function Footer() {
         }
     };
 
+    const triggerAppToast = () => {
+        setShowAppToast(true);
+        setTimeout(() => setShowAppToast(false), 3000);
+    };
+
     const stats = [
         { icon: Tag, label: t('footer.adsPosted'), value: "1M+" },
         { icon: Users, label: t('footer.activeUsers'), value: "500K+" },
@@ -177,19 +187,12 @@ export default function Footer() {
     ];
 
     const socialIcons = [
-        { Icon: Facebook, href: "#", color: "hover:text-blue-600" },
-        { Icon: Twitter, href: "#", color: "hover:text-sky-500" },
-        { Icon: Instagram, href: "#", color: "hover:text-pink-600" },
-        { Icon: Linkedin, href: "#", color: "hover:text-blue-700" },
-        { Icon: Youtube, href: "#", color: "hover:text-red-600" },
+        { Icon: Facebook, href: "https://facebook.com", color: "hover:text-blue-600" },
+        { Icon: Twitter, href: "https://twitter.com", color: "hover:text-sky-500" },
+        { Icon: Instagram, href: "https://instagram.com", color: "hover:text-pink-600" },
+        { Icon: Linkedin, href: "https://linkedin.com", color: "hover:text-blue-700" },
+        { Icon: Youtube, href: "https://youtube.com", color: "hover:text-red-600" },
     ];
-
-    // Format time helpers
-    const formatTime = (offset: number) => {
-        if (!time) return "00:00";
-        const d = new Date(time.getTime() + offset * 3600 * 1000);
-        return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-    };
 
     return (
         <div className={`relative ${galacticMode ? 'font-mono' : ''}`}>
@@ -368,10 +371,18 @@ export default function Footer() {
                                     </div>
 
                                     <div className="space-y-2 relative z-10 translate-z-20">
-                                        <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md text-sm">
+                                        {/* Elite Activation Check */}
+                                        <button
+                                            onClick={() => setShowElite(true)}
+                                            className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md text-sm"
+                                        >
                                             {t('footer.joinElite')}
                                         </button>
-                                        <button className="flex items-center justify-center gap-2 w-full bg-white/5 hover:bg-white/10 text-gray-300 py-2 rounded-xl text-xs transition-colors backdrop-blur-sm border border-white/5">
+                                        {/* NFT Activation Check */}
+                                        <button
+                                            onClick={() => setShowNFT(true)}
+                                            className="flex items-center justify-center gap-2 w-full bg-white/5 hover:bg-white/10 text-gray-300 py-2 rounded-xl text-xs transition-colors backdrop-blur-sm border border-white/5"
+                                        >
                                             <Box size={12} />
                                             {t('footer.nftGallery')}
                                         </button>
@@ -417,7 +428,7 @@ export default function Footer() {
                                 <h3 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">{t('footer.followUs')}</h3>
                                 <div className="flex gap-4">
                                     {socialIcons.map(({ Icon, href, color }, idx) => (
-                                        <a key={idx} href={href} className={`w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 ${color} transition-all hover:scale-110 hover:shadow-md hover:border-red-100 dark:hover:border-red-900`}>
+                                        <a target="_blank" rel="noopener noreferrer" key={idx} href={href} className={`w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-400 ${color} transition-all hover:scale-110 hover:shadow-md hover:border-red-100 dark:hover:border-red-900`}>
                                             <Icon size={20} />
                                         </a>
                                     ))}
@@ -436,11 +447,12 @@ export default function Footer() {
                                             {t('footer.scanToDownload')}
                                         </p>
                                         <div className="flex flex-col gap-2">
-                                            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-xs w-full backdrop-blur-sm border border-white/5">
+                                            {/* App Button Activation */}
+                                            <button onClick={triggerAppToast} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-xs w-full backdrop-blur-sm border border-white/5">
                                                 <Smartphone size={14} className="text-white" />
                                                 <span className="font-bold">App Store</span>
                                             </button>
-                                            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-xs w-full backdrop-blur-sm border border-white/5">
+                                            <button onClick={triggerAppToast} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-xs w-full backdrop-blur-sm border border-white/5">
                                                 <div className="w-3.5 h-3.5 flex items-center justify-center bg-white text-black rounded-full text-[8px] font-bold">▶</div>
                                                 <span className="font-bold">Google Play</span>
                                             </button>
@@ -554,6 +566,16 @@ export default function Footer() {
                 </div>
             )}
 
+            {/* TOAST NOTIFICATION FOR APP */}
+            {showAppToast && (
+                <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl animate-in slide-in-from-top-5 fade-in duration-300 flex items-center gap-3">
+                    <Smartphone size={20} className="text-teal-400" />
+                    <div>
+                        <h4 className="font-bold text-sm">{t('footer.appComingSoon')}</h4>
+                    </div>
+                </div>
+            )}
+
             {/* V10: VR Mode Modal */}
             {showVR && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl animate-in fade-in duration-500">
@@ -647,6 +669,42 @@ export default function Footer() {
                     </div>
                 </div>
             )}
+
+            {/* ELITE MEMBERSHIP MODAL */}
+            {showElite && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl animate-in fade-in duration-500">
+                    <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-3xl border border-yellow-500/30 max-w-md w-full text-center relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/20 rounded-full blur-3xl"></div>
+                        <Crown size={64} className="text-yellow-500 mx-auto mb-6" />
+                        <h2 className="text-3xl font-bold text-yellow-500 mb-2">{t('footer.eliteTitle')}</h2>
+                        <p className="text-gray-400 mb-8">{t('footer.eliteDesc')}</p>
+                        <button onClick={() => setShowElite(false)} className="w-full bg-yellow-600 hover:bg-yellow-500 text-black font-bold py-3 rounded-xl transition-colors">
+                            Dismiss
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* NFT GALLERY MODAL */}
+            {showNFT && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl animate-in fade-in duration-500">
+                    <div className="bg-gray-900 border border-gray-800 p-8 rounded-3xl max-w-lg w-full text-center">
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="aspect-square bg-gray-800 rounded-xl flex items-center justify-center animate-pulse"><ImageIcon className="text-gray-600" /></div>
+                            <div className="aspect-square bg-gray-800 rounded-xl flex items-center justify-center animate-pulse"><Gem className="text-gray-600" /></div>
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-2">{t('footer.nftTitle')}</h2>
+                        <p className="text-gray-400 mb-6">{t('footer.nftDesc')}</p>
+                        <div className="p-3 bg-gray-800 rounded-lg text-xs font-mono text-green-400 mb-6 break-all">
+                            0x71C...92F (Dealz-Chain-Testnet)
+                        </div>
+                        <button onClick={() => setShowNFT(false)} className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors">
+                            Close Gallery
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
