@@ -38,7 +38,8 @@ export default function GoogleRedirectPage() {
                     console.log("Detected Google Access Token. Exchanging for Strapi JWT...");
 
                     // Try the exchange
-                    const exchangeRes = await fetch(`${API_URL}/api/users-permissions/auth/google/manual-exchange`, {
+                    // Try the exchange
+                    const exchangeRes = await fetch(`${API_URL}/api/google-login/exchange`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
