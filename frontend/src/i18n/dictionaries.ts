@@ -421,7 +421,10 @@ export const dictionaries = {
             statusOperational: "Systems Operational",
             askAI: "Ask Dealz AI",
             bestTechAward: "Best Tech 2025",
-            cryptoAccepted: "Crypto Accepted"
+            cryptoAccepted: "Crypto Accepted",
+            dlzToken: "DLZ Token",
+            weather: "Dubai",
+            voiceCmd: "Voice Enabled"
         }
     },
     ar: {
@@ -842,7 +845,10 @@ export const dictionaries = {
             statusOperational: "الأنظمة تعمل",
             askAI: "اسأل ديلز AI",
             bestTechAward: "أفضل تقنية 2025",
-            cryptoAccepted: "العملات الرقمية مقبولة"
+            cryptoAccepted: "العملات الرقمية مقبولة",
+            dlzToken: "عملة DLZ",
+            weather: "دبي",
+            voiceCmd: "مفعل صوتياً"
         }
     },
     fr: {
@@ -1249,7 +1255,10 @@ export const dictionaries = {
             statusOperational: "Systèmes Opérationnels",
             askAI: "Demander à Dealz AI",
             bestTechAward: "Meilleure Tech 2025",
-            cryptoAccepted: "Crypto Acceptée"
+            cryptoAccepted: "Crypto Acceptée",
+            dlzToken: "Jeton DLZ",
+            weather: "Dubaï",
+            voiceCmd: "Commande Vocale"
         }
     },
     hi: {
@@ -1642,7 +1651,10 @@ export const dictionaries = {
             statusOperational: "सिस्टम चालू हैं",
             askAI: "डील्ज़ AI से पूछें",
             bestTechAward: "सर्वश्रेष्ठ तकनीक 2025",
-            cryptoAccepted: "क्रिप्टो स्वीकार्य"
+            cryptoAccepted: "क्रिप्टो स्वीकार्य",
+            dlzToken: "DLZ टोकन",
+            weather: "दुबई",
+            voiceCmd: "आवाज़ सक्षम"
         }
     },
     ur: {
@@ -2040,7 +2052,10 @@ export const dictionaries = {
             statusOperational: "سسٹمز آپریشنل ہیں",
             askAI: "ڈیلز AI سے پوچھیں",
             bestTechAward: "بہترین ٹیکنالوجی 2025",
-            cryptoAccepted: "کرپٹو قبول ہے"
+            cryptoAccepted: "کرپٹو قبول ہے",
+            dlzToken: "DLZ ٹوکن",
+            weather: "دبئی",
+            voiceCmd: "آواز فعال"
         }
     },
 };

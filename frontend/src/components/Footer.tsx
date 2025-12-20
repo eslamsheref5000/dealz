@@ -27,7 +27,10 @@ import {
     Bot,
     Award,
     Bitcoin,
-    Clock
+    Clock,
+    TrendingUp,
+    Mic,
+    CloudSun
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -51,7 +54,7 @@ export default function Footer() {
         const interval = setInterval(() => {
             setActiveTickerIndex((prev) => (prev + 1) % activities.length);
             setTime(new Date());
-        }, 1000); // Update every second for clock, activity logic remains same but interval shared
+        }, 1000);
 
         // Mock cookie check
         const consent = localStorage.getItem("dealz_cookie_consent");
@@ -60,7 +63,7 @@ export default function Footer() {
         }
 
         return () => clearInterval(interval);
-    }, [activities.length]); // Added dependency to suppress lint, logically fine
+    }, [activities.length]);
 
     const handleAcceptCookies = () => {
         localStorage.setItem("dealz_cookie_consent", "true");
@@ -130,19 +133,19 @@ export default function Footer() {
 
     return (
         <div className="relative">
-            {/* V7 Exclusive: Future Tech Top Bar */}
+            {/* V8 Exclusive: Hyper-Tech Top Bar */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 md:gap-0">
 
-                    {/* Live Ticker */}
+                    {/* Live Ticker & V8: DLZ Token */}
                     <div className="flex items-center gap-4 bg-gray-800/50 py-1.5 px-4 rounded-full border border-gray-700 w-full md:w-auto overflow-hidden">
                         <div className="flex items-center gap-2 text-red-500 font-bold text-[10px] uppercase tracking-wider whitespace-nowrap">
                             <Zap size={12} className="fill-current animate-pulse" />
                             {t('footer.recentActivity')}
                         </div>
                         <div className="h-4 w-[1px] bg-gray-600 hidden md:block"></div>
-                        <div className="text-xs text-gray-300 truncate w-full md:w-64 relative h-4">
+                        <div className="text-xs text-gray-300 truncate w-full md:w-48 relative h-4">
                             {activities.map((activity, idx) => (
                                 <div
                                     key={idx}
@@ -153,10 +156,21 @@ export default function Footer() {
                                 </div>
                             ))}
                         </div>
+                        {/* V8 DLZ Token */}
+                        <div className="hidden md:flex items-center gap-2 border-l border-gray-600 pl-4">
+                            <TrendingUp size={12} className="text-green-500" />
+                            <span className="text-[10px] font-mono text-gray-300">
+                                {t('footer.dlzToken')}: <span className="text-green-400 font-bold">$42.50</span> <span className="text-green-600 text-[9px]">(+2.4%)</span>
+                            </span>
+                        </div>
                     </div>
 
-                    {/* V7: Global Markets (Desktop Only) */}
+                    {/* V7: Global Markets & V8: Weather (Desktop Only) */}
                     <div className="hidden lg:flex items-center gap-6 text-[10px] text-gray-400 font-mono">
+                        <div className="flex items-center gap-2 px-2 py-0.5 bg-blue-900/10 rounded border border-blue-500/20">
+                            <CloudSun size={12} className="text-blue-400" />
+                            <span className="text-blue-200">{t('footer.weather')} 32°C</span>
+                        </div>
                         <div className="flex items-center gap-2">
                             <Clock size={12} className="text-gray-500" />
                             <span className="text-gray-300">DXB {time ? time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--'}</span>
@@ -191,14 +205,23 @@ export default function Footer() {
                     <ArrowUp size={20} />
                 </button>
 
-                {/* V7: Floating AI Assistant Button */}
+                {/* V7/V8: AI Assistant with Voice */}
                 <div className="absolute top-0 right-8 -translate-y-1/2 hidden md:block z-20">
-                    <button className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white pl-4 pr-6 py-3 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all group/ai">
-                        <div className="bg-white/20 p-1 rounded-full animate-pulse">
-                            <Bot size={20} />
+                    <div className="flex items-center gap-2">
+                        <div className="bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/ai-btn:opacity-100 transition-opacity whitespace-nowrap">
+                            {t('footer.voiceCmd')}
                         </div>
-                        <span className="font-bold text-sm tracking-wide">{t('footer.askAI')}</span>
-                    </button>
+                        <button className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white pl-4 pr-6 py-3 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all group/ai-btn relative overflow-hidden">
+                            <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/ai-btn:translate-x-[100%] transition-transform duration-1000"></div>
+                            <div className="bg-white/20 p-1.5 rounded-full animate-pulse">
+                                <Bot size={18} />
+                            </div>
+                            <span className="font-bold text-sm tracking-wide">{t('footer.askAI')}</span>
+                            <div className="ml-2 border-l border-white/20 pl-2">
+                                <Mic size={14} className="opacity-70 group-hover/ai-btn:opacity-100" />
+                            </div>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -227,24 +250,26 @@ export default function Footer() {
                                 </button>
                             </div>
 
-                            {/* Dealz Elite Card */}
-                            <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-yellow-500/30 shadow-xl relative overflow-hidden group/elite">
-                                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-                                <div className="absolute -right-10 -top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl group-hover/elite:bg-yellow-500/30 transition-all"></div>
+                            {/* V8: Holographic Elite Card */}
+                            <div className="group/elite perspective-1000">
+                                <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-yellow-500/30 shadow-xl relative overflow-hidden transition-transform duration-500 transform preserve-3d group-hover/elite:rotate-x-12 group-hover/elite:rotate-y-12 group-hover/elite:scale-105">
+                                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+                                    <div className="absolute -right-10 -top-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl group-hover/elite:bg-yellow-500/30 transition-all"></div>
 
-                                <div className="flex items-start justify-between relative z-10 mb-4">
-                                    <div>
-                                        <h4 className="font-bold text-yellow-500 text-lg mb-1 flex items-center gap-2">
-                                            <Crown size={18} className="fill-current" />
-                                            {t('footer.dealzElite')}
-                                        </h4>
-                                        <p className="text-xs text-gray-400">Unlock 0% fees & priority support.</p>
+                                    <div className="flex items-start justify-between relative z-10 mb-4 translate-z-10">
+                                        <div>
+                                            <h4 className="font-bold text-yellow-500 text-lg mb-1 flex items-center gap-2">
+                                                <Crown size={18} className="fill-current" />
+                                                {t('footer.dealzElite')}
+                                            </h4>
+                                            <p className="text-xs text-gray-400">Unlock 0% fees & priority support.</p>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md hover:shadow-yellow-500/20 text-sm relative z-10">
-                                    {t('footer.joinElite')}
-                                </button>
+                                    <button className="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-xl transition-all shadow-md hover:shadow-yellow-500/20 text-sm relative z-10 translate-z-20">
+                                        {t('footer.joinElite')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
