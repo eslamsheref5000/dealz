@@ -11,66 +11,90 @@ export default function GoogleRedirectPage() {
     const [status, setStatus] = useState("loading");
 
     useEffect(() => {
-        const processLogin = async () => {
-            const accessToken = searchParams.get("access_token");
+        const handleLogin = async () => {
+            if (status !== 'loading') return;
 
-            if (!accessToken) {
+            const accessToken = searchParams.get("access_token");
+            const idToken = searchParams.get("id_token");
+            const rawJwt = searchParams.get("jwt");
+
+            let finalJwt = rawJwt || accessToken;
+
+            // 1. Check if we have a valid token to start with
+            if (!finalJwt) {
                 setStatus("error");
-                setTimeout(() => router.push("/login"), 3000);
                 return;
             }
 
+            // 2. Remove "Bearer " prefix if present
+            finalJwt = finalJwt.replace("Bearer ", "");
+
             try {
-                // Log all params for debugging
-                console.log("Redirect Params:", Object.fromEntries(searchParams.entries()));
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
 
-                // Strapi might return 'access_token', 'jwt', or 'token'
-                let jwt = accessToken || searchParams.get("jwt") || searchParams.get("token");
+                // 3. Check if this is a Google Access Token (starts with "ya29.")
+                // If so, we must exchange it for a Strapi JWT using our custom endpoint
+                if (finalJwt.startsWith("ya29.")) {
+                    console.log("Detected Google Access Token. Exchanging for Strapi JWT...");
 
-                if (!jwt) {
-                    throw new Error("No token found in URL");
+                    // Try the exchange
+                    const exchangeRes = await fetch(`${API_URL}/api/users-permissions/auth/google/manual-exchange`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ access_token: finalJwt }),
+                    });
+
+                    if (!exchangeRes.ok) {
+                        const err = await exchangeRes.json();
+                        throw new Error(`Token Exchange Failed: ${err.error?.message || exchangeRes.statusText}`);
+                    }
+
+                    const data = await exchangeRes.json();
+                    finalJwt = data.jwt;
+
+                    console.log("Token Exchange Successful. New JWT:", finalJwt?.substring(0, 10) + "...");
                 }
 
-                // Clean token
-                jwt = jwt.replace("Bearer ", "");
-                console.log("Using JWT:", jwt.substring(0, 10) + "...");
+                // 4. Store the JWT (either original or exchanged)
+                localStorage.setItem("jwt", finalJwt);
 
-                // Store JWT
-                localStorage.setItem("jwt", jwt);
-
-                // Fetch User Details
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                console.log("Fetching user from:", `${API_URL}/api/users/me`);
-
+                // 5. Fetch User Profile to confirm everything is working
+                console.log(`Fetching user from: ${API_URL}/api/users/me`);
                 const res = await fetch(`${API_URL}/api/users/me`, {
                     headers: {
-                        Authorization: `Bearer ${jwt}`,
+                        Authorization: `Bearer ${finalJwt}`,
                     },
                 });
 
-                if (res.ok) {
-                    const user = await res.json();
-                    localStorage.setItem("user", JSON.stringify(user));
-                    setStatus("success");
-                    window.location.href = "/";
-                } else {
-                    const errorText = await res.text();
-                    console.error("User Fetch Failed:", res.status, errorText);
-                    setStatus("error");
-                    // Update UI to show error (temporary)
-                    alert(`Login Failed: ${res.status} - ${errorText}`);
-                    setTimeout(() => router.push("/login"), 5000);
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    console.error("User Fetch Failed:", res.status, JSON.stringify(errorData));
+                    throw new Error(`User Fetch Failed: ${res.status} ${JSON.stringify(errorData)}`);
                 }
-            } catch (err) {
-                console.error("Google Login Error:", err);
+
+                const userData = await res.json();
+                console.log("User Fetched Successfully:", userData);
+
+                localStorage.setItem("user", JSON.stringify(userData));
+
+                // 6. Success! Redirect
+                setStatus("success");
+                setTimeout(() => {
+                    router.push("/");
+                }, 1500);
+
+            } catch (err: any) {
+                console.error("Login Sequence Error:", err);
                 setStatus("error");
-                alert(`Login Script Error: ${err}`);
-                setTimeout(() => router.push("/login"), 5000);
+                // Show detailed error on screen
+                alert("Login Error: " + err.message);
             }
         };
 
-        processLogin();
-    }, [searchParams, router]);
+        handleLogin();
+    }, [searchParams, router, status, t]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
