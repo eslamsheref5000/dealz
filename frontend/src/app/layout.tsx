@@ -66,34 +66,36 @@ import { CountryProvider } from "../context/CountryContext";
 import { RecentlyViewedProvider } from "../context/RecentlyViewedContext";
 import { ComparisonProvider } from "../context/ComparisonContext";
 
+import SchemaOrg from "../components/SchemaOrg";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SchemaOrg />
         <LanguageProvider>
-          <CountryProvider>
+          <ThemeProvider>
             <ToastProvider>
               <FavoriteProvider>
                 <RecentlyViewedProvider>
                   <ComparisonProvider>
-                    <ThemeProvider>
+                    <CountryProvider>
                       {children}
-                    </ThemeProvider>
+                    </CountryProvider>
                   </ComparisonProvider>
                 </RecentlyViewedProvider>
               </FavoriteProvider>
             </ToastProvider>
-          </CountryProvider>
+          </ThemeProvider>
         </LanguageProvider>
       </body>
     </html>
   );
 }
-
 
