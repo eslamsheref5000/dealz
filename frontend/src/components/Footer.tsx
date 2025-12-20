@@ -8,25 +8,25 @@ export default function Footer() {
 
     const sections = [
         {
-            title: locale === 'ar' ? "ديلز" : (locale === 'fr' ? "Dealz" : "Dealz"),
+            title: t('common.dealz'),
             links: [
-                { label: locale === 'ar' ? "عن ديلز" : (locale === 'fr' ? "À propos de Dealz" : "About Dealz"), href: "/help" },
-                { label: locale === 'ar' ? "الوظائف" : (locale === 'fr' ? "Carrières" : "Careers"), href: "/help" }, // Generic link for now
-                { label: locale === 'ar' ? "الخصوصية" : (locale === 'fr' ? "Confidentialité" : "Privacy Policy"), href: "/privacy" },
-                { label: locale === 'ar' ? "الشروط" : (locale === 'fr' ? "Termes" : "Terms of Use"), href: "/terms" },
-                { label: locale === 'ar' ? "خريطة الموقع" : (locale === 'fr' ? "Plan du site" : "Sitemap"), href: "/sitemap" },
+                { label: t('footer.about'), href: "/help" },
+                { label: t('footer.careers'), href: "/help" }, // Generic link for now
+                { label: t('footer.privacy'), href: "/privacy" },
+                { label: t('footer.terms'), href: "/terms" },
+                { label: t('footer.sitemap'), href: "/sitemap" },
             ]
         },
         {
-            title: locale === 'ar' ? "دعم" : (locale === 'fr' ? "Support" : "Support"),
+            title: t('footer.support'),
             links: [
-                { label: locale === 'ar' ? "مركز المساعدة" : (locale === 'fr' ? "Centre d'aide" : "Help Center"), href: "/help" },
-                { label: locale === 'ar' ? "اتصل بنا" : (locale === 'fr' ? "Contactez-nous" : "Contact Us"), href: "/help" },
-                { label: locale === 'ar' ? "قواعد السلامة" : (locale === 'fr' ? "Sécurité" : "Safety Rules"), href: "/help" },
+                { label: t('footer.helpCenter'), href: "/help" },
+                { label: t('footer.contactUs'), href: "/help" },
+                { label: t('footer.safety'), href: "/help" },
             ]
         },
         {
-            title: locale === 'ar' ? "تواصل معنا" : (locale === 'fr' ? "Suivez-nous" : "Follow Us"),
+            title: t('footer.followUs'),
             socials: true
         }
     ];
@@ -41,9 +41,7 @@ export default function Footer() {
                             Dealz.
                         </Link>
                         <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                            {locale === 'ar'
-                                ? "وجهتك الأولى للبيع والشراء في الشرق الأوسط. أفضل الصفقات، كل يوم."
-                                : (locale === 'fr' ? "Votre destination numéro un pour acheter et vendre au Moyen-Orient. Les meilleures offres, chaque jour." : "Your number one destination for buying and selling in the Middle East. The best deals, every day.")}
+                            {t('footer.brandParams')}
                         </p>
                     </div>
 
@@ -77,17 +75,17 @@ export default function Footer() {
 
                 <div className="border-t border-gray-100 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-sm text-gray-400">
-                        © {new Date().getFullYear()} Dealz. {locale === 'ar' ? "جميع الحقوق محفوظة" : (locale === 'fr' ? "Tous droits réservés" : "All rights reserved")}.
+                        © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                     </p>
                     <div className="flex gap-6 text-sm text-gray-400">
                         <Link href="/privacy" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                            {locale === 'ar' ? "الخصوصية" : (locale === 'fr' ? "Confidentialité" : "Privacy")}
+                            {t('footer.privacyShort')}
                         </Link>
                         <Link href="/terms" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                            {locale === 'ar' ? "الشروط" : (locale === 'fr' ? "Termes" : "Terms")}
+                            {t('footer.termsShort')}
                         </Link>
                         <Link href="/sitemap" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                            {locale === 'ar' ? "خريطة الموقع" : (locale === 'fr' ? "Plan" : "Sitemap")}
+                            {t('footer.sitemap')}
                         </Link>
                     </div>
                 </div>

@@ -377,6 +377,22 @@ export const dictionaries = {
             emptySubtitle: "Add products from the home page to start comparing them side-by-side.",
             compareSubtitle: "Comparing {count} selected products",
             features: "Features & Specs"
+        },
+        footer: {
+            brandParams: "Your number one destination for buying and selling in the Middle East. The best deals, every day.",
+            about: "About Dealz",
+            careers: "Careers",
+            privacy: "Privacy Policy",
+            terms: "Terms of Use",
+            sitemap: "Sitemap",
+            support: "Support",
+            helpCenter: "Help Center",
+            contactUs: "Contact Us",
+            safety: "Safety Rules",
+            followUs: "Follow Us",
+            rights: "All rights reserved",
+            privacyShort: "Privacy",
+            termsShort: "Terms"
         }
     },
     ar: {
@@ -753,6 +769,22 @@ export const dictionaries = {
             emptySubtitle: "أمسح المنتجات من الصفحة الرئيسية لبدء المقارنة جنباً إلى جنب.",
             compareSubtitle: "مقارنة {count} منتجات مختارة",
             features: "المميزات والمواصفات"
+        },
+        footer: {
+            brandParams: "وجهتك الأولى للبيع والشراء في الشرق الأوسط. أفضل الصفقات، كل يوم.",
+            about: "عن ديلز",
+            careers: "الوظائف",
+            privacy: "سياسة الخصوصية",
+            terms: "شروط الاستخدام",
+            sitemap: "خريطة الموقع",
+            support: "دعم",
+            helpCenter: "مركز المساعدة",
+            contactUs: "اتصل بنا",
+            safety: "قواعد السلامة",
+            followUs: "تواصل معنا",
+            rights: "جميع الحقوق محفوظة",
+            privacyShort: "الخصوصية",
+            termsShort: "الشروط"
         }
     },
     fr: {
@@ -1115,6 +1147,22 @@ export const dictionaries = {
             emptySubtitle: "Ajoutez des produits de la page d'accueil pour commencer à les comparer côte à côte.",
             compareSubtitle: "Comparaison de {count} produits sélectionnés",
             features: "Caractéristiques & Spécifications"
+        },
+        footer: {
+            brandParams: "Votre destination numéro un pour acheter et vendre au Moyen-Orient. Les meilleures offres, chaque jour.",
+            about: "À propos de Dealz",
+            careers: "Carrières",
+            privacy: "Politique de confidentialité",
+            terms: "Conditions d'utilisation",
+            sitemap: "Plan du site",
+            support: "Support",
+            helpCenter: "Centre d'aide",
+            contactUs: "Contactez-nous",
+            safety: "Sécurité",
+            followUs: "Suivez-nous",
+            rights: "Tous droits réservés",
+            privacyShort: "Confidentialité",
+            termsShort: "Termes"
         }
     },
     hi: {
@@ -1168,7 +1216,15 @@ export const dictionaries = {
             },
             submit: "विज्ञापन डालें",
             uploadTip: "पहला चित्र कवर होगा।",
-            success: "विज्ञापन सफलतापूर्वक पोस्ट किया गया!"
+            success: "विज्ञापन सफलतापूर्वक पोस्ट किया गया!",
+            privacy: {
+                title: "संपर्क गोपनीयता",
+                showPhone: "विज्ञापन पर फ़ोन नंबर दिखाएं",
+                enableChat: "इन-ऐप चैट संदेशों की अनुमति दें"
+            },
+            errors: {
+                contactRequired: "आपको कम से कम एक संपर्क विधि (फ़ोन या चैट) सक्षम करनी होगी।"
+            }
         },
         product: {
             showPhone: "फ़ोन नंबर दिखाएं",
@@ -1455,6 +1511,22 @@ export const dictionaries = {
             emptySubtitle: "तुलना शुरू करने के लिए होम पेज से उत्पाद जोड़ें।",
             compareSubtitle: "{count} चयनित उत्पादों की तुलना",
             features: "विशेषताएं और विवरण"
+        },
+        footer: {
+            brandParams: "मध्य पूर्व में खरीदने और बेचने के लिए आपका नंबर एक गंतव्य। हर दिन बेहतरीन सौदे।",
+            about: "डीलज़ के बारे में",
+            careers: "करियर",
+            privacy: "गोपनीयता नीति",
+            terms: "उपयोग की शर्तें",
+            sitemap: "साइटमैप",
+            support: "सहायता",
+            helpCenter: "सहायता केंद्र",
+            contactUs: "संपर्क करें",
+            safety: "सुरक्षा नियम",
+            followUs: "हमें फॉलो करें",
+            rights: "सर्वाधिकार सुरक्षित",
+            privacyShort: "गोपनीयता",
+            termsShort: "शर्तें"
         }
     },
     ur: {
@@ -1513,7 +1585,15 @@ export const dictionaries = {
             },
             submit: "اشتہار پوسٹ کریں",
             uploadTip: "پہلی تصویر کور ہو گی۔",
-            success: "اشتہار کامیابی سے پوسٹ ہو گیا!"
+            success: "اشتہار کامیابی سے پوسٹ ہو گیا!",
+            privacy: {
+                title: "رابطے کی رازداری",
+                showPhone: "اشتہار پر فون نمبر دکھائیں",
+                enableChat: "ان ایپ چیٹ پیغامات کی اجازت دیں"
+            },
+            errors: {
+                contactRequired: "آپ کو کم از کم ایک رابطہ طریقہ (فون یا چیٹ) کو فعال کرنا ہوگا۔"
+            }
         },
         product: {
             showPhone: "فون نمبر دکھائیں",
@@ -1800,6 +1880,22 @@ export const dictionaries = {
             emptySubtitle: "موازنہ شروع کرنے کے لیے ہوم پیج سے پروڈکٹس شامل کریں۔",
             compareSubtitle: "{count} منتخب کردہ مصنوعات کا موازنہ",
             features: "خصوصیات اور تفصیلات"
+        },
+        footer: {
+            brandParams: "مشرق وسطی میں خرید و فروخت کے لیے آپ کی پہلی منزل۔ بہترین سودے، ہر روز۔",
+            about: "ڈیلز کے بارے میں",
+            careers: "کیریئر",
+            privacy: "پرائیویسی پالیسی",
+            terms: "استعمال کی شرائط",
+            sitemap: "سائٹ کا نقشہ",
+            support: "سپورٹ",
+            helpCenter: "ہیلپ سینٹر",
+            contactUs: "ہم سے رابطہ کریں",
+            safety: "حفاظتی اصول",
+            followUs: "ہمیں فالو کریں",
+            rights: "تمام حقوق محفوظ ہیں",
+            privacyShort: "پرائیویسی",
+            termsShort: "شرائط"
         }
     },
 };
