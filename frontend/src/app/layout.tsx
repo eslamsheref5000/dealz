@@ -40,12 +40,12 @@ export const metadata: Metadata = {
     images: ['/logo.png'],
   },
   icons: {
-    icon: '/icon-512.png',
-    shortcut: '/icon-512.png',
-    apple: '/icon-512.png',
+    icon: 'https://raw.githubusercontent.com/eslamsheref5000/dealz/main/frontend/public/icon-512.png',
+    shortcut: 'https://raw.githubusercontent.com/eslamsheref5000/dealz/main/frontend/public/icon-512.png',
+    apple: 'https://raw.githubusercontent.com/eslamsheref5000/dealz/main/frontend/public/icon-512.png',
     other: {
       rel: 'apple-touch-icon-precomposed',
-      url: '/icon-512.png',
+      url: 'https://raw.githubusercontent.com/eslamsheref5000/dealz/main/frontend/public/icon-512.png',
     },
   },
   manifest: "/manifest.json",
