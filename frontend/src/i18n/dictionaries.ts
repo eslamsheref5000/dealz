@@ -402,7 +402,8 @@ export const dictionaries = {
             appStore: "App Store",
             googlePlay: "Google Play",
             trending: "Trending",
-            backToTop: "Back to Top"
+            backToTop: "Back to Top",
+            scanToDownload: "Scan to Download"
         }
     },
     ar: {
@@ -804,7 +805,8 @@ export const dictionaries = {
             appStore: "آب ستور",
             googlePlay: "جوجل بلاي",
             trending: "الأكثر رواجاً",
-            backToTop: "العودة للأعلى"
+            backToTop: "العودة للأعلى",
+            scanToDownload: "امسح للتحميل"
         }
     },
     fr: {
@@ -1192,7 +1194,8 @@ export const dictionaries = {
             appStore: "App Store",
             googlePlay: "Google Play",
             trending: "Tendances",
-            backToTop: "Retour en haut"
+            backToTop: "Retour en haut",
+            scanToDownload: "Scanner pour télécharger"
         }
     },
     hi: {
@@ -1566,7 +1569,8 @@ export const dictionaries = {
             appStore: "ऐप स्टोर",
             googlePlay: "गूगल प्ले",
             trending: "ट्रेंडिंग",
-            backToTop: "वापस ऊपर जाएं"
+            backToTop: "वापस ऊपर जाएं",
+            scanToDownload: "डाउनलोड करने के लिए स्कैन करें"
         }
     },
     ur: {
@@ -1945,7 +1949,8 @@ export const dictionaries = {
             appStore: "ایپ اسٹور",
             googlePlay: "گوگل پلے",
             trending: "رجحان ساز",
-            backToTop: "واپس اوپر جائیں"
+            backToTop: "واپس اوپر جائیں",
+            scanToDownload: "ڈاؤن لوڈ کرنے کے لیے اسکین کریں"
         }
     },
 };

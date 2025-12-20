@@ -11,14 +11,22 @@ import {
     Smartphone,
     CreditCard,
     Send,
-    ArrowUp
+    ArrowUp,
+    QrCode,
+    ChevronDown
 } from "lucide-react";
+import { useState } from "react";
 
 export default function Footer() {
     const { t, locale } = useLanguage();
+    const [openSection, setOpenSection] = useState<string | null>(null);
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const toggleSection = (title: string) => {
+        setOpenSection(openSection === title ? null : title);
     };
 
     const sections = [
@@ -41,6 +49,15 @@ export default function Footer() {
                 { label: t('footer.sitemap'), href: "/sitemap" },
                 { label: t('footer.about'), href: "/help" },
             ]
+        },
+        {
+            title: t('common.dealz'),
+            links: [
+                { label: t('footer.about'), href: "/help" },
+                { label: t('footer.careers'), href: "/help" },
+                { label: t('footer.privacy'), href: "/privacy" },
+                { label: t('footer.terms'), href: "/terms" },
+            ]
         }
     ];
 
@@ -57,16 +74,17 @@ export default function Footer() {
             {/* Back to Top Button */}
             <button
                 onClick={scrollToTop}
-                className="absolute -top-6 left-1/2 -translate-x-1/2 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 hover:scale-110 transition-all opacity-0 group-hover/footer:opacity-100 md:opacity-100"
+                className="absolute -top-6 left-1/2 -translate-x-1/2 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 hover:scale-110 transition-all opacity-0 group-hover/footer:opacity-100 md:opacity-100 z-10"
                 aria-label={t('footer.backToTop')}
             >
                 <ArrowUp size={20} />
             </button>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                    {/* Brand & Newsletter Column */}
-                    <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
+
+                    {/* Brand & Newsletter Column (Always visible, spans 4 cols on large) */}
+                    <div className="lg:col-span-4 space-y-6">
                         <Link href="/" className="text-3xl font-black text-red-600 tracking-tighter block">
                             Dealz.
                         </Link>
@@ -74,46 +92,60 @@ export default function Footer() {
                             {t('footer.brandParams')}
                         </p>
 
-                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
                             <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-2">{t('footer.newsletterTitle')}</h4>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{t('footer.newsletterDesc')}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">{t('footer.newsletterDesc')}</p>
                             <div className="flex gap-2">
                                 <input
                                     type="email"
                                     placeholder={t('footer.emailPlaceholder')}
                                     className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-white placeholder:text-gray-400"
                                 />
-                                <button className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
+                                <button className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors shadow-md hover:shadow-lg">
                                     <Send size={16} />
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* Links Columns (Trending + Support) */}
-                    {sections.map((section, idx) => (
-                        <div key={idx} className="col-span-1">
-                            <h3 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">{section.title}</h3>
-                            <ul className="space-y-4">
-                                {section.links.map((link, lIdx) => (
-                                    <li key={lIdx}>
-                                        <Link href={link.href} className="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500 text-sm transition-colors flex items-center gap-2 group">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600 group-hover:bg-red-600 transition-colors"></span>
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
+                    {/* Links Columns (Accordion on Mobile, Grid on Desktop) */}
+                    <div className="lg:col-span-5 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
+                        {sections.map((section, idx) => (
+                            <div key={idx} className="border-b border-gray-100 dark:border-gray-800 md:border-none pb-4 md:pb-0">
+                                <button
+                                    onClick={() => toggleSection(section.title)}
+                                    className="flex w-full md:w-auto justify-between items-center md:cursor-default"
+                                >
+                                    <h3 className="font-bold text-gray-900 dark:text-white text-lg md:mb-6">{section.title}</h3>
+                                    <ChevronDown
+                                        className={`md:hidden text-gray-400 transition-transform duration-300 ${openSection === section.title ? 'rotate-180' : ''}`}
+                                        size={20}
+                                    />
+                                </button>
+                                <ul className={`space-y-3 mt-4 md:mt-0 ${openSection === section.title ? 'block' : 'hidden md:block'}`}>
+                                    {section.links.map((link, lIdx) => (
+                                        <li key={lIdx}>
+                                            <Link href={link.href} className="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500 text-sm transition-colors flex items-center gap-2 group w-fit">
+                                                <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-red-600 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
+                                                <span className="relative">
+                                                    {link.label}
+                                                    <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-red-600 transition-all group-hover:w-full"></span>
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
 
-                    {/* App & Socials Column */}
-                    <div className="space-y-8">
+                    {/* App & Socials Column (Spans 3 cols) */}
+                    <div className="lg:col-span-3 space-y-8">
                         <div>
                             <h3 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">{t('footer.followUs')}</h3>
                             <div className="flex gap-4">
                                 {socialIcons.map(({ Icon, href, color }, idx) => (
-                                    <a key={idx} href={href} className={`w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 ${color} transition-all hover:scale-110`}>
+                                    <a key={idx} href={href} className={`w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 ${color} transition-all hover:scale-110 hover:shadow-md`}>
                                         <Icon size={20} />
                                     </a>
                                 ))}
@@ -122,23 +154,25 @@ export default function Footer() {
 
                         <div>
                             <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-lg">{t('footer.downloadApp')}</h3>
-                            <div className="flex flex-col gap-3">
-                                <button className="flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity w-fit">
-                                    <Smartphone className="w-6 h-6" />
-                                    <div className="text-left">
-                                        <div className="text-[10px] uppercase opacity-80 leading-none mb-0.5">Get it on</div>
-                                        <div className="font-bold text-sm leading-none">{t('footer.appStore')}</div>
+                            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+                                <div className="bg-white p-2 rounded-lg shadow-sm">
+                                    <QrCode className="w-16 h-16 text-gray-800" />
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                        {t('footer.scanToDownload')}
+                                    </p>
+                                    <div className="flex flex-col gap-2">
+                                        <button className="flex items-center gap-2 bg-black text-white px-3 py-1.5 rounded-lg hover:opacity-80 transition-opacity text-xs w-full">
+                                            <Smartphone size={14} />
+                                            <span className="font-bold">App Store</span>
+                                        </button>
+                                        <button className="flex items-center gap-2 bg-black text-white px-3 py-1.5 rounded-lg hover:opacity-80 transition-opacity text-xs w-full">
+                                            <div className="w-3.5 h-3.5 flex items-center justify-center bg-white text-black rounded-full text-[8px] font-bold">▶</div>
+                                            <span className="font-bold">Google Play</span>
+                                        </button>
                                     </div>
-                                </button>
-                                <button className="flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity w-fit">
-                                    <div className="w-6 h-6 relative flex items-center justify-center">
-                                        <span className="text-xl font-bold">▶</span>
-                                    </div>
-                                    <div className="text-left">
-                                        <div className="text-[10px] uppercase opacity-80 leading-none mb-0.5">Get it on</div>
-                                        <div className="font-bold text-sm leading-none">{t('footer.googlePlay')}</div>
-                                    </div>
-                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,11 +185,10 @@ export default function Footer() {
                             © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                         </p>
 
-                        <div className="flex items-center gap-2 text-gray-400">
-                            <CreditCard size={20} />
-                            <span className="text-xs font-medium border border-gray-200 dark:border-gray-700 px-2 py-1 rounded bg-gray-50 dark:bg-gray-800">VISA</span>
-                            <span className="text-xs font-medium border border-gray-200 dark:border-gray-700 px-2 py-1 rounded bg-gray-50 dark:bg-gray-800">MASTERCARD</span>
-                            <span className="text-xs font-medium border border-gray-200 dark:border-gray-700 px-2 py-1 rounded bg-gray-50 dark:bg-gray-800">APPLE PAY</span>
+                        <div className="flex items-center gap-3 text-gray-400 grayscale hover:grayscale-0 transition-all duration-500">
+                            <div className="h-6 w-10 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center"><CreditCard size={16} /></div>
+                            <div className="h-6 w-10 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center text-[10px] font-bold">VISA</div>
+                            <div className="h-6 w-10 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center text-[10px] font-bold">MC</div>
                         </div>
 
                         <div className="flex gap-6 text-sm text-gray-400">
@@ -165,9 +198,6 @@ export default function Footer() {
                             <Link href="/terms" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                                 {t('footer.termsShort')}
                             </Link>
-                            <div className="cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 transition-colors" onClick={scrollToTop}>
-                                {t('footer.backToTop')}
-                            </div>
                         </div>
                     </div>
                 </div>
