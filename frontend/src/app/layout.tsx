@@ -40,12 +40,12 @@ export const metadata: Metadata = {
     images: ['/logo.png'],
   },
   icons: {
-    icon: '/icon.png',
-    shortcut: '/icon.png',
-    apple: '/icon.png',
+    icon: '/icon-512.png',
+    shortcut: '/icon-512.png',
+    apple: '/icon-512.png',
     other: {
       rel: 'apple-touch-icon-precomposed',
-      url: '/icon.png',
+      url: '/icon-512.png',
     },
   },
   manifest: "/manifest.json",
