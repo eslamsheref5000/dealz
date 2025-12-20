@@ -452,6 +452,59 @@ export const dictionaries = {
             nftTitle: "Digital Collectibles Gallery",
             nftDesc: "Verify ownership of unique digital assets on the Dealz Chain.",
             appComingSoon: "Mobile App Launching Q1 2026"
+        },
+        moderation: {
+            title: "Moderation & Management",
+            subtitle: "Manage all ads on the platform",
+            refresh: "Refresh",
+            tabs: {
+                pending: "Pending Review",
+                active: "Active Ads",
+                kyc: "KYC Verification",
+                settings: "Global Settings"
+            },
+            nothingFound: {
+                title: "Nothing found here",
+                subtitle: "Everything looks clean in this category!"
+            },
+            settings: {
+                title: "Platform Configuration",
+                subtitle: "Manage global features and site-wide rules",
+                featuredAds: "Featured Ads Feature",
+                featuredAdsDesc: "Allow users to pay and request their ads to be featured on top.",
+                important: "Important:",
+                warning: "Disabling \"Featured Ads\" will hide the payment options and featured request sections from the \"Post Ad\" page for all users immediately."
+            },
+            kyc: {
+                idType: "ID Type",
+                fullName: "Full Name",
+                address: "Address",
+                noDoc: "No Document Attached",
+                viewFull: "VIEW FULL IMAGE"
+            },
+            ad: {
+                user: "User",
+                category: "Category",
+                city: "City",
+                posted: "Posted",
+                hideDetails: "Hide Details",
+                showDetails: "Show Detailed Review",
+                featuredRequest: "Featured Request",
+                method: "Method",
+                transactionId: "Transaction ID",
+                allImages: "All Images",
+                description: "Full Description",
+                paymentInfo: "Payment Information",
+                status: "Status",
+                noDescription: "No description provided.",
+                noImage: "No Image"
+            },
+            actions: {
+                approve: "Approve",
+                reject: "Reject",
+                delete: "Delete",
+                disable: "Disable Ad"
+            }
         }
     },
     ar: {
@@ -903,6 +956,59 @@ export const dictionaries = {
             nftTitle: "معرض المقتنيات الرقمية",
             nftDesc: "تحقق من ملكية الأصول الرقمية الفريدة على سلسلة ديلز.",
             appComingSoon: "إطلاق تطبيق الهاتف في الربع الأول 2026"
+        },
+        moderation: {
+            title: "الإشراف والإدارة",
+            subtitle: "إدارة جميع الإعلانات على المنصة",
+            refresh: "تحديث",
+            tabs: {
+                pending: "في انتظار المراجعة",
+                active: "إعلانات نشطة",
+                kyc: "تحقق الهوية",
+                settings: "الإعدادات العامة"
+            },
+            nothingFound: {
+                title: "لا يوجد شيء هنا",
+                subtitle: "كل شيء يبدو نظيفاً في هذا القسم!"
+            },
+            settings: {
+                title: "إعدادات المنصة",
+                subtitle: "إدارة الميزات العامة وقواعد الموقع",
+                featuredAds: "ميزة الإعلانات المميزة",
+                featuredAdsDesc: "السماح للمستخدمين بالدفع وطلب تمييز إعلاناتهم.",
+                important: "مهم:",
+                warning: "تعطيل \"الإعلانات المميزة\" سيخفي خيارات الدفع وأقسام طلب التميز من صفحة \"نشر الإعلان\" لجميع المستخدمين فوراً."
+            },
+            kyc: {
+                idType: "نوع الوثيقة",
+                fullName: "الاسم الكامل",
+                address: "العنوان",
+                noDoc: "لا يوجد مستند مرفق",
+                viewFull: "عرض الصورة كاملة"
+            },
+            ad: {
+                user: "المستخدم",
+                category: "القسم",
+                city: "المدينة",
+                posted: "تاريخ النشر",
+                hideDetails: "إخفاء التفاصيل",
+                showDetails: "عرض التفاصيل",
+                featuredRequest: "طلب تمييز",
+                method: "طريقة",
+                transactionId: "رقم المعاملة",
+                allImages: "جميع الصور",
+                description: "الوصف الكامل",
+                paymentInfo: "معلومات الدفع",
+                status: "الحالة",
+                noDescription: "لا يوجد وصف.",
+                noImage: "لا توجد صورة"
+            },
+            actions: {
+                approve: "موافقة",
+                reject: "رفض",
+                delete: "حذف",
+                disable: "تعطيل الإعلان"
+            }
         }
     },
     fr: {
@@ -1340,6 +1446,59 @@ export const dictionaries = {
             nftTitle: "Galerie de Collection Numérique",
             nftDesc: "Vérifiez la propriété d'actifs numériques uniques sur la Dealz Chain.",
             appComingSoon: "Lancement de l'application mobile T1 2026"
+        },
+        moderation: {
+            title: "Modération et gestion",
+            subtitle: "Gérer toutes les annonces de la plateforme",
+            refresh: "Actualiser",
+            tabs: {
+                pending: "En attente",
+                active: "Annonces actives",
+                kyc: "Vérification KYC",
+                settings: "Paramètres globaux"
+            },
+            nothingFound: {
+                title: "Rien trouvé ici",
+                subtitle: "Tout semble propre dans cette catégorie !"
+            },
+            settings: {
+                title: "Configuration de la plateforme",
+                subtitle: "Gérer les fonctionnalités globales et les règles du site",
+                featuredAds: "Fonction Annonces en vedette",
+                featuredAdsDesc: "Permettre aux utilisateurs de payer pour mettre leurs annonces en vedette.",
+                important: "Important :",
+                warning: "La désactivation de \"Annonces en vedette\" masquera les options de paiement et les demandes de mise en avant de la page \"Publier une annonce\" pour tous les utilisateurs immédiatement."
+            },
+            kyc: {
+                idType: "Type de pièce",
+                fullName: "Nom complet",
+                address: "Adresse",
+                noDoc: "Aucun document joint",
+                viewFull: "VOIR L'IMAGE COMPLÈTE"
+            },
+            ad: {
+                user: "Utilisateur",
+                category: "Catégorie",
+                city: "Ville",
+                posted: "Publié",
+                hideDetails: "Masquer les détails",
+                showDetails: "Afficher l'avis détaillé",
+                featuredRequest: "Demande de mise en avant",
+                method: "Méthode",
+                transactionId: "ID de transaction",
+                allImages: "Toutes les images",
+                description: "Description complète",
+                paymentInfo: "Informations de paiement",
+                status: "Statut",
+                noDescription: "Aucune description fournie.",
+                noImage: "Aucune image"
+            },
+            actions: {
+                approve: "Approuver",
+                reject: "Rejeter",
+                delete: "Supprimer",
+                disable: "Désactiver l'annonce"
+            }
         }
     },
     hi: {
@@ -1763,6 +1922,59 @@ export const dictionaries = {
             nftTitle: "डिजिटल कलेक्टिबल्स गैलरी",
             nftDesc: "डील्ज़ चेन पर अद्वितीय डिजिटल संपत्ति के स्वामित्व को सत्यापित करें।",
             appComingSoon: "मोबाइल ऐप लॉन्च Q1 2026"
+        },
+        moderation: {
+            title: "मॉडरेशन और प्रबंधन",
+            subtitle: "प्लेटफ़ॉर्म पर सभी विज्ञापनों को प्रबंधित करें",
+            refresh: "रिफ्रेश",
+            tabs: {
+                pending: "समीक्षा लंबित",
+                active: "सक्रिय विज्ञापन",
+                kyc: "केवाईसी सत्यापन",
+                settings: "वैश्विक सेटिंग्स"
+            },
+            nothingFound: {
+                title: "यहाँ कुछ नहीं मिला",
+                subtitle: "इस श्रेणी में सब कुछ साफ लग रहा है!"
+            },
+            settings: {
+                title: "प्लेटफ़ॉर्म कॉन्फ़िगरेशन",
+                subtitle: "वैश्विक सुविधाओं और साइट-व्यापी नियमों को प्रबंधित करें",
+                featuredAds: "फीचर्ड विज्ञापनों की सुविधा",
+                featuredAdsDesc: "उपयोगकर्ताओं को भुगतान करने और अपने विज्ञापनों को शीर्ष पर प्रदर्शित करने की अनुमति दें।",
+                important: "महत्वपूर्ण:",
+                warning: "\"फीचर्ड विज्ञापन\" को अक्षम करने से भुगतान विकल्प और फीचर्ड अनुरोध अनुभाग सभी उपयोगकर्ताओं के लिए \"विज्ञापन पोस्ट करें\" पृष्ठ से तुरंत छिप जाएंगे।"
+            },
+            kyc: {
+                idType: "आईडी प्रकार",
+                fullName: "पूरा नाम",
+                address: "पता",
+                noDoc: "कोई दस्तावेज़ संलग्न नहीं है",
+                viewFull: "पूरी छवि देखें"
+            },
+            ad: {
+                user: "उपयोगकर्ता",
+                category: "श्रेणी",
+                city: "शहर",
+                posted: "पोस्ट किया गया",
+                hideDetails: "विवरण छिपाएं",
+                showDetails: "विस्तृत समीक्षा दिखाएं",
+                featuredRequest: "फीचर्ड अनुरोध",
+                method: "विधि",
+                transactionId: "लेनदेन आईडी",
+                allImages: "सभी चित्र",
+                description: "पूर्ण विवरण",
+                paymentInfo: "भुगतान जानकारी",
+                status: "स्थिति",
+                noDescription: "कोई विवरण प्रदान नहीं किया गया।",
+                noImage: "कोई छवि नहीं"
+            },
+            actions: {
+                approve: "स्वीकार करें",
+                reject: "अस्वीकार करें",
+                delete: "हटाएं",
+                disable: "विज्ञापन अक्षम करें"
+            }
         }
     },
     ur: {
@@ -2191,6 +2403,59 @@ export const dictionaries = {
             nftTitle: "ڈیجیٹل کلیکٹیبلز گیلری",
             nftDesc: "ڈیلز چین پر منفرد ڈیجیٹل اثاثوں کی ملکیت کی تصدیق کریں۔",
             appComingSoon: "موبائل ایپ کا آغاز Q1 2026"
+        },
+        moderation: {
+            title: "نگرانی اور انتظام",
+            subtitle: "پلیٹ فارم پر تمام اشتہارات کا انتظام کریں",
+            refresh: "تازہ کریں",
+            tabs: {
+                pending: "جائزہ زیر التواء",
+                active: "فعال اشتہارات",
+                kyc: "KYC تصدیق",
+                settings: "عالمی ترتیبات"
+            },
+            nothingFound: {
+                title: "یہاں کچھ نہیں ملا",
+                subtitle: "اس زمرے میں سب کچھ صاف لگ رہا ہے!",
+            },
+            settings: {
+                title: "پلیٹ فارم کنفیگریشن",
+                subtitle: "عالمی خصوصیات اور ویب سائٹ کے قوانین کا انتظام کریں",
+                featuredAds: "نمایاں اشتہارات کی خصوصیت",
+                featuredAdsDesc: "صارفین کو ادائیگی کرنے اور اپنے اشتہارات کو اوپر نمایاں کرنے کی اجازت دیں۔",
+                important: "اہم:",
+                warning: "\"نمایاں اشتہارات\" کو غیر فعال کرنے سے ادائیگی کے اختیارات اور نمایاں درخواست کے سیکشنز تمام صارفین کے لیے \"اشتہار پوسٹ کریں\" صفحہ سے فوراً چھپ جائیں گے۔"
+            },
+            kyc: {
+                idType: "ID کی قسم",
+                fullName: "پورا نام",
+                address: "پتہ",
+                noDoc: "کوئی دستاویز منسلک نہیں ہے",
+                viewFull: "مکمل تصویر دیکھیں"
+            },
+            ad: {
+                user: "صارف",
+                category: "زمرہ",
+                city: "شہر",
+                posted: "شائع شدہ",
+                hideDetails: "تفصیلات چھپائیں",
+                showDetails: "تفصیلی جائزہ دکھائیں",
+                featuredRequest: "نمایاں درخواست",
+                method: "طریقہ",
+                transactionId: "ٹرانزیکشن ID",
+                allImages: "تمام تصاویر",
+                description: "مکمل تفصیل",
+                paymentInfo: "ادائیگی کی معلومات",
+                status: "حیثیت",
+                noDescription: "کوئی تفصیل فراہم نہیں کی گئی۔",
+                noImage: "کوئی تصویر نہیں"
+            },
+            actions: {
+                approve: "منظور کریں",
+                reject: "مسترد کریں",
+                delete: "حذف کریں",
+                disable: "اشتہار غیر فعال کریں"
+            }
         }
     },
 };

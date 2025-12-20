@@ -160,14 +160,14 @@ export default function ModerationPage() {
             <main className="container mx-auto px-4 py-8">
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Moderation & Management</h1>
-                        <p className="text-gray-600 dark:text-gray-400">Manage all ads on the platform</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('moderation.title')}</h1>
+                        <p className="text-gray-600 dark:text-gray-400">{t('moderation.subtitle')}</p>
                     </div>
                     <button
                         onClick={fetchAds}
                         className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
                     >
-                        🔄 Refresh
+                        🔄 {t('moderation.refresh')}
                     </button>
                 </div>
 
@@ -177,27 +177,27 @@ export default function ModerationPage() {
                         onClick={() => setActiveTab('pending')}
                         className={`pb-4 px-4 font-bold transition-all relative ${activeTab === 'pending' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
-                        🕒 Pending Review
+                        🕒 {t('moderation.tabs.pending')}
                         {activeTab === 'pending' && <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center animate-pulse">{ads.length}</span>}
                     </button>
                     <button
                         onClick={() => setActiveTab('approved')}
                         className={`pb-4 px-4 font-bold transition-all ${activeTab === 'approved' ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
-                        ✅ Active Ads
+                        ✅ {t('moderation.tabs.active')}
                     </button>
                     <button
                         onClick={() => setActiveTab('kyc')}
                         className={`pb-4 px-4 font-bold transition-all relative ${activeTab === 'kyc' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
-                        🛡️ KYC Verification
+                        🛡️ {t('moderation.tabs.kyc')}
                         {users.length > 0 && <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center animate-pulse">{users.length}</span>}
                     </button>
                     <button
                         onClick={() => setActiveTab('settings')}
                         className={`pb-4 px-4 font-bold transition-all relative ${activeTab === 'settings' ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
-                        ⚙️ Global Settings
+                        ⚙️ {t('moderation.tabs.settings')}
                     </button>
                 </div>
 
@@ -208,23 +208,23 @@ export default function ModerationPage() {
                 ) : (activeTab === 'kyc' ? users.length === 0 : ads.length === 0) ? (
                     <div className="bg-white dark:bg-gray-900 rounded-2xl p-12 text-center border border-dashed border-gray-200 dark:border-gray-800">
                         <div className="text-5xl mb-4">✨</div>
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Nothing found here</h2>
-                        <p className="text-gray-500">Everything looks clean in this category!</p>
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('moderation.nothingFound.title')}</h2>
+                        <p className="text-gray-500">{t('moderation.nothingFound.subtitle')}</p>
                     </div>
                 ) : activeTab === 'settings' ? (
                     <div className="max-w-2xl mx-auto py-8">
                         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
                             <div className="p-8 border-b dark:border-gray-800 bg-purple-50/50 dark:bg-purple-900/10">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                    ⚙️ Platform Configuration
+                                    ⚙️ {t('moderation.settings.title')}
                                 </h2>
-                                <p className="text-gray-500 dark:text-gray-400">Manage global features and site-wide rules</p>
+                                <p className="text-gray-500 dark:text-gray-400">{t('moderation.settings.subtitle')}</p>
                             </div>
                             <div className="p-8 space-y-8">
                                 <div className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700">
                                     <div className="space-y-1">
-                                        <h3 className="font-bold text-gray-900 dark:text-white text-lg">Featured Ads Feature</h3>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">Allow users to pay and request their ads to be featured on top.</p>
+                                        <h3 className="font-bold text-gray-900 dark:text-white text-lg">{t('moderation.settings.featuredAds')}</h3>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('moderation.settings.featuredAdsDesc')}</p>
                                     </div>
                                     <label className="relative inline-flex items-center cursor-pointer">
                                         <input
@@ -241,7 +241,7 @@ export default function ModerationPage() {
                                 <div className="p-4 bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30 rounded-xl flex gap-3">
                                     <span className="text-xl">⚠️</span>
                                     <div className="text-sm text-orange-800 dark:text-orange-300">
-                                        <b>Important:</b> Disabling "Featured Ads" will hide the payment options and featured request sections from the "Post Ad" page for all users immediately.
+                                        <b>{t('moderation.settings.important')}</b> {t('moderation.settings.warning')}
                                     </div>
                                 </div>
                             </div>
@@ -266,9 +266,9 @@ export default function ModerationPage() {
                                             </div>
 
                                             <div className="grid sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl text-sm">
-                                                <div><span className="text-gray-500 block">ID Type</span> <span className="font-bold dark:text-white uppercase">{u.kycType}</span></div>
-                                                <div><span className="text-gray-500 block">Full Name</span> <span className="font-bold dark:text-white">{u.fullName || 'N/A'}</span></div>
-                                                <div className="sm:col-span-2"><span className="text-gray-500 block">Address</span> <span className="font-bold dark:text-white">{u.address || 'N/A'}</span></div>
+                                                <div><span className="text-gray-500 block">{t('moderation.kyc.idType')}</span> <span className="font-bold dark:text-white uppercase">{u.kycType}</span></div>
+                                                <div><span className="text-gray-500 block">{t('moderation.kyc.fullName')}</span> <span className="font-bold dark:text-white">{u.fullName || 'N/A'}</span></div>
+                                                <div className="sm:col-span-2"><span className="text-gray-500 block">{t('moderation.kyc.address')}</span> <span className="font-bold dark:text-white">{u.address || 'N/A'}</span></div>
                                             </div>
                                         </div>
 
@@ -282,13 +282,13 @@ export default function ModerationPage() {
                                                         alt="KYC Document"
                                                     />
                                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold">
-                                                        VIEW FULL IMAGE
+                                                        {t('moderation.kyc.viewFull')}
                                                     </div>
                                                 </a>
                                             ) : (
                                                 <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 gap-2">
                                                     <span className="text-3xl">📄</span>
-                                                    No Document Attached
+                                                    {t('moderation.kyc.noDoc')}
                                                 </div>
                                             )}
                                         </div>
@@ -299,13 +299,13 @@ export default function ModerationPage() {
                                                 onClick={() => handleAction(u.id, 'approveKYC')}
                                                 className="px-8 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition shadow-lg shadow-green-100 dark:shadow-none"
                                             >
-                                                Approve
+                                                {t('moderation.actions.approve')}
                                             </button>
                                             <button
                                                 onClick={() => handleAction(u.id, 'rejectKYC')}
                                                 className="px-8 py-3 bg-white dark:bg-gray-800 text-red-600 border border-red-200 dark:border-red-900/50 rounded-xl font-bold hover:bg-red-50 dark:hover:bg-red-950/20 transition"
                                             >
-                                                Reject
+                                                {t('moderation.actions.reject')}
                                             </button>
                                         </div>
                                     </div>
@@ -327,7 +327,7 @@ export default function ModerationPage() {
                                                 className="w-full h-full object-cover"
                                             />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                                            <div className="w-full h-full flex items-center justify-center text-gray-400">{t('moderation.ad.noImage')}</div>
                                         )}
                                     </div>
 
@@ -339,24 +339,24 @@ export default function ModerationPage() {
                                         </div>
 
                                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                            <div><span className="font-bold">User:</span> {ad.ad_owner?.username || 'Unknown'}</div>
-                                            <div><span className="font-bold">Category:</span> {ad.category?.name || 'Uncategorized'}</div>
-                                            <div><span className="font-bold">City:</span> {ad.city}</div>
-                                            <div><span className="font-bold">Posted:</span> {moment(ad.createdAt).fromNow()}</div>
+                                            <div><span className="font-bold">{t('moderation.ad.user')}:</span> {ad.ad_owner?.username || 'Unknown'}</div>
+                                            <div><span className="font-bold">{t('moderation.ad.category')}:</span> {ad.category?.name || 'Uncategorized'}</div>
+                                            <div><span className="font-bold">{t('moderation.ad.city')}:</span> {ad.city}</div>
+                                            <div><span className="font-bold">{t('moderation.ad.posted')}:</span> {moment(ad.createdAt).fromNow()}</div>
                                         </div>
 
                                         <button
                                             onClick={() => setExpandedAdId(expandedAdId === ad.documentId ? null : ad.documentId)}
                                             className="text-red-600 font-bold text-sm hover:underline flex items-center gap-1 mb-4"
                                         >
-                                            {expandedAdId === ad.documentId ? '🔼 Hide Details' : '🔽 Show Detailed Review'}
+                                            {expandedAdId === ad.documentId ? `🔼 ${t('moderation.ad.hideDetails')}` : `🔽 ${t('moderation.ad.showDetails')}`}
                                         </button>
 
                                         {/* Featured & Payment Status */}
                                         <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30">
                                             <div className="flex flex-wrap gap-4 items-center">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-bold text-blue-800 dark:text-blue-300">Featured Request:</span>
+                                                    <span className="text-sm font-bold text-blue-800 dark:text-blue-300">{t('moderation.ad.featuredRequest')}:</span>
                                                     {ad.isFeatured ? (
                                                         <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-bold ring-1 ring-yellow-300">YES 🔥</span>
                                                     ) : (
@@ -366,9 +366,9 @@ export default function ModerationPage() {
                                                 {ad.isFeatured && (
                                                     <>
                                                         <div className="h-4 w-px bg-blue-200 dark:bg-blue-800"></div>
-                                                        <div><span className="text-sm font-bold text-blue-800 dark:text-blue-300">Method:</span> <span className="uppercase">{ad.paymentMethod || 'N/A'}</span></div>
+                                                        <div><span className="text-sm font-bold text-blue-800 dark:text-blue-300">{t('moderation.ad.method')}:</span> <span className="uppercase">{ad.paymentMethod || 'N/A'}</span></div>
                                                         <div className="h-4 w-px bg-blue-200 dark:bg-blue-800"></div>
-                                                        <div><span className="text-sm font-bold text-blue-800 dark:text-blue-300">Transaction ID:</span> <code className="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-700 text-xs">{ad.paymentTransactionId || 'MISSING'}</code></div>
+                                                        <div><span className="text-sm font-bold text-blue-800 dark:text-blue-300">{t('moderation.ad.transactionId')}:</span> <code className="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-700 text-xs">{ad.paymentTransactionId || 'MISSING'}</code></div>
                                                     </>
                                                 )}
                                             </div>
@@ -383,13 +383,13 @@ export default function ModerationPage() {
                                                     onClick={() => handleAction(ad.documentId, 'approve')}
                                                     className="flex-grow md:flex-none px-6 py-2 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-sm"
                                                 >
-                                                    Approve
+                                                    {t('moderation.actions.approve')}
                                                 </button>
                                                 <button
                                                     onClick={() => handleAction(ad.documentId, 'reject')}
                                                     className="flex-grow md:flex-none px-6 py-2 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition shadow-sm"
                                                 >
-                                                    Reject
+                                                    {t('moderation.actions.reject')}
                                                 </button>
                                             </>
                                         ) : (
@@ -397,14 +397,14 @@ export default function ModerationPage() {
                                                 onClick={() => handleAction(ad.documentId, 'disable')}
                                                 className="flex-grow md:flex-none px-6 py-2 bg-yellow-600 text-white rounded-lg font-bold hover:bg-yellow-700 transition shadow-sm"
                                             >
-                                                Disable Ad
+                                                {t('moderation.actions.disable')}
                                             </button>
                                         )}
                                         <button
                                             onClick={() => handleAction(ad.documentId, 'delete')}
                                             className="flex-grow md:flex-none px-6 py-2 bg-red-100 text-red-600 rounded-lg font-bold hover:bg-red-200 transition"
                                         >
-                                            Delete
+                                            {t('moderation.actions.delete')}
                                         </button>
                                     </div>
                                 </div>
@@ -416,7 +416,7 @@ export default function ModerationPage() {
                                             {/* All Images Gallery */}
                                             <div>
                                                 <h4 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                                    🖼️ All Images ({ad.images?.length || 0})
+                                                    🖼️ {t('moderation.ad.allImages')} ({ad.images?.length || 0})
                                                 </h4>
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {ad.images?.map((img: any, idx: number) => (
@@ -431,28 +431,28 @@ export default function ModerationPage() {
                                             <div className="space-y-6">
                                                 <div>
                                                     <h4 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                                                        📝 Full Description
+                                                        📝 {t('moderation.ad.description')}
                                                     </h4>
                                                     <div className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-800 whitespace-pre-line max-h-48 overflow-y-auto">
-                                                        {ad.description || 'No description provided.'}
+                                                        {ad.description || t('moderation.ad.noDescription')}
                                                     </div>
                                                 </div>
 
                                                 <div>
                                                     <h4 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                                                        💳 Payment Information
+                                                        💳 {t('moderation.ad.paymentInfo')}
                                                     </h4>
                                                     <div className="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-800 text-sm space-y-2">
                                                         <div className="flex justify-between">
-                                                            <span className="text-gray-500">Method:</span>
+                                                            <span className="text-gray-500">{t('moderation.ad.method')}:</span>
                                                             <span className="font-bold uppercase text-gray-900 dark:text-white">{ad.paymentMethod || 'N/A'}</span>
                                                         </div>
                                                         <div className="flex justify-between">
-                                                            <span className="text-gray-500">Status:</span>
+                                                            <span className="text-gray-500">{t('moderation.ad.status')}:</span>
                                                             <span className="font-bold uppercase text-orange-600">{ad.paymentStatus || 'UNPAID'}</span>
                                                         </div>
                                                         <div className="flex justify-between">
-                                                            <span className="text-gray-500">Transaction ID:</span>
+                                                            <span className="text-gray-500">{t('moderation.ad.transactionId')}:</span>
                                                             <span className="font-mono text-gray-900 dark:text-white">{ad.paymentTransactionId || 'None'}</span>
                                                         </div>
                                                     </div>
