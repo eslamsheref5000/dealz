@@ -93,7 +93,16 @@ export default function GoogleRedirectPage() {
                     <>
                         <div className="h-12 w-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✕</div>
                         <h2 className="text-xl font-bold text-gray-800">{t('auth.loginFailed')}</h2>
-                        <p className="text-gray-500 mt-2">{t('auth.redirectingLogin')}</p>
+                        <div className="mt-4 p-4 bg-gray-100 rounded text-left text-xs overflow-auto max-h-48">
+                            <p className="font-bold mb-1">Debug Info:</p>
+                            <pre>{JSON.stringify(Object.fromEntries(searchParams.entries()), null, 2)}</pre>
+                        </div>
+                        <button
+                            onClick={() => router.push("/login")}
+                            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                        >
+                            Return to Login
+                        </button>
                     </>
                 )}
             </div>
