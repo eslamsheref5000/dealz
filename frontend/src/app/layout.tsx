@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Dealz - Your Local Marketplace',
     description: 'Find the best deals in Egypt, UAE, and KSA.',
-    images: ['/logo.png'],
+    images: ['/brand-logo.png'],
   },
   icons: {
     icon: '/favicon.png',

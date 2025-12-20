@@ -1,5 +1,6 @@
 *.png filter=lfs diff=lfs merge=lfs -text
 frontend/public/*.png !filter !diff !merge text
 frontend/public/app-icon.png !filter !diff !merge -text
+frontend/public/brand-logo.png !filter !diff !merge -text
 frontend/public/*.png filter=lfs diff=lfs merge=lfs -text
 *.ico filter=lfs diff=lfs merge=lfs -text
