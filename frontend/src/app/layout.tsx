@@ -86,6 +86,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SplashScreen />
         <SchemaOrg />
         <LanguageProvider>
           <ThemeProvider>
