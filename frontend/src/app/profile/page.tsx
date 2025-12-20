@@ -411,10 +411,16 @@ export default function ProfilePage() {
                                     </div>
                                 </Link>
                                 {activeTab === 'my-ads' && (
-                                    <div className="px-4 pb-4 pt-0">
+                                    <div className="px-4 pb-4 pt-0 grid grid-cols-2 gap-2">
+                                        <Link
+                                            href={`/edit-ad/${ad.documentId || ad.id}`}
+                                            className="bg-gray-100 dark:bg-gray-800 text-blue-600 py-2 rounded-lg font-bold text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition flex items-center justify-center gap-2"
+                                        >
+                                            ✏️ {t('common.edit') || "Edit"}
+                                        </Link>
                                         <button
                                             onClick={() => handleDelete(ad.documentId || ad.id)}
-                                            className="w-full bg-gray-100 dark:bg-gray-800 text-red-600 py-2 rounded-lg font-bold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition flex items-center justify-center gap-2"
+                                            className="bg-gray-100 dark:bg-gray-800 text-red-600 py-2 rounded-lg font-bold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition flex items-center justify-center gap-2"
                                         >
                                             🗑️ {t('profile.deleteAd')}
                                         </button>

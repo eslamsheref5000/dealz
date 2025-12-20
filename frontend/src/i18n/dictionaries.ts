@@ -5,6 +5,7 @@ export const dictionaries = {
     en: {
         common: {
             loading: "Loading...",
+            edit: "Edit",
             dealz: "Dealz",
             aed: "AED",
             viewAll: "View All",
@@ -510,6 +511,7 @@ export const dictionaries = {
     ar: {
         common: {
             loading: "جاري التحميل...",
+            edit: "تعديل",
             dealz: "ديلز",
             aed: "درهم",
             viewAll: "عرض الكل",
@@ -1014,6 +1016,7 @@ export const dictionaries = {
     fr: {
         common: {
             loading: "Chargement...",
+            edit: "Modifier",
             dealz: "Dealz",
             aed: "AED",
             freshRecommendations: "Nouvelles Recommandations",
@@ -1504,6 +1507,7 @@ export const dictionaries = {
     hi: {
         common: {
             loading: "लोड हो रहा है...",
+            edit: "संपादित करें",
             dealz: "Dealz",
             aed: "एईडी",
             viewAll: "सभी देखें"
@@ -1980,6 +1984,7 @@ export const dictionaries = {
     ur: {
         common: {
             loading: "لوڈ ہو رہا ہے...",
+            edit: "ترمیم کریں",
             dealz: "Dealz",
             aed: "درہم",
             viewAll: "سب دیکھیں",

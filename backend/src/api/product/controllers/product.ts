@@ -52,6 +52,54 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         }
     },
 
+    async update(ctx) {
+        const user = ctx.state.user;
+        const { id } = ctx.params;
+
+        if (!user) {
+            return ctx.unauthorized("You must be logged in to update an ad");
+        }
+
+        try {
+            // 1. Check Ownership
+            const existing = await strapi.documents('api::product.product').findOne({
+                documentId: id,
+                populate: ['ad_owner']
+            });
+
+            if (!existing) return ctx.notFound("Ad not found");
+
+            const ownerId = (existing as any).ad_owner?.documentId || (existing as any).ad_owner?.id;
+            const isOwner = ownerId === (user.documentId || user.id);
+            const isAdmin = (user as any).isAdmin;
+
+            if (!isOwner && !isAdmin) {
+                return ctx.unauthorized("You are not the owner of this ad");
+            }
+
+            // 2. Prepare Update Data
+            // If it's a regular user update, FORCE status to pending to trigger re-moderation
+            if (!isAdmin) {
+                if (ctx.request.body.data) {
+                    ctx.request.body.data.approvalStatus = 'pending';
+                    // ctx.request.body.data.publishedAt = new Date(); // Ensure it stays "technically" published in Strapi so admins can see it
+                } else {
+                    ctx.request.body.data = { approvalStatus: 'pending' };
+                }
+            }
+
+            // 3. Perform Update
+            // We use super.update to let Strapi handle the heavy lifting
+            console.log(`User ${user.username} updating ad ${id}. Setting status to pending.`);
+            const response = await super.update(ctx);
+            return response;
+
+        } catch (err) {
+            console.error("Update Error:", err);
+            return ctx.badRequest("Update failed", { error: err });
+        }
+    },
+
     async findOne(ctx) {
         const { id } = ctx.params;
 
@@ -340,7 +388,8 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         } catch (err) {
             return ctx.badRequest("Failed to update settings", { error: err });
         }
-    }
+    },
+
     async incrementViews(ctx) {
         const { id } = ctx.params;
         try {
