@@ -392,7 +392,15 @@ export const dictionaries = {
             followUs: "Follow Us",
             rights: "All rights reserved",
             privacyShort: "Privacy",
-            termsShort: "Terms"
+            termsShort: "Terms",
+            newsletterTitle: "Subscribe to our Newsletter",
+            newsletterDesc: "Get the latest updates and deals.",
+            emailPlaceholder: "Enter your email",
+            subscribe: "Subscribe",
+            downloadApp: "Download our App",
+            paymentMethods: "Secured Payment Gateways",
+            appStore: "App Store",
+            googlePlay: "Google Play"
         }
     },
     ar: {
@@ -784,7 +792,16 @@ export const dictionaries = {
             followUs: "تواصل معنا",
             rights: "جميع الحقوق محفوظة",
             privacyShort: "الخصوصية",
-            termsShort: "الشروط"
+            privacyShort: "الخصوصية",
+            termsShort: "الشروط",
+            newsletterTitle: "اشترك في نشرتنا الإخبارية",
+            newsletterDesc: "احصل على آخر التحديثات والصفقات.",
+            emailPlaceholder: "أدخل بريدك الإلكتروني",
+            subscribe: "اشتراك",
+            downloadApp: "حمل تطبيقنا",
+            paymentMethods: "بوابات دفع آمنة",
+            appStore: "آب ستور",
+            googlePlay: "جوجل بلاي"
         }
     },
     fr: {
@@ -1162,7 +1179,15 @@ export const dictionaries = {
             followUs: "Suivez-nous",
             rights: "Tous droits réservés",
             privacyShort: "Confidentialité",
-            termsShort: "Termes"
+            termsShort: "Termes",
+            newsletterTitle: "Abonnez-vous à notre newsletter",
+            newsletterDesc: "Recevez les dernières mises à jour et offres.",
+            emailPlaceholder: "Entrez votre email",
+            subscribe: "S'abonner",
+            downloadApp: "Téléchargez notre application",
+            paymentMethods: "Passerelles de paiement sécurisées",
+            appStore: "App Store",
+            googlePlay: "Google Play"
         }
     },
     hi: {
@@ -1526,7 +1551,15 @@ export const dictionaries = {
             followUs: "हमें फॉलो करें",
             rights: "सर्वाधिकार सुरक्षित",
             privacyShort: "गोपनीयता",
-            termsShort: "शर्तें"
+            termsShort: "शर्तें",
+            newsletterTitle: "हमारे न्यूज़लेटर की सदस्यता लें",
+            newsletterDesc: "नवीनतम अपडेट और सौदे प्राप्त करें।",
+            emailPlaceholder: "अपना ईमेल दर्ज करें",
+            subscribe: "सदस्यता लें",
+            downloadApp: "हमारा ऐप डाउनलोड करें",
+            paymentMethods: "सुरक्षित भुगतान गेटवे",
+            appStore: "ऐप स्टोर",
+            googlePlay: "गूगल प्ले"
         }
     },
     ur: {
@@ -1895,7 +1928,15 @@ export const dictionaries = {
             followUs: "ہمیں فالو کریں",
             rights: "تمام حقوق محفوظ ہیں",
             privacyShort: "پرائیویسی",
-            termsShort: "شرائط"
+            termsShort: "شرائط",
+            newsletterTitle: "ہمارے نیوز لیٹر کو سبسکرائب کریں",
+            newsletterDesc: "تازہ ترین اپ ڈیٹس اور ڈیلز حاصل کریں۔",
+            emailPlaceholder: "اپنا ای میل درج کریں",
+            subscribe: "سبسکرائب کریں",
+            downloadApp: "ہماری ایپ ڈاؤن لوڈ کریں",
+            paymentMethods: "محفوظ ادائیگی کے گیٹ وے",
+            appStore: "ایپ اسٹور",
+            googlePlay: "گوگل پلے"
         }
     },
 };
