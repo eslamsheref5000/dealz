@@ -68,6 +68,7 @@ import { ComparisonProvider } from "../context/ComparisonContext";
 
 import SchemaOrg from "../components/SchemaOrg";
 import NotificationManager from "../components/NotificationManager";
+import Footer from "../components/Footer";
 
 export default function RootLayout({
   children,
@@ -89,6 +90,7 @@ export default function RootLayout({
                     <CountryProvider>
                       <NotificationManager />
                       {children}
+                      <Footer />
                     </CountryProvider>
                   </ComparisonProvider>
                 </RecentlyViewedProvider>
