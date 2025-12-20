@@ -19,7 +19,16 @@ export const dictionaries = {
             sortNewest: "Newest",
             sortPriceLow: "Price: Low to High",
             sortPriceHigh: "Price: High to Low",
-            loadMore: "Load More"
+            loadMore: "Load More",
+            back: "Back",
+            backTo: "Back to",
+            browseAdsIn: "Browse ads in",
+            featuredBadge: "FEATURED",
+            newBadge: "NEW",
+            addToFavorites: "Add to Favorites",
+            removeFromFavorites: "Remove from Favorites",
+            compare: "Compare",
+            all: "All"
         },
         header: {
             home: "Home",
@@ -41,7 +50,8 @@ export const dictionaries = {
             noProducts: "No products found.",
             listening: "Listening...",
             recentlyViewed: "Recently Viewed",
-            newBadge: "New"
+            newBadge: "New",
+            tryAdjustingFilters: "Try adjusting your filters or search criteria."
         },
         postAd: {
             title: "Post a New Ad",
@@ -370,7 +380,16 @@ export const dictionaries = {
             sortNewest: "الأحدث",
             sortPriceLow: "السعر: الأقل للأعلى",
             sortPriceHigh: "السعر: الأعلى للأقل",
-            loadMore: "تحميل المزيد"
+            loadMore: "تحميل المزيد",
+            back: "رجوع",
+            backTo: "الرجوع إلى",
+            browseAdsIn: "تصفح الإعلانات في",
+            featuredBadge: "متميز",
+            newBadge: "جديد",
+            addToFavorites: "إضافة للمفضلة",
+            removeFromFavorites: "حذف من المفضلة",
+            compare: "مقارنة",
+            all: "الكل"
         },
         header: {
             home: "الرئيسية",
@@ -392,7 +411,8 @@ export const dictionaries = {
             noProducts: "لا توجد منتجات.",
             listening: "جاري الاستماع...",
             recentlyViewed: "شوهدت مؤخراً",
-            newBadge: "جديد"
+            newBadge: "جديد",
+            tryAdjustingFilters: "حاول تعديل الفلاتر أو معايير البحث."
         },
         postAd: {
             title: "إضافة إعلان جديد",
@@ -714,7 +734,16 @@ export const dictionaries = {
             sortNewest: "Le plus récent",
             sortPriceLow: "Prix: Bas à Élevé",
             sortPriceHigh: "Prix: Élevé à Bas",
-            loadMore: "Charger plus"
+            loadMore: "Charger plus",
+            back: "Retour",
+            backTo: "Retour à",
+            browseAdsIn: "Parcourir les annonces dans",
+            featuredBadge: "EN VEDETTE",
+            newBadge: "NOUVEAU",
+            addToFavorites: "Ajouter aux favoris",
+            removeFromFavorites: "Retirer des favoris",
+            compare: "Comparer",
+            all: "Tout"
         },
         header: {
             home: "Accueil",
@@ -736,7 +765,8 @@ export const dictionaries = {
             noProducts: "Aucun produit trouvé.",
             listening: "Écoute...",
             recentlyViewed: "Consultés récemment",
-            newBadge: "Nouveau"
+            newBadge: "Nouveau",
+            tryAdjustingFilters: "Essayez d'ajuster vos filtres."
         },
         postAd: {
             title: "Publier une nouvelle annonce",

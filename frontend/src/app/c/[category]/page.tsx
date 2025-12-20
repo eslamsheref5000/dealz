@@ -54,7 +54,7 @@ export default function CategoryPage() {
                 {/* Header Section */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-black text-gray-900 dark:text-white capitalize mb-4">
-                        {categoryName}
+                        {t(`categories.${categoryName}`) || categoryName}
                     </h1>
 
                     {/* Subcategories Pills */}
@@ -72,7 +72,7 @@ export default function CategoryPage() {
                                     href={`/c/${encodeURIComponent(categoryName)}/${encodeURIComponent(sub.name)}`}
                                     className="px-4 py-2 rounded-full text-sm font-bold bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                                 >
-                                    {sub.name}
+                                    {t(`subCategories.${sub.name}`) || sub.name}
                                 </Link>
                             ))}
                         </div>

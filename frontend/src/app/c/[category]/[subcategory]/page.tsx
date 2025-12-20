@@ -54,11 +54,19 @@ export default function SubCategoryPage() {
                     ]}
                 />
 
-                <div className="mb-8 mt-4">
-                    <h1 className="text-3xl font-black text-gray-900 dark:text-white capitalize">
-                        {subCategoryName}
-                    </h1>
-                    <p className="text-gray-500 mt-1">{t('common.browseAdsIn')} {subCategoryName}</p>
+                <div className="mb-8 mt-4 flex items-center justify-between">
+                    <div>
+                        <Link href={`/c/${encodeURIComponent(categoryName)}`} className="inline-flex items-center gap-2 text-gray-500 hover:text-red-600 mb-2 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 rtl:rotate-180">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                            {t('common.back')}
+                        </Link>
+                        <h1 className="text-3xl font-black text-gray-900 dark:text-white capitalize">
+                            {t(`subCategories.${subCategoryName}`) || subCategoryName}
+                        </h1>
+                        <p className="text-gray-500 mt-1">{t('common.browseAdsIn')} {t(`subCategories.${subCategoryName}`) || subCategoryName}</p>
+                    </div>
                 </div>
 
                 {/* Products Grid */}
@@ -77,7 +85,7 @@ export default function SubCategoryPage() {
                         <div className="text-6xl mb-4">🔍</div>
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{t('home.noProducts')}</h2>
                         <Link href={`/c/${encodeURIComponent(categoryName)}`} className="text-red-600 hover:underline font-bold">
-                            View all {categoryName}
+                            {t('common.viewAll')} {t(`categories.${categoryName}`) || categoryName}
                         </Link>
                     </div>
                 )}

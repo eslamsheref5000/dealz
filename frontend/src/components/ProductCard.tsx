@@ -44,12 +44,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <div className="absolute top-2 left-2 flex flex-col gap-2 z-10">
                     {product.isFeatured && (
                         <span className="bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-1 rounded shadow-sm">
-                            ⭐ FEATURED
+                            ⭐ {t('common.featuredBadge')}
                         </span>
                     )}
                     {isWithinTwoHours(product.publishedAt) && (
                         <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm animate-pulse">
-                            🆕 NEW
+                            🆕 {t('common.newBadge')}
                         </span>
                     )}
                 </div>
