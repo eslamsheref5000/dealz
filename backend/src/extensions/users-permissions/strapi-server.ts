@@ -1,5 +1,7 @@
 import url from 'url';
 
+console.log('!!! USERS-PERMISSIONS EXTENSION LOADED !!!');
+
 export default (plugin) => {
     const originalCallback = plugin.controllers.auth.callback;
 
@@ -33,7 +35,7 @@ export default (plugin) => {
                         });
 
                         if (userInfoRes.ok) {
-                            const googleUser = await userInfoRes.json();
+                            const googleUser = await userInfoRes.json() as any;
                             const email = googleUser.email;
                             console.log("Identified Google User:", email);
 
