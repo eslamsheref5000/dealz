@@ -38,7 +38,9 @@ import {
     BrainCircuit,
     Plane,
     Languages,
-    Wifi
+    Wifi,
+    MapPin,
+    Radio
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -53,6 +55,10 @@ export default function Footer() {
     const [showChat, setShowChat] = useState(false);
     const [showVR, setShowVR] = useState(false);
     const [showNeural, setShowNeural] = useState(false);
+    const [showDrone, setShowDrone] = useState(false);
+    const [isQuantumScanning, setIsQuantumScanning] = useState(false);
+    const [galacticMode, setGalacticMode] = useState(false);
+
     const [chatMessages, setChatMessages] = useState<{ sender: 'bot' | 'user', text: string }[]>([]);
     const [chatInput, setChatInput] = useState("");
     const [tokenPrice, setTokenPrice] = useState(42.50);
@@ -121,6 +127,17 @@ export default function Footer() {
         }, 1000);
     };
 
+    const triggerQuantumScan = () => {
+        setIsQuantumScanning(true);
+        setTimeout(() => setIsQuantumScanning(false), 3000);
+    };
+
+    const triggerHaptics = () => {
+        if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]);
+        }
+    };
+
     const stats = [
         { icon: Tag, label: t('footer.adsPosted'), value: "1M+" },
         { icon: Users, label: t('footer.activeUsers'), value: "500K+" },
@@ -175,7 +192,7 @@ export default function Footer() {
     };
 
     return (
-        <div className="relative">
+        <div className={`relative ${galacticMode ? 'font-mono' : ''}`}>
             {/* V10 Exclusive: Singularity Top Bar */}
             <div className="bg-gray-900 border-t-4 border-red-600 text-white py-2 overflow-hidden relative">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
@@ -310,7 +327,7 @@ export default function Footer() {
                         {/* Brand Column */}
                         <div className="lg:col-span-4 space-y-6">
                             <Link href="/" className="group inline-block">
-                                <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 tracking-tighter hover:to-red-800 transition-all">
+                                <span className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 tracking-tighter hover:to-red-800 transition-all ${galacticMode ? 'font-serif' : ''}`}>
                                     Dealz.
                                 </span>
                             </Link>
@@ -318,13 +335,16 @@ export default function Footer() {
                                 {t('footer.brandParams')}
                             </p>
 
-                            {/* V10: Galactic Language & V5: Currency Selector */}
+                            {/* V10: Galactic Language (Activated) & V5: Currency Selector */}
                             <div className="flex gap-2">
-                                <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                                    <Languages size={14} className="text-gray-500" />
+                                <button
+                                    onClick={() => setGalacticMode(!galacticMode)}
+                                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${galacticMode ? 'bg-purple-900/30 text-purple-400 border border-purple-500/30' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                                >
+                                    <Languages size={14} className={galacticMode ? "text-purple-400" : "text-gray-500"} />
                                     {/* V10 Galactic Lang Option */}
-                                    {locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو'}
-                                    <span className="text-[9px] text-purple-500 ml-1">({t('footer.galacticLang')})</span>
+                                    {isActive => galacticMode ? "⏃⌖⟒⌰⌇" : (locale === 'en' ? 'English' : locale === 'ar' ? 'العربية' : locale === 'fr' ? 'Français' : locale === 'hi' ? 'हिंदी' : 'اردو')}
+                                    <span className="text-[9px] ml-1 opacity-70">({t('footer.galacticLang')})</span>
                                 </button>
                                 <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                                     <span className="text-gray-500 font-bold">$</span>
@@ -439,24 +459,32 @@ export default function Footer() {
                                 <p className="text-sm text-gray-400">
                                     © {new Date().getFullYear()} Dealz. {t('footer.rights')}.
                                 </p>
-                                {/* V9: Haptics & V10: Drone Delivery */}
+                                {/* V9: Haptics & V10: Drone Delivery (Active) */}
                                 <div className="hidden md:flex items-center gap-4 text-xs text-gray-400">
                                     <div className="flex items-center gap-2 text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">
                                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                                         {t('footer.statusOperational')}
                                     </div>
-                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-gray-100 dark:border-gray-800">
+                                    {/* V9 Active Haptics */}
+                                    <button
+                                        onClick={triggerHaptics}
+                                        className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-gray-100 dark:border-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/10 active:scale-95 transition-all text-indigo-400 font-bold uppercase tracking-widest"
+                                    >
                                         <Fingerprint size={10} className="text-indigo-500" />
-                                        <span className="text-[9px] text-indigo-400 uppercase tracking-widest font-bold">{t('footer.haptics')}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/10 text-blue-500">
+                                        {t('footer.haptics')}
+                                    </button>
+                                    {/* V10 Active Drone */}
+                                    <button
+                                        onClick={() => setShowDrone(true)}
+                                        className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/10 text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all font-bold uppercase"
+                                    >
                                         <Plane size={10} className="text-blue-500" />
-                                        <span className="text-[9px] uppercase font-bold">{t('footer.droneDelivery')}</span>
-                                    </div>
+                                        {t('footer.droneDelivery')}
+                                    </button>
                                 </div>
                             </div>
 
-                            {/* V7: Award & Crypto Badge & V9 Quantum Badge */}
+                            {/* V7: Award & Crypto Badge & V9 Quantum Badge (Active) */}
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1 rounded-full border border-yellow-100 dark:border-yellow-700/30">
                                     <Award size={14} className="text-yellow-600 dark:text-yellow-500" />
@@ -468,11 +496,14 @@ export default function Footer() {
                                         <div className="h-6 w-8 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-l flex items-center justify-center relative z-10"><CreditCard size={12} /></div>
                                         <div className="h-6 w-8 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-r flex items-center justify-center relative z-0"><Bitcoin size={12} className="text-orange-500" /></div>
                                     </div>
-                                    {/* V9 Quantum Badge */}
-                                    <div className="flex items-center gap-1 bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/20">
-                                        <Cpu size={10} className="text-cyan-500" />
-                                        <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400">{t('footer.quantumSecured')}</span>
-                                    </div>
+                                    {/* V9 Active Quantum Badge */}
+                                    <button
+                                        onClick={triggerQuantumScan}
+                                        className={`flex items-center gap-1 px-1.5 py-0.5 rounded border transition-all ${isQuantumScanning ? 'bg-cyan-500 border-cyan-400 text-white shadow-lg shadow-cyan-500/50' : 'bg-cyan-900/10 border-cyan-500/20 text-cyan-600 dark:text-cyan-400'}`}
+                                    >
+                                        <Cpu size={10} className={isQuantumScanning ? "animate-spin" : "text-cyan-500"} />
+                                        <span className="text-[9px] font-bold">{isQuantumScanning ? t('footer.quantumSafe') : t('footer.quantumSecured')}</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -567,6 +598,51 @@ export default function Footer() {
                                 {t('footer.connecting')}
                             </div>
                             <button onClick={() => setShowNeural(false)} className="text-gray-500 hover:text-white transition-colors text-xs mt-8">Abort Connection</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* V10: Drone Tracking Modal */}
+            {showDrone && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-900/90 backdrop-blur-2xl animate-in fade-in duration-500">
+                    <div className="w-full max-w-lg bg-gray-900 border border-blue-500/30 rounded-3xl overflow-hidden shadow-2xl m-4">
+                        <div className="h-48 bg-gray-800 relative overflow-hidden">
+                            {/* Fake Map Grid */}
+                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-32 h-32 border-2 border-blue-500/20 rounded-full animate-ping absolute"></div>
+                                <Plane className="text-blue-400 rotate-45 animate-bounce relative z-10" size={32} />
+                            </div>
+                        </div>
+                        <div className="p-6 space-y-4">
+                            <div className="flex justify-between items-center">
+                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                    <Radio className="text-blue-500 animate-pulse" size={20} />
+                                    {t('footer.droneTrack')}
+                                </h3>
+                                <span className="bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded font-mono">LIVE</span>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="flex justify-between text-sm text-gray-400 border-b border-gray-800 pb-2">
+                                    <span>Status</span>
+                                    <span className="text-green-400">In Transit</span>
+                                </div>
+                                <div className="flex justify-between text-sm text-gray-400 border-b border-gray-800 pb-2">
+                                    <span>Altitude</span>
+                                    <span className="text-white font-mono">450ft</span>
+                                </div>
+                                <div className="flex justify-between text-sm text-gray-400">
+                                    <span>Speed</span>
+                                    <span className="text-white font-mono">120 km/h</span>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowDrone(false)}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors"
+                            >
+                                Close Tracker
+                            </button>
                         </div>
                     </div>
                 </div>

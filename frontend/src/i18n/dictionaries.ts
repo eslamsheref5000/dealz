@@ -441,7 +441,12 @@ export const dictionaries = {
             neuralTitle: "Neural Link",
             neuralDesc: "Establishing secure neural connection... Please focus your thoughts on your desired product.",
             connecting: "Connecting...",
-            simulated: "Simulated"
+            simulated: "Simulated",
+            droneTrack: "Tracking Drone #DZ-9000",
+            droneETA: "ETA: 2 mins",
+            quantumScan: "Quantum Encryption: Active",
+            quantumSafe: "Connection 100% Secure",
+            hapticsResponse: "Haptics Calibrated"
         }
     },
     ar: {
@@ -882,7 +887,12 @@ export const dictionaries = {
             neuralTitle: "الرابط العصبي",
             neuralDesc: "جاري إنشاء اتصال عصبي آمن... يرجى تركيز أفكارك على المنتج المطلوب.",
             connecting: "جاري الاتصال...",
-            simulated: "محاكاة"
+            simulated: "محاكاة",
+            droneTrack: "تتبع الطائرة #DZ-9000",
+            droneETA: "الوصول: دقيقتين",
+            quantumScan: "تشفير كمي: نشط",
+            quantumSafe: "الاتصال آمن 100٪",
+            hapticsResponse: "معايرة اللمس"
         }
     },
     fr: {
@@ -1309,7 +1319,12 @@ export const dictionaries = {
             neuralTitle: "Lien Neural",
             neuralDesc: "Établissement d'une connexion neuronale sécurisée... Veuillez concentrer vos pensées.",
             connecting: "Connexion...",
-            simulated: "Simulé"
+            simulated: "Simulé",
+            droneTrack: "Suivi du Drone #DZ-9000",
+            droneETA: "ETA: 2 min",
+            quantumScan: "Chiffrement Quantique: Actif",
+            quantumSafe: "Connexion 100% Sécurisée",
+            hapticsResponse: "Haptique Calibrée"
         }
     },
     hi: {
@@ -1722,7 +1737,12 @@ export const dictionaries = {
             neuralTitle: "न्यूरल लिंक",
             neuralDesc: "सुरक्षित तंत्रिका कनेक्शन स्थापित कर रहा है... कृपया अपने विचारों को केंद्रित करें।",
             connecting: "कनेक्ट हो रहा है...",
-            simulated: "सिम्युलेटेड"
+            simulated: "सिम्युलेटेड",
+            droneTrack: "ड्रोन ट्रैकिंग #DZ-9000",
+            droneETA: "आगमन: 2 मिनट",
+            quantumScan: "क्वांटम एन्क्रिप्शन: सक्रिय",
+            quantumSafe: "कनेक्शन 100% सुरक्षित",
+            hapticsResponse: "हैप्टिक्स कैलिब्रेटेड"
         }
     },
     ur: {
@@ -2140,7 +2160,12 @@ export const dictionaries = {
             neuralTitle: "نیورل لنک",
             neuralDesc: "محفوظ اعصابی رابطہ قائم کیا جا رہا ہے... براہ کرم اپنی سوچوں کو مرکوز کریں۔",
             connecting: "رابطہ ہو رہا ہے...",
-            simulated: "نقلی"
+            simulated: "نقلی",
+            droneTrack: "ڈرون ٹریکنگ #DZ-9000",
+            droneETA: "آمد: 2 منٹ",
+            quantumScan: "کوانٹم انکرپشن: فعال",
+            quantumSafe: "کنکشن 100٪ محفوظ",
+            hapticsResponse: "ہیپٹکس کیلیبریٹڈ"
         }
     },
 };
