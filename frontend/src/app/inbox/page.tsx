@@ -122,7 +122,7 @@ function InboxContent() {
             fetchMessages();
             const interval = setInterval(() => {
                 fetchMessages();
-            }, 5000);
+            }, 3000);
             return () => clearInterval(interval);
         }
     }, [user, querySellerId, queryProductId]);

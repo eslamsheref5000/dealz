@@ -28,13 +28,22 @@ export function CountryProvider({ children }: { children: ReactNode }) {
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
+                // Map country codes/names to our IDs
                 const countryMap: { [key: string]: string } = {
-                    'United Arab Emirates': 'UAE',
-                    'Egypt': 'Egypt',
-                    'Saudi Arabia': 'KSA'
+                    'AE': 'UAE', 'United Arab Emirates': 'UAE',
+                    'EG': 'Egypt', 'Egypt': 'Egypt',
+                    'SA': 'KSA', 'Saudi Arabia': 'KSA',
+                    'LB': 'Lebanon', 'Lebanon': 'Lebanon',
+                    'QA': 'Qatar', 'Qatar': 'Qatar',
+                    'BH': 'Bahrain', 'Bahrain': 'Bahrain',
+                    'OM': 'Oman', 'Oman': 'Oman',
+                    'KW': 'Kuwait', 'Kuwait': 'Kuwait'
                 };
-                const detectedId = countryMap[data.country_name];
+
+                const detectedId = countryMap[data.country_code] || countryMap[data.country_name];
+
                 if (detectedId) {
+                    console.log("Auto-detected Country:", detectedId);
                     setCountry(detectedId);
                 }
             })

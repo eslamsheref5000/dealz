@@ -32,6 +32,12 @@ export default function ProfilePage() {
     const { favorites } = useFavorites();
     const { showToast } = useToast();
 
+    const [stats, setStats] = useState({
+        trustScore: 100,
+        totalReviews: 0,
+        breakdown: { communication: 5, description: 5, punctuality: 5 }
+    });
+
     useEffect(() => {
         const userStr = localStorage.getItem("user");
         if (!userStr) {
@@ -42,25 +48,50 @@ export default function ProfilePage() {
         setUser(userData);
 
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+
+        // Fetch My Ads
         const fetchMyAds = fetch(`${API_URL}/api/products?filters[ad_owner][id][$eq]=${userData.id}&populate=*`).then(r => r.json());
 
+        // Fetch My Reviews (Received)
+        const fetchMyReviews = fetch(`${API_URL}/api/reviews?filters[seller][id][$eq]=${userData.id}`).then(r => r.json());
+
+        // Fetch Saved Ads
         const fetchSavedAds = favorites.length > 0
             ? Promise.all(favorites.map(docId => {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
                 return fetch(`${API_URL}/api/products/${docId}?populate=*`).then(r => r.json())
             }))
             : Promise.resolve([]);
 
-        Promise.all([fetchMyAds, fetchSavedAds])
-            .then(([myAdsData, savedAdsData]) => {
+        Promise.all([fetchMyAds, fetchSavedAds, fetchMyReviews])
+            .then(([myAdsData, savedAdsData, reviewsData]) => {
                 setAds(myAdsData.data || []);
-                // Filter out any null/error responses from savedAds
                 setSavedAds(savedAdsData.map((res: any) => res.data).filter(Boolean));
 
-                // Fetch latest user data for avatar
+                // Calculate Stats
+                const reviews = reviewsData.data || [];
+                if (reviews.length > 0) {
+                    const sumComm = reviews.reduce((acc: number, r: any) => acc + (r.attributes?.communication_rating || r.communication_rating || 5), 0);
+                    const sumDesc = reviews.reduce((acc: number, r: any) => acc + (r.attributes?.description_rating || r.description_rating || 5), 0);
+                    const sumPunc = reviews.reduce((acc: number, r: any) => acc + (r.attributes?.punctuality_rating || r.punctuality_rating || 5), 0);
+
+                    const avgComm = sumComm / reviews.length;
+                    const avgDesc = sumDesc / reviews.length;
+                    const avgPunc = sumPunc / reviews.length;
+
+                    // Overall Trust Score (0-100)
+                    const overallAvg = (avgComm + avgDesc + avgPunc) / 3;
+                    const trustScore = Math.round((overallAvg / 5) * 100);
+
+                    setStats({
+                        trustScore,
+                        totalReviews: reviews.length,
+                        breakdown: { communication: avgComm, description: avgDesc, punctuality: avgPunc }
+                    });
+                }
+
+                // ... fetch user avatar logic (same as before)
                 const token = localStorage.getItem("jwt");
                 if (token) {
-                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
                     fetch(`${API_URL}/api/users/me?populate=avatar`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     })

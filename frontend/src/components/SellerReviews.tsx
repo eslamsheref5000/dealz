@@ -22,7 +22,12 @@ interface SellerReviewsProps {
 export default function SellerReviews({ sellerId, currentUserId }: SellerReviewsProps) {
     const { t } = useLanguage();
     const [reviews, setReviews] = useState<Review[]>([]);
-    const [rating, setRating] = useState(5);
+
+    // Detailed Ratings State
+    const [communicationRating, setCommunicationRating] = useState(5);
+    const [descRating, setDescRating] = useState(5);
+    const [punctualityRating, setPunctualityRating] = useState(5);
+
     const [comment, setComment] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
@@ -62,6 +67,10 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
         try {
             const token = localStorage.getItem("jwt");
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+
+            // Calculate Average Rating
+            const overallRating = Math.round((communicationRating + descRating + punctualityRating) / 3);
+
             const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
                 headers: {
@@ -70,7 +79,10 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
                 },
                 body: JSON.stringify({
                     data: {
-                        rating: Number(rating),
+                        rating: overallRating,
+                        communication_rating: communicationRating,
+                        description_rating: descRating,
+                        punctuality_rating: punctualityRating,
                         comment,
                         seller: Number(sellerId),
                         reviewer: Number(currentUserId)
@@ -80,7 +92,9 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
 
             if (res.ok) {
                 setComment("");
-                setRating(5);
+                setCommunicationRating(5);
+                setDescRating(5);
+                setPunctualityRating(5);
                 fetchReviews(); // Refresh list
             } else {
                 const errorText = await res.text();
@@ -136,18 +150,32 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
             {currentUserId && String(currentUserId) !== String(sellerId) && (
                 <form onSubmit={handleSubmit} className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
                     <h4 className="font-bold mb-3 text-sm uppercase text-gray-500">{t('reviews.writeReview')}</h4>
-                    <div className="flex gap-2 mb-3">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <button
-                                type="button"
-                                key={star}
-                                onClick={() => setRating(star)}
-                                className={`text-2xl transition hover:scale-110 ${rating >= star ? 'grayscale-0' : 'grayscale opacity-30'}`}
-                            >
-                                ⭐
-                            </button>
+
+                    {/* Detailed Ratings */}
+                    <div className="space-y-3 mb-4">
+                        {[
+                            { label: t('reviews.communication'), value: communicationRating, set: setCommunicationRating },
+                            { label: t('reviews.itemDesc'), value: descRating, set: setDescRating },
+                            { label: t('reviews.punctuality'), value: punctualityRating, set: setPunctualityRating }
+                        ].map((criterion, idx) => (
+                            <div key={idx} className="flex items-center justify-between">
+                                <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">{criterion.label}</span>
+                                <div className="flex gap-1">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <button
+                                            type="button"
+                                            key={star}
+                                            onClick={() => criterion.set(star)}
+                                            className={`text-lg transition hover:scale-110 ${criterion.value >= star ? 'grayscale-0' : 'grayscale opacity-30'}`}
+                                        >
+                                            ⭐
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
                     </div>
+
                     <textarea
                         className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder={t('reviews.shareExperience')}

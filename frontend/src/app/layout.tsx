@@ -67,6 +67,7 @@ import { RecentlyViewedProvider } from "../context/RecentlyViewedContext";
 import { ComparisonProvider } from "../context/ComparisonContext";
 
 import SchemaOrg from "../components/SchemaOrg";
+import NotificationManager from "../components/NotificationManager";
 
 export default function RootLayout({
   children,
@@ -86,6 +87,7 @@ export default function RootLayout({
                 <RecentlyViewedProvider>
                   <ComparisonProvider>
                     <CountryProvider>
+                      <NotificationManager />
                       {children}
                     </CountryProvider>
                   </ComparisonProvider>

@@ -317,7 +317,10 @@ export const dictionaries = {
             posting: "Posting...",
             loginToReview: "Please login to review",
             success: "Review posted successfully!",
-            failed: "Failed to post review"
+            failed: "Failed to post review",
+            communication: "Communication",
+            itemDesc: "Item as Described",
+            punctuality: "Punctuality"
         },
         filters: {
             min: "Min",
@@ -678,7 +681,10 @@ export const dictionaries = {
             posting: "جاري النشر...",
             loginToReview: "الرجاء تسجيل الدخول للتقييم",
             success: "تم نشر التقييم بنجاح!",
-            failed: "فشل نشر التقييم"
+            failed: "فشل نشر التقييم",
+            communication: "التواصل",
+            itemDesc: "مطابقة الوصف",
+            punctuality: "المواعيد"
         },
         filters: {
             min: "أقل سعر",
