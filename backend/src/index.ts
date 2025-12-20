@@ -16,10 +16,10 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-    console.log("!!! OVERRIDING AUTH CONTROLLER IN BOOTSTRAP !!!");
-    const originalCallback = upPlugin.controllers.auth.callback;
+    console.log("!!! BOOTSTRAP STARTED !!!");
 
-    upPlugin.controllers.auth.callback = async (ctx) => {
+    // 0. Backfill Slugs (SEO)
+    const makeSlug = (str) => {
       console.log('!!! BOOTSTRAP OVERRIDE CALLBACK TRIGGERED !!!');
       try {
         await originalCallback(ctx);

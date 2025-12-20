@@ -1,4 +1,4 @@
-export default {
+export default ({ strapi }) => ({
     async exchange(ctx) {
         try {
             const { access_token } = ctx.request.body;
@@ -39,16 +39,19 @@ export default {
                 const baseUsername = email.split('@')[0];
                 const uniqueSuffix = Math.floor(Math.random() * 10000);
 
+                const newUserPayload = {
+                    username: `${baseUsername}_${uniqueSuffix}`,
+                    email: email,
+                    provider: 'google',
+                    password: Math.random().toString(36).slice(-8),
+                    confirmed: true,
+                    blocked: false,
+                    role: role.id
+                };
+
+                // Use query().create for direct DB access, usually safer for auth plugins
                 user = await strapi.query('plugin::users-permissions.user').create({
-                    data: {
-                        username: `${baseUsername}_${uniqueSuffix}`,
-                        email: email,
-                        provider: 'google',
-                        password: Math.random().toString(36).slice(-8),
-                        confirmed: true,
-                        blocked: false,
-                        role: role.id
-                    }
+                    data: newUserPayload
                 });
             }
 
@@ -71,4 +74,4 @@ export default {
             return ctx.badRequest('Internal Exchange Error: ' + err.message);
         }
     }
-};
+});
