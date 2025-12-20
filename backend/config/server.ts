@@ -4,5 +4,5 @@ export default ({ env }) => ({
   app: {
     keys: env.array('APP_KEYS'),
   },
-  url: env('PUBLIC_URL', 'https://shando5000-dealz.hf.space'),
+  url: env('PUBLIC_URL', 'https://shando5000-dealz.hf.space'), // Public URL for OAuth callbacks
 });
