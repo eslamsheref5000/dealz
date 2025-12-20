@@ -321,7 +321,10 @@ export const dictionaries = {
             loginFailed: "Login Failed",
             registerSuccess: "Registration Successful! Please Log in.",
             registerFailed: "Registration Failed",
-            networkError: "Network Error"
+            networkError: "Network Error",
+            agreeToTerms: "I agree to the Terms of Service and Privacy Policy",
+            termsLink: "Terms of Service",
+            privacyLink: "Privacy Policy"
         },
         reviews: {
             title: "Seller Reviews",
@@ -852,7 +855,10 @@ export const dictionaries = {
             loginFailed: "فشل تسجيل الدخول",
             registerSuccess: "تم التسجيل بنجاح! الرجاء تسجيل الدخول.",
             registerFailed: "فشل التسجيل",
-            networkError: "خطأ في الاتصال"
+            networkError: "خطأ في الاتصال",
+            agreeToTerms: "أوافق على شروط الاستخدام وسياسة الخصوصية",
+            termsLink: "شروط الاستخدام",
+            privacyLink: "سياسة الخصوصية"
         },
         reviews: {
             title: "تقييمات البائع",
@@ -1368,7 +1374,10 @@ export const dictionaries = {
             loginFailed: "Échec de la connexion",
             registerSuccess: "Inscription réussie ! Veuillez vous connecter.",
             registerFailed: "Échec de l'inscription",
-            networkError: "Erreur réseau"
+            networkError: "Erreur réseau",
+            agreeToTerms: "J'accepte les conditions d'utilisation et la politique de confidentialité",
+            termsLink: "Conditions d'utilisation",
+            privacyLink: "Politique de confidentialité"
         },
         reviews: {
             title: "Avis du vendeur",
@@ -1871,7 +1880,10 @@ export const dictionaries = {
             loginFailed: "लॉगिन विफल",
             registerSuccess: "पंजीकरण सफल! कृपया लॉगिन करें।",
             registerFailed: "पंजीकरण विफल",
-            networkError: "नेटवर्क त्रुटि"
+            networkError: "नेटवर्क त्रुटि",
+            agreeToTerms: "मैं सेवा की शर्तों और गोपनीयता नीति से सहमत हूँ",
+            termsLink: "सेवा की शर्तें",
+            privacyLink: "गोपनीयता नीति"
         },
         reviews: {
             title: "विक्रेता समीक्षा",
@@ -2379,7 +2391,10 @@ export const dictionaries = {
             loginFailed: "لاگ ان ناکام",
             registerSuccess: "رجسٹریشن کامیاب! براہ کرم لاگ ان کریں۔",
             registerFailed: "رجسٹریشن ناکام",
-            networkError: "نیٹ ورک کی خرابی"
+            networkError: "نیٹ ورک کی خرابی",
+            agreeToTerms: "میں سروس کی شرائط اور رازداری کی پالیسی سے متفق ہوں",
+            termsLink: "سروس کی شرائط",
+            privacyLink: "رازداری کی پالیسی"
         },
         reviews: {
             title: "بیچنے والے کے جائزے",
