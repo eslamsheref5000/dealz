@@ -79,6 +79,14 @@ export const dictionaries = {
             featured: {
                 title: "Boost Your Ad Visibility! 🚀",
                 desc: "Reach 10x more buyers and sell faster by featuring your ad."
+            },
+            privacy: {
+                title: "Contact Privacy",
+                showPhone: "Show Phone Number on Ad",
+                enableChat: "Allow In-App Chat Messages"
+            },
+            errors: {
+                contactRequired: "You must enable at least one contact method (Phone or Chat)."
             }
         },
         product: {
@@ -447,6 +455,14 @@ export const dictionaries = {
             featured: {
                 title: "ضاعف مشاهدات إعلانك! 🚀",
                 desc: "وصل إعلانك لـ 10 أضعاف المشترين وبع أسرع مع خدمة التميز."
+            },
+            privacy: {
+                title: "خصوصية التواصل",
+                showPhone: "إظهار رقم الهاتف في الإعلان",
+                enableChat: "السماح بالمراسلة عبر التطبيق"
+            },
+            errors: {
+                contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."
             }
         },
         product: {
@@ -801,6 +817,14 @@ export const dictionaries = {
                 phone: "ex: +971 50 123 4567",
                 subCategory: "Sélectionnez une sous-catégorie",
                 description: "Décrivez votre article..."
+            },
+            privacy: {
+                title: "Confidentialité des contacts",
+                showPhone: "Afficher le numéro de téléphone",
+                enableChat: "Autoriser le chat"
+            },
+            errors: {
+                contactRequired: "Vous devez activer au moins une méthode de contact."
             },
             submit: "Publier l'annonce",
             uploadTip: "La première image sera la couverture.",

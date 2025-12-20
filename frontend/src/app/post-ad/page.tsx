@@ -23,7 +23,9 @@ export default function PostAdPage() {
         phone: "",
         countryCode: "",
         images: [] as File[],
-        specs: {} as any
+        specs: {} as any,
+        showPhone: true,
+        enableChat: true,
     });
 
     // Payment State
@@ -142,8 +144,20 @@ export default function PostAdPage() {
         }));
     };
 
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setFormData(prev => ({ ...prev, [name]: checked }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validation: At least one contact method required
+        if (!formData.showPhone && !formData.enableChat) {
+            showToast(t('postAd.errors.contactRequired') || "At least one contact method (Phone or Chat) must be enabled.", "error");
+            return;
+        }
+
         try {
             // Upload Images logic
             let imageIds: string[] = [];
@@ -190,7 +204,9 @@ export default function PostAdPage() {
                 paymentMethod: isFeatured ? 'instapay' : 'none',
                 paymentStatus: isFeatured ? 'pending' : 'unpaid',
                 paymentTransactionId: isFeatured ? transactionId : null,
-                specifications: formData.specs
+                specifications: formData.specs,
+                showPhone: formData.showPhone,
+                enableChat: formData.enableChat
             };
 
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
@@ -611,6 +627,38 @@ export default function PostAdPage() {
                                         </div>
                                     ))}
                                 </div>
+                            )}
+                        </div>
+
+                        {/* Contact Privacy Controls */}
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">{t('postAd.privacy.title') || "Contact Privacy"}</h3>
+                            <div className="space-y-3">
+                                <label className="flex items-center gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        name="showPhone"
+                                        checked={formData.showPhone}
+                                        onChange={handleCheckboxChange}
+                                        className="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                                    />
+                                    <span className="text-gray-700 dark:text-gray-300">{t('postAd.privacy.showPhone') || "Show Phone Number on Ad"}</span>
+                                </label>
+                                <label className="flex items-center gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        name="enableChat"
+                                        checked={formData.enableChat}
+                                        onChange={handleCheckboxChange}
+                                        className="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                                    />
+                                    <span className="text-gray-700 dark:text-gray-300">{t('postAd.privacy.enableChat') || "Allow In-App Chat Messages"}</span>
+                                </label>
+                            </div>
+                            {(!formData.showPhone && !formData.enableChat) && (
+                                <p className="text-red-500 text-xs mt-2 font-bold animate-pulse">
+                                    ⚠️ {t('postAd.errors.contactRequired') || "You must enable at least one contact method."}
+                                </p>
                             )}
                         </div>
 

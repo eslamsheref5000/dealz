@@ -20,6 +20,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
     const { showToast } = useToast();
     const { addToRecentlyViewed } = useRecentlyViewed();
     const [currentUser, setCurrentUser] = useState<any>(null);
+    const [showNumber, setShowNumber] = useState(false);
 
     // Hydrate state
     const product = initialProduct;
@@ -151,13 +152,30 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                             </div>
 
                             <div className="space-y-3">
-                                <button className="w-full bg-red-600 text-white py-3 rounded-xl font-bold text-lg hover:bg-red-700 transition flex items-center justify-center gap-2 shadow-lg shadow-red-200 dark:shadow-red-900/20">
-                                    <span>📞</span> {attrs.phone || t('product.showPhone')}
-                                </button>
+                                {/* Phone Button - Respects Privacy */}
+                                {product.showPhone !== false && (
+                                    <button
+                                        onClick={() => setShowNumber(true)}
+                                        className={`w-full py-3 rounded-xl font-bold text-lg transition flex items-center justify-center gap-2 shadow-lg ${showNumber
+                                            ? 'bg-white text-red-600 border-2 border-red-600 hover:bg-gray-50'
+                                            : 'bg-red-600 text-white hover:bg-red-700 shadow-red-200 dark:shadow-red-900/20'
+                                            }`}
+                                    >
+                                        <span>📞</span>
+                                        {showNumber ? (
+                                            <a href={`tel:${attrs.phone}`} className="hover:underline">{attrs.phone}</a>
+                                        ) : (
+                                            t('product.showPhone')
+                                        )}
+                                    </button>
+                                )}
 
-                                <Link href={`/inbox?seller=${attrs.ad_owner?.documentId || attrs.ad_owner?.id}&product=${attrs.documentId}`} className="w-full bg-green-500 text-white py-3 rounded-xl font-bold text-lg hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-green-900/20">
-                                    <span>💬</span> {t('product.chatSeller')}
-                                </Link>
+                                {/* Chat Button - Respects Privacy */}
+                                {product.enableChat !== false && (
+                                    <Link href={`/inbox?seller=${attrs.ad_owner?.documentId || attrs.ad_owner?.id}&product=${attrs.documentId}`} className="w-full bg-green-500 text-white py-3 rounded-xl font-bold text-lg hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-green-900/20">
+                                        <span>💬</span> {t('product.chatSeller')}
+                                    </Link>
+                                )}
 
                                 <button onClick={handleShare} className="w-full bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 py-3 rounded-xl font-bold text-lg hover:bg-blue-200 dark:hover:bg-blue-900/40 transition flex items-center justify-center gap-2">
                                     <span>🔗</span> {t('product.share')}

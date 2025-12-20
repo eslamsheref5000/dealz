@@ -106,6 +106,14 @@
         },
         "specifications": {
             "type": "json"
+        },
+        "showPhone": {
+            "type": "boolean",
+            "default": true
+        },
+        "enableChat": {
+            "type": "boolean",
+            "default": true
         }
     }
 }
