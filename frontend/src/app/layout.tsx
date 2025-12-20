@@ -39,6 +39,15 @@ export const metadata: Metadata = {
     description: 'Find the best deals in Egypt, UAE, and KSA.',
     images: ['/logo.png'],
   },
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+    other: {
+      rel: 'apple-touch-icon-precomposed',
+      url: '/icon.png',
+    },
+  },
   manifest: "/manifest.json",
   themeColor: "#dc2626",
   viewport: {
@@ -51,11 +60,7 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Dealz",
   },
-  icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
-  },
+
 };
 
 import { LanguageProvider } from "../context/LanguageContext";
