@@ -400,7 +400,9 @@ export const dictionaries = {
             downloadApp: "Download our App",
             paymentMethods: "Secured Payment Gateways",
             appStore: "App Store",
-            googlePlay: "Google Play"
+            googlePlay: "Google Play",
+            trending: "Trending",
+            backToTop: "Back to Top"
         }
     },
     ar: {
@@ -800,7 +802,9 @@ export const dictionaries = {
             downloadApp: "حمل تطبيقنا",
             paymentMethods: "بوابات دفع آمنة",
             appStore: "آب ستور",
-            googlePlay: "جوجل بلاي"
+            googlePlay: "جوجل بلاي",
+            trending: "الأكثر رواجاً",
+            backToTop: "العودة للأعلى"
         }
     },
     fr: {
@@ -1186,7 +1190,9 @@ export const dictionaries = {
             downloadApp: "Téléchargez notre application",
             paymentMethods: "Passerelles de paiement sécurisées",
             appStore: "App Store",
-            googlePlay: "Google Play"
+            googlePlay: "Google Play",
+            trending: "Tendances",
+            backToTop: "Retour en haut"
         }
     },
     hi: {
@@ -1558,7 +1564,9 @@ export const dictionaries = {
             downloadApp: "हमारा ऐप डाउनलोड करें",
             paymentMethods: "सुरक्षित भुगतान गेटवे",
             appStore: "ऐप स्टोर",
-            googlePlay: "गूगल प्ले"
+            googlePlay: "गूगल प्ले",
+            trending: "ट्रेंडिंग",
+            backToTop: "वापस ऊपर जाएं"
         }
     },
     ur: {
@@ -1935,7 +1943,9 @@ export const dictionaries = {
             downloadApp: "ہماری ایپ ڈاؤن لوڈ کریں",
             paymentMethods: "محفوظ ادائیگی کے گیٹ وے",
             appStore: "ایپ اسٹور",
-            googlePlay: "گوگل پلے"
+            googlePlay: "گوگل پلے",
+            trending: "رجحان ساز",
+            backToTop: "واپس اوپر جائیں"
         }
     },
 };

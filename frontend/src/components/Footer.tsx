@@ -10,21 +10,26 @@ import {
     Linkedin,
     Smartphone,
     CreditCard,
-    Send
+    Send,
+    ArrowUp
 } from "lucide-react";
 
 export default function Footer() {
     const { t, locale } = useLanguage();
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     const sections = [
         {
-            title: t('common.dealz'),
+            title: t('footer.trending'),
             links: [
-                { label: t('footer.about'), href: "/help" },
-                { label: t('footer.careers'), href: "/help" },
-                { label: t('footer.privacy'), href: "/privacy" },
-                { label: t('footer.terms'), href: "/terms" },
-                { label: t('footer.sitemap'), href: "/sitemap" },
+                { label: t('categories.Motors'), href: "/c/Motors" },
+                { label: t('categories.Properties'), href: "/c/Properties" },
+                { label: t('categories.Mobiles'), href: "/c/Mobiles" },
+                { label: t('categories.Jobs'), href: "/c/Jobs" },
+                { label: t('categories.Electronics'), href: "/c/Electronics" },
             ]
         },
         {
@@ -33,6 +38,8 @@ export default function Footer() {
                 { label: t('footer.helpCenter'), href: "/help" },
                 { label: t('footer.contactUs'), href: "/help" },
                 { label: t('footer.safety'), href: "/help" },
+                { label: t('footer.sitemap'), href: "/sitemap" },
+                { label: t('footer.about'), href: "/help" },
             ]
         }
     ];
@@ -46,7 +53,16 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 mt-20 transition-colors duration-300">
+        <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 mt-20 transition-colors duration-300 relative group/footer">
+            {/* Back to Top Button */}
+            <button
+                onClick={scrollToTop}
+                className="absolute -top-6 left-1/2 -translate-x-1/2 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 hover:scale-110 transition-all opacity-0 group-hover/footer:opacity-100 md:opacity-100"
+                aria-label={t('footer.backToTop')}
+            >
+                <ArrowUp size={20} />
+            </button>
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     {/* Brand & Newsletter Column */}
@@ -74,7 +90,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Links Columns */}
+                    {/* Links Columns (Trending + Support) */}
                     {sections.map((section, idx) => (
                         <div key={idx} className="col-span-1">
                             <h3 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">{section.title}</h3>
@@ -149,9 +165,9 @@ export default function Footer() {
                             <Link href="/terms" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                                 {t('footer.termsShort')}
                             </Link>
-                            <Link href="/sitemap" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                                {t('footer.sitemap')}
-                            </Link>
+                            <div className="cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 transition-colors" onClick={scrollToTop}>
+                                {t('footer.backToTop')}
+                            </div>
                         </div>
                     </div>
                 </div>
