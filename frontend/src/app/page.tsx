@@ -316,6 +316,16 @@ export default function Home() {
         {/* Recently Viewed */}
         <RecentlyViewed />
 
+        {/* Category Sections (Only show on Home, i.e. no search/filter active) */}
+        {!searchTerm && !selectedCategory && !selectedSubCategory && (
+          <div className="space-y-4 mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <CategoryRow categoryName="Motors" title={t('categories.Motors') || "Motors"} />
+            <CategoryRow categoryName="Properties" title={t('categories.Properties') || "Properties"} />
+            <CategoryRow categoryName="Mobiles" title={t('categories.Mobiles') || "Mobiles"} />
+            <CategoryRow categoryName="Furniture & Garden" title={t('categories.Furniture & Garden') || "Furniture"} />
+          </div>
+        )}
+
         <AdvancedFilters
           category={selectedCategory}
           filters={extraFilters}

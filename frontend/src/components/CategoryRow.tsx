@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import ProductCard from "./ProductCard";
 import { useLanguage } from "../context/LanguageContext";
 import { useCountry } from "../context/CountryContext";
 import { useFavorites } from "../context/FavoriteContext";
@@ -45,72 +46,25 @@ export default function CategoryRow({ categoryName, title }: CategoryRowProps) {
                     {title}
                 </h2>
                 <Link
-                    href={`/?category=${encodeURIComponent(categoryName)}`}
+                    href={`/c/${encodeURIComponent(categoryName)}`}
                     className="text-red-600 text-sm font-bold hover:underline"
                 >
                     {t('common.viewAll') || "See All"}
                 </Link>
             </div>
 
-            <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x px-1">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-1">
                 {loading ? (
                     // Skeleton loader
                     [...Array(4)].map((_, i) => (
-                        <div key={i} className="min-w-[240px] h-[280px] bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse snap-center"></div>
+                        <div key={i} className="h-full">
+                            <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse"></div>
+                        </div>
                     ))
                 ) : (
                     products.map((ad: any) => (
-                        <div key={ad.documentId || ad.id} className="min-w-[240px] max-w-[240px] bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden border border-gray-100 dark:border-gray-800 border-l-4 border-l-transparent hover:border-l-red-500 snap-center relative group">
-                            {ad.isFeatured && (
-                                <div className="absolute top-3 left-3 z-10 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded shadow-sm">
-                                    {t('common.featured') || "Featured"}
-                                </div>
-                            )}
-                            {isWithinTwoHours(ad.publishedAt || ad.createdAt) && (
-                                <div className={`absolute top-3 ${ad.isFeatured ? 'left-20' : 'left-3'} z-10 bg-green-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded shadow-sm flex items-center gap-1 transition-all`}>
-                                    <span>✨</span> {t('home.newBadge')}
-                                </div>
-                            )}
-
-                            <Link href={`/product/${ad.slug || ad.documentId}`} className="block h-full flex flex-col">
-                                <div className="relative h-40 w-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
-                                    <img
-                                        src={ad.images && ad.images.length > 0 ? (ad.images[0].url.startsWith('http') ? ad.images[0].url : `${process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space'}${ad.images[0].url}`) : "https://placehold.co/600x400/png?text=No+Image"}
-                                        alt={ad.title}
-                                        className="object-cover w-full h-full group-hover:scale-110 transition duration-500"
-                                    />
-                                </div>
-
-                                <div className="p-3 flex-grow flex flex-col justify-between">
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-1 mb-1" title={ad.title}>
-                                            {ad.title}
-                                        </h3>
-                                        <div className="text-red-600 font-bold text-lg">
-                                            {ad.price?.toLocaleString()} <span className="text-xs text-gray-400 font-normal">{selectedCountry.currency}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-50 dark:border-gray-800">
-                                        <span className="text-xs text-gray-400 flex items-center gap-1">
-                                            📍 {ad.city}
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-
-                            <button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    toggleFavorite(ad.documentId);
-                                }}
-                                className="absolute bottom-3 right-3 p-2 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition z-20"
-                            >
-                                <span className={`text-lg ${isFavorite(ad.documentId) ? 'text-red-500' : 'text-gray-400 dark:text-gray-300'}`}>
-                                    {isFavorite(ad.documentId) ? '❤️' : '🤍'}
-                                </span>
-                            </button>
+                        <div key={ad.documentId || ad.id} className="h-full">
+                            <ProductCard product={ad} />
                         </div>
                     ))
                 )}
