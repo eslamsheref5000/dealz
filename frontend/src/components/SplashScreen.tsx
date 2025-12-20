@@ -80,7 +80,6 @@ export default function SplashScreen() {
                 </div>
             </div>
 
-            {/* Custom Keyframes */}
             <style jsx global>{`
         @keyframes slideRight {
             0% { transform: translateX(-100%); }
@@ -94,6 +93,48 @@ export default function SplashScreen() {
             70% { width: 75%; }
             90% { width: 95%; }
             100% { width: 100%; }
+        }
+
+        /* Cyber Glitch Animation */
+        @keyframes glitch {
+          0% {
+            clip-path: inset(50% 0 30% 0);
+            transform: translate(-2px, 2px);
+          }
+          20% {
+            clip-path: inset(15% 0 60% 0);
+            transform: translate(2px, -2px);
+          }
+          40% {
+            clip-path: inset(45% 0 40% 0);
+            transform: translate(-2px, 2px);
+          }
+          60% {
+            clip-path: inset(25% 0 10% 0);
+            transform: translate(2px, -2px);
+          }
+          80% {
+            clip-path: inset(60% 0 5% 0);
+            transform: translate(-2px, 2px);
+          }
+          100% {
+            clip-path: inset(10% 0 80% 0);
+            transform: translate(2px, -2px);
+          }
+        }
+
+        .animate-glitch {
+          animation: glitch 2s infinite linear alternate-reverse;
+        }
+
+        .cyber-lines {
+          background: repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 2px,
+            rgba(220, 38, 38, 0.1) 4px
+          );
+          background-size: 100% 4px;
         }
       `}</style>
         </div>
