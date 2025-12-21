@@ -10,9 +10,14 @@ export default ({ strapi }) => ({
             // Initialize new SDK Client
             const ai = new GoogleGenAI({ apiKey });
 
-            // Fallback logic for models. User documentation shows 2.5-flash.
-            // We try the "fake" 2.5 first if docs say so, then 2.0-flash-exp, then 1.5.
-            const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-1.5-pro"];
+            // Extensive model list to try everything possible
+            const modelsToTry = [
+                "gemini-1.5-flash",
+                "gemini-1.5-pro",
+                "gemini-2.0-flash-exp",
+                "gemini-pro",
+                "gemini-pro-vision"
+            ];
 
             let lastError;
             const fs = require('fs');
@@ -50,7 +55,7 @@ export default ({ strapi }) => ({
                         ]
                     });
 
-                    const text = response.text; // Fixed: Getter not function
+                    const text = response.text;
 
                     if (!text) throw new Error("Empty response from AI");
 
@@ -70,10 +75,13 @@ export default ({ strapi }) => ({
                 console.log("All models failed. Listing available models...");
                 const models = await ai.models.list();
                 console.log("Available Models Object:", models);
-                throw new Error(`Models failed. Last Error: ${lastError.message}`);
-            } catch (listError) {
-                // If listing fails, just throw the last error
-                throw lastError;
+                // Throwing the LAST error, but catching list failure specifically below
+                throw new Error(`All models failed. Last Error: ${lastError.message}`);
+            } catch (listError: any) {
+                // If listing ALSO fails, we need to know why listing failed.
+                // This usually means the API key is invalid or lacks permissions.
+                console.error("Failed to list models:", listError);
+                throw new Error(`CRITICAL: Model listing failed (${listError.message}). Last Model Error: ${lastError?.message}`);
             }
 
         } catch (error: any) {
