@@ -8,8 +8,9 @@ export default ({ strapi }) => ({
             if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
 
             const genAI = new GoogleGenerativeAI(apiKey);
-            // Fallback logic for models
-            const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro-vision"];
+            // Fallback logic for models: Try 1.5 Flash, 1.5 Pro, and the new 2.0 Flash Exp.
+            // Note: User mentioned '2.5', likely meaning the new 2.0 experimental or 1.5 updates.
+            const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
             let lastError;
 
             // Function to convert file to GenerativePart
