@@ -152,10 +152,7 @@ export default function PostAdPage() {
         setFormData(prev => ({ ...prev, [name]: checked }));
     };
 
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setFormData(prev => ({ ...prev, [name]: checked }));
-    };
+
 
     const analyzeImageWithAI = async () => {
         if (formData.images.length === 0) return;
