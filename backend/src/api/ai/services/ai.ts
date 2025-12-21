@@ -69,10 +69,8 @@ export default ({ strapi }) => ({
             try {
                 console.log("All models failed. Listing available models...");
                 const models = await ai.models.list();
-                console.log("Available Models:", JSON.stringify(models, null, 2));
-                // Extract model names for the error message
-                const modelNames = models.map((m: any) => m.name).join(", ");
-                throw new Error(`Models failed. Available: ${modelNames}. Last Error: ${lastError.message}`);
+                console.log("Available Models Object:", models);
+                throw new Error(`Models failed. Last Error: ${lastError.message}`);
             } catch (listError) {
                 // If listing fails, just throw the last error
                 throw lastError;
