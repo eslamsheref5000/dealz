@@ -10,14 +10,11 @@ export default ({ strapi }) => ({
             // Initialize new SDK Client
             const ai = new GoogleGenAI({ apiKey });
 
-            // Optimized model list to handle Rate Limits (429) better.
-            // prioritized Flash-Lite as it's often more efficient for limits.
+            // User requested STRICTLY 'gemini-2.5-flash-lite' to avoid rate limits.
+            // "gemini-2.5-flash" was hitting consumption limits.
+            // "gemini-2.5-flash-lite" has fresh quota (0/10 RPM).
             const modelsToTry = [
-                "gemini-2.5-flash",          // Newest Stable
-                "gemini-2.0-flash-lite-001", // Lightweight (Lower quota usage likely)
-                "gemini-flash-latest",       // Generic alias
-                "gemini-2.5-pro",            // Fallback High-Quality
-                "gemini-2.0-flash-exp"       // Experimental Fallback
+                "gemini-2.5-flash-lite"
             ];
 
             let lastError;
@@ -68,16 +65,17 @@ export default ({ strapi }) => ({
                 } catch (error: any) {
                     console.warn(`Model ${modelName} failed:`, error.message);
                     lastError = error;
-
-                    // If we hit a rate limit (429), maybe wait a second before trying the next model?
-                    // But usually, all models share the quota on free tier. 
-                    // We just continue hoping 'Lite' uses a different bucket.
                 }
             }
 
             // If all failed
-            console.error("All models failed. Last error: " + lastError?.message);
-            throw new Error(`AI Analysis Failed (Quota/Error). Please try again in 1 minute. Details: ${lastError?.message}`);
+            if (lastError) {
+                // Enhanced error for rate limits
+                if (lastError.message.includes("429") || lastError.message.includes("quota")) {
+                    throw new Error(`Quota Exceeded for ${modelsToTry.join(",")}. Please wait 1 minute.`);
+                }
+                throw new Error(`AI Analysis Failed. Last Error: ${lastError.message}`);
+            }
 
         } catch (error: any) {
             console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
