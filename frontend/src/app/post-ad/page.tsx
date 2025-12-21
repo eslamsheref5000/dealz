@@ -162,9 +162,13 @@ export default function PostAdPage() {
             const formDataAI = new FormData();
             formDataAI.append('image', formData.images[0]); // Analyze the first image
 
+            const token = localStorage.getItem("jwt");
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             const res = await fetch(`${API_URL}/api/ai/analyze`, {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 body: formDataAI
             });
 
