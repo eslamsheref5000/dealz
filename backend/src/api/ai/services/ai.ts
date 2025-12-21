@@ -10,12 +10,14 @@ export default ({ strapi }) => ({
             // Initialize new SDK Client
             const ai = new GoogleGenAI({ apiKey });
 
-            // Verified models from user's API key capabilities (Dec 2025)
-            // Prioritizing 2.5 Flash as it is stable and multimodal.
+            // Optimized model list to handle Rate Limits (429) better.
+            // prioritized Flash-Lite as it's often more efficient for limits.
             const modelsToTry = [
-                "gemini-2.5-flash",
-                "gemini-2.5-pro",
-                "gemini-2.0-flash-exp"
+                "gemini-2.5-flash",          // Newest Stable
+                "gemini-2.0-flash-lite-001", // Lightweight (Lower quota usage likely)
+                "gemini-flash-latest",       // Generic alias
+                "gemini-2.5-pro",            // Fallback High-Quality
+                "gemini-2.0-flash-exp"       // Experimental Fallback
             ];
 
             let lastError;
@@ -66,12 +68,16 @@ export default ({ strapi }) => ({
                 } catch (error: any) {
                     console.warn(`Model ${modelName} failed:`, error.message);
                     lastError = error;
+
+                    // If we hit a rate limit (429), maybe wait a second before trying the next model?
+                    // But usually, all models share the quota on free tier. 
+                    // We just continue hoping 'Lite' uses a different bucket.
                 }
             }
 
             // If all failed
-            console.error("All models failed. Last error from " + modelsToTry[modelsToTry.length - 1] + ": " + lastError?.message);
-            throw new Error(`AI Analysis Failed: Could not generate content with available models. Last Error: ${lastError?.message}`);
+            console.error("All models failed. Last error: " + lastError?.message);
+            throw new Error(`AI Analysis Failed (Quota/Error). Please try again in 1 minute. Details: ${lastError?.message}`);
 
         } catch (error: any) {
             console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
