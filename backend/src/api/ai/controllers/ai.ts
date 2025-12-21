@@ -17,16 +17,20 @@ export default ({ strapi }) => ({
                 return ctx.badRequest('Image field not found');
             }
 
-            console.log("Processing Image:", image.name, image.type);
-
             // Support verify different filepath properties (formidable v2 vs v3)
             const filePath = image.filepath || image.path;
+
+            // Fix: Check for different mimetype property names (type, mimetype) and fallback
+            // This prevents "Unsupported MIME type: " errors if the property is missing
+            const mimeType = image.type || image.mimetype || 'image/jpeg';
+
+            console.log("Processing Image:", { name: image.name, path: filePath, mime: mimeType });
 
             if (!filePath) {
                 throw new Error("File path not found in request");
             }
 
-            const result = await strapi.service('api::ai.ai').analyzeImage(filePath, image.type);
+            const result = await strapi.service('api::ai.ai').analyzeImage(filePath, mimeType);
 
             ctx.body = { data: result };
         } catch (err: any) {
