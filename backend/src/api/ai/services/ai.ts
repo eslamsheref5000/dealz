@@ -10,9 +10,9 @@ export default ({ strapi }) => ({
             // Initialize new SDK Client
             const ai = new GoogleGenAI({ apiKey });
 
-            // Using the new model name from docs/user hint
-            // Trying 2.0 Flash Exp first as requested, then falling back to reliable ones
-            const modelsToTry = ["gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-1.5-pro"];
+            // Fallback logic for models. User documentation shows 2.5-flash.
+            // We try the "fake" 2.5 first if docs say so, then 2.0-flash-exp, then 1.5.
+            const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-1.5-pro"];
 
             let lastError;
             const fs = require('fs');
@@ -50,7 +50,7 @@ export default ({ strapi }) => ({
                         ]
                     });
 
-                    const text = response.text;
+                    const text = response.text; // Fixed: Getter not function
 
                     if (!text) throw new Error("Empty response from AI");
 
@@ -65,8 +65,19 @@ export default ({ strapi }) => ({
                 }
             }
 
-            // If all failed
-            throw lastError;
+            // If all failed, try to list available models for debugging
+            try {
+                console.log("All models failed. Listing available models...");
+                const models = await ai.models.list();
+                console.log("Available Models:", JSON.stringify(models, null, 2));
+                // Extract model names for the error message
+                const modelNames = models.map((m: any) => m.name).join(", ");
+                throw new Error(`Models failed. Available: ${modelNames}. Last Error: ${lastError.message}`);
+            } catch (listError) {
+                // If listing fails, just throw the last error
+                throw lastError;
+            }
+
         } catch (error: any) {
             console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
             const msg = error.message || "Unknown Gemini Error";
