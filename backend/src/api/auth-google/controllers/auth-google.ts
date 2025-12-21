@@ -2,7 +2,7 @@
 import { factories } from '@strapi/strapi';
 import { OAuth2Client } from 'google-auth-library';
 
-export default factories.createCoreController('api::auth-google.auth-google', ({ strapi }) => ({
+export default factories.createCoreController('api::auth-google.auth-google' as any, ({ strapi }) => ({
     async login(ctx) {
         const { token } = ctx.request.body;
 
