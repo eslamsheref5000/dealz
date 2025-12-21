@@ -2,7 +2,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 export default ({ strapi }) => ({
-    async analyzeImage(imagePath: string, mimeType: string) {
+    async analyzeImage(imagePath: string, mimeType: string, locale: string = 'en') {
         try {
             const apiKey = process.env.GEMINI_API_KEY;
             if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
@@ -33,6 +33,7 @@ export default ({ strapi }) => ({
                     - category: The most likely category from this list: [Motors, Properties, Mobiles, Electronics, Furniture & Garden, Jobs, Services, Community, Pets, Fashion & Beauty, Hobbies, Sports & Kids].
                     - description: A sleek, professional description (max 200 chars).
                     
+                    IMPORTANT: Provide the 'title' and 'description' in the '${locale}' language.
                     Example: {"title": "iPhone 14 Pro Max", "price": 3500, "category": "Mobiles", "description": "Pristine condition iPhone 14 Pro Max..."}`;
 
                     const response = await ai.models.generateContent({
