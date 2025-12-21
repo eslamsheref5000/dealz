@@ -4,6 +4,8 @@ export type Direction = 'ltr' | 'rtl';
 export const dictionaries = {
     en: {
         common: {
+            saving: "Saving...",
+            saveChanges: "Save Changes",
             loading: "Loading...",
             edit: "Edit",
             dealz: "Dealz",
@@ -357,6 +359,8 @@ export const dictionaries = {
             education: "Education Level"
         },
         profile: {
+            editProfile: "Edit Profile",
+            updated: "Profile updated successfully!",
             identityVerification: "Identity Verification",
             verifiedDesc: "Your account is verified. You have the Blue Badge!",
             pendingDesc: "Verification Pending Approval...",
@@ -584,6 +588,8 @@ export const dictionaries = {
     },
     ar: {
         common: {
+            saving: "جاري الحفظ...",
+            saveChanges: "حفظ التغييرات",
             loading: "جاري التحميل...",
             edit: "تعديل",
             dealz: "ديلز",
@@ -936,6 +942,8 @@ export const dictionaries = {
             education: "المستوى التعليمي"
         },
         profile: {
+            editProfile: "تعديل الملف الشخصي",
+            updated: "تم تحديث الملف الشخصي بنجاح!",
             identityVerification: "توثيق الهوية",
             verifiedDesc: "حسابك موثق. لديك الشارة الزرقاء!",
             pendingDesc: "التوثيق قيد المراجعة...",
@@ -1163,6 +1171,8 @@ export const dictionaries = {
     },
     fr: {
         common: {
+            saving: "Enregistrement...",
+            saveChanges: "Enregistrer",
             loading: "Chargement...",
             edit: "Modifier",
             dealz: "Dealz",
@@ -1497,6 +1507,8 @@ export const dictionaries = {
             education: "Niveau d'éducation"
         },
         profile: {
+            editProfile: "Modifier le profil",
+            updated: "Profil mis à jour avec succès !",
             identityVerification: "Vérification d'identité",
             verifiedDesc: "Votre compte est vérifié. Vous avez le badge bleu !",
             pendingDesc: "Vérification en attente d'approbation...",
@@ -1724,6 +1736,8 @@ export const dictionaries = {
     },
     hi: {
         common: {
+            saving: "सहेज रहा है...",
+            saveChanges: "परिवर्तन सहेजें",
             loading: "लोड हो रहा है...",
             edit: "संपादित करें",
             dealz: "Dealz",
@@ -2048,6 +2062,8 @@ export const dictionaries = {
             education: "शिक्षा"
         },
         profile: {
+            editProfile: "प्रोफ़ाइल संपादित करें",
+            updated: "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!",
             identityVerification: "पहचान सत्यापन",
             verifiedDesc: "आपका खाता सत्यापित है। आपके पास ब्लू बैज है!",
             pendingDesc: "सत्यापन अनुमोदन लंबित...",
@@ -2275,6 +2291,8 @@ export const dictionaries = {
     },
     ur: {
         common: {
+            saving: "محفوظ کیا جا رہا ہے...",
+            saveChanges: "تبدیلیاں محفوظ کریں",
             loading: "لوڈ ہو رہا ہے...",
             edit: "ترمیم کریں",
             dealz: "Dealz",
@@ -2604,6 +2622,8 @@ export const dictionaries = {
             education: "تعلیم"
         },
         profile: {
+            editProfile: "پروفائل میں ترمیم کریں",
+            updated: "پروفائل کامیابی کے ساتھ اپ ڈیٹ ہو گئی!",
             identityVerification: "شناخت کی تصدیق",
             verifiedDesc: "آپ کا اکاؤنٹ تصدیق شدہ ہے۔ آپ کے پاس بلیو بیج ہے!",
             pendingDesc: "تصدیق کی منظوری زیر التواء ہے...",
