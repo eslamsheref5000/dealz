@@ -1,4 +1,4 @@
-```javascript
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -36,8 +36,8 @@ export default function GoogleRedirectPage() {
                     // Fetch user if not provided in URL
                     try {
                         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                        const res = await fetch(`${ API_URL } /api/users / me`, {
-                            headers: { Authorization: `Bearer ${ jwt } ` }
+                        const res = await fetch(`${API_URL} /api/users / me`, {
+                            headers: { Authorization: `Bearer ${jwt} ` }
                         });
                         if (res.ok) {
                             const userData = await res.json();
@@ -67,7 +67,7 @@ export default function GoogleRedirectPage() {
                     const tokenToExchange = idToken || rawJwt || accessToken;
                     console.log("Exchanging Token via Plugin:", tokenToExchange?.substring(0, 10) + "...");
 
-                    const exchangeRes = await fetch(`${ API_URL } /strapi-google-auth-with-token/auth`, {
+                    const exchangeRes = await fetch(`${API_URL} /strapi-google-auth-with-token/auth`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ token: tokenToExchange }),
@@ -75,7 +75,7 @@ export default function GoogleRedirectPage() {
 
                     if (!exchangeRes.ok) {
                         const err = await exchangeRes.json();
-                        throw new Error(`Plugin Exchange Failed: ${ err.error?.message || exchangeRes.statusText } `);
+                        throw new Error(`Plugin Exchange Failed: ${err.error?.message || exchangeRes.statusText} `);
                     }
 
                     const data = await exchangeRes.json();
@@ -93,7 +93,7 @@ export default function GoogleRedirectPage() {
                     if (finalJwt) {
                         localStorage.setItem("jwt", finalJwt);
                         if (data.user) {
-                             localStorage.setItem("user", JSON.stringify(data.user));
+                            localStorage.setItem("user", JSON.stringify(data.user));
                         }
                     }
 
@@ -118,47 +118,47 @@ export default function GoogleRedirectPage() {
                 setStatus("error");
                 alert("Login Failed: " + error);
             } else {
-                }
             }
-        };
+        }
+    };
 
-        handleLogin();
-    }, [searchParams, router, status, t]);
+    handleLogin();
+}, [searchParams, router, status, t]);
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm w-full">
-                {status === "loading" && (
-                    <>
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-                        <h2 className="text-xl font-bold text-gray-800">{t('auth.connecting')}</h2>
-                        <p className="text-gray-500 mt-2">{t('auth.pleaseWait')}</p>
-                    </>
-                )}
-                {status === "success" && (
-                    <>
-                        <div className="h-12 w-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-                        <h2 className="text-xl font-bold text-gray-800">{t('auth.loginSuccess')}</h2>
-                        <p className="text-gray-500 mt-2">{t('auth.redirecting')}</p>
-                    </>
-                )}
-                {status === "error" && (
-                    <>
-                        <div className="h-12 w-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✕</div>
-                        <h2 className="text-xl font-bold text-gray-800">{t('auth.loginFailed')}</h2>
-                        <div className="mt-4 p-4 bg-gray-100 rounded text-left text-xs overflow-auto max-h-48">
-                            <p className="font-bold mb-1">Debug Info:</p>
-                            <pre>{JSON.stringify(Object.fromEntries(searchParams.entries()), null, 2)}</pre>
-                        </div>
-                        <button
-                            onClick={() => router.push("/login")}
-                            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                        >
-                            Return to Login
-                        </button>
-                    </>
-                )}
-            </div>
+return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm w-full">
+            {status === "loading" && (
+                <>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+                    <h2 className="text-xl font-bold text-gray-800">{t('auth.connecting')}</h2>
+                    <p className="text-gray-500 mt-2">{t('auth.pleaseWait')}</p>
+                </>
+            )}
+            {status === "success" && (
+                <>
+                    <div className="h-12 w-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
+                    <h2 className="text-xl font-bold text-gray-800">{t('auth.loginSuccess')}</h2>
+                    <p className="text-gray-500 mt-2">{t('auth.redirecting')}</p>
+                </>
+            )}
+            {status === "error" && (
+                <>
+                    <div className="h-12 w-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✕</div>
+                    <h2 className="text-xl font-bold text-gray-800">{t('auth.loginFailed')}</h2>
+                    <div className="mt-4 p-4 bg-gray-100 rounded text-left text-xs overflow-auto max-h-48">
+                        <p className="font-bold mb-1">Debug Info:</p>
+                        <pre>{JSON.stringify(Object.fromEntries(searchParams.entries()), null, 2)}</pre>
+                    </div>
+                    <button
+                        onClick={() => router.push("/login")}
+                        className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                        Return to Login
+                    </button>
+                </>
+            )}
         </div>
-    );
+    </div>
+);
 }
