@@ -130,41 +130,6 @@ export default {
       console.error("Conversation Backfill Error:", err);
     }
 
-    // 0.5 Debug & Seed Google Auth Plugin
-    try {
-      const pluginUid = 'plugin::strapi-google-auth-with-token.google-credential';
-      const pluginContentType = strapi.contentTypes[pluginUid];
-
-      console.log(`[GoogleAuthDebug] Checking Content Type: ${pluginUid}`);
-      console.log(`[GoogleAuthDebug] Exists? ${!!pluginContentType}`);
-
-      if (pluginContentType) {
-        // Check if data exists
-        const creds = await strapi.documents(pluginUid).findFirst();
-        console.log("[GoogleAuthDebug] Current Credentials:", creds);
-
-        if (!creds) {
-          console.log("[GoogleAuthDebug] No credentials found. Attempting to seed...");
-          // Try to get from env or use placeholder
-          const clientId = process.env.GOOGLE_CLIENT_ID || "REPLACE_WITH_YOUR_ACTUAL_GOOGLE_CLIENT_ID";
-
-          await strapi.documents(pluginUid).create({
-            data: {
-              client_id: clientId
-            },
-            status: 'published'
-          });
-          console.log(`[GoogleAuthDebug] \u2705 Seeded Google Credential with ID: ${clientId}`);
-        } else {
-          console.log(`[GoogleAuthDebug] \u2705 Credentials already exist.`);
-        }
-      } else {
-        console.error(`[GoogleAuthDebug] \u274C Content Type ${pluginUid} NOT FOUND. Plugin might not be loaded.`);
-      }
-    } catch (e) {
-      console.error("[GoogleAuthDebug] Error patching Google Auth:", e);
-    }
-
     // 1. Grant permissions to Public role
     const publicRole = await strapi.query("plugin::users-permissions.role").findOne({ where: { type: "public" } });
 

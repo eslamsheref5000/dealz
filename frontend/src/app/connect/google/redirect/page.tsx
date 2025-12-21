@@ -60,14 +60,11 @@ export default function GoogleRedirectPage() {
                 try {
                     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
 
-                    // 3. Plugin Strategy: Call strapi-google-auth-with-token
-                    // It expects { token: idToken }
-                    // We prefer id_token, but fallback to rawJwt (which might be access_token) if needed
-
+                    // 3. Manual Strategy: Call custom /api/auth-google/login
                     const tokenToExchange = idToken || rawJwt || accessToken;
-                    console.log("Exchanging Token via Plugin:", tokenToExchange?.substring(0, 10) + "...");
+                    console.log("Exchanging Token via Manual API:", tokenToExchange?.substring(0, 10) + "...");
 
-                    const exchangeRes = await fetch(`${API_URL} /strapi-google-auth-with-token/auth`, {
+                    const exchangeRes = await fetch(`${API_URL}/api/auth-google/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ token: tokenToExchange }),
@@ -75,19 +72,18 @@ export default function GoogleRedirectPage() {
 
                     if (!exchangeRes.ok) {
                         const err = await exchangeRes.json();
-                        throw new Error(`Plugin Exchange Failed: ${err.error?.message || exchangeRes.statusText} `);
+                        throw new Error(`Manual Exchange Failed: ${err.error?.message || exchangeRes.statusText}`);
                     }
 
                     const data = await exchangeRes.json();
-                    /* Plugin response format usually:
-                       {
-                         jwt: "...",
-                         user: { ... }
-                       }
-                    */
+                    // Manual API response format usually:
+                    // {
+                    //   jwt: "...",
+                    //   user: { ... }
+                    // }
 
                     finalJwt = data.jwt;
-                    console.log("Plugin Exchange Successful. New JWT:", finalJwt?.substring(0, 10) + "...");
+                    console.log("Manual Exchange Successful. New JWT:", finalJwt?.substring(0, 10) + "...");
 
                     // 4. Store the JWT
                     if (finalJwt) {
@@ -104,11 +100,11 @@ export default function GoogleRedirectPage() {
                     }, 1500);
 
                 } catch (err: any) {
-                    console.error("Login Plugin Error:", err);
+                    console.error("Login Manual API Error:", err);
                     setStatus("error");
                     alert("Login Error: " + err.message);
                 }
-                return; // Exit after attempting plugin exchange
+                return; // Exit after attempting exchange
             }
 
             // 6. Check for errors if no token handling occurred

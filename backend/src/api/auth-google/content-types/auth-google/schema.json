@@ -1,0 +1,15 @@
+{
+    "kind": "singleType",
+    "collectionName": "auth_googles",
+    "info": {
+        "singularName": "auth-google",
+        "pluralName": "auth-googles",
+        "displayName": "Auth Google",
+        "description": "API for manual Google Authentication"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {}
+}
