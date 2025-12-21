@@ -14,85 +14,46 @@ export default function GoogleRedirectPage() {
         const handleLogin = async () => {
             if (status !== 'loading') return;
 
-            const accessToken = searchParams.get("access_token");
-            const idToken = searchParams.get("id_token");
-            const rawJwt = searchParams.get("jwt");
+            const jwt = searchParams.get("jwt");
+            const userStr = searchParams.get("user");
 
-            let finalJwt = rawJwt || accessToken;
+            if (jwt) {
+                console.log("Strapi JWT found in URL!", jwt.substring(0, 10) + "...");
 
-            // 1. Check if we have a valid token to start with
-            if (!finalJwt) {
-                setStatus("error");
-                return;
-            }
-
-            // 2. Remove "Bearer " prefix if present
-            finalJwt = finalJwt.replace("Bearer ", "");
-
-            try {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-
-                // 3. Check if this is a Google Access Token (starts with "ya29.")
-                // If so, we must exchange it for a Strapi JWT using our custom endpoint
-                if (finalJwt.startsWith("ya29.")) {
-                    console.log("Detected Google Access Token. Exchanging for Strapi JWT...");
-
-                    // Try the exchange
-                    // Try the exchange
-                    const exchangeRes = await fetch(`${API_URL}/api/manual-exchange`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ access_token: finalJwt }),
-                    });
-
-                    if (!exchangeRes.ok) {
-                        const err = await exchangeRes.json();
-                        throw new Error(`Token Exchange Failed: ${err.error?.message || exchangeRes.statusText}`);
+                localStorage.setItem("jwt", jwt);
+                if (userStr) {
+                    localStorage.setItem("user", userStr);
+                } else {
+                    // Fetch user if not provided in URL
+                    try {
+                        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                        const res = await fetch(`${API_URL}/api/users/me`, {
+                            headers: { Authorization: `Bearer ${jwt}` }
+                        });
+                        if (res.ok) {
+                            const userData = await res.json();
+                            localStorage.setItem("user", JSON.stringify(userData));
+                        }
+                    } catch (e) {
+                        console.error("Failed to fetch user profile", e);
                     }
-
-                    const data = await exchangeRes.json();
-                    finalJwt = data.jwt;
-
-                    console.log("Token Exchange Successful. New JWT:", finalJwt?.substring(0, 10) + "...");
                 }
 
-                // 4. Store the JWT (either original or exchanged)
-                if (finalJwt) {
-                    localStorage.setItem("jwt", finalJwt);
-                }
-
-                // 5. Fetch User Profile to confirm everything is working
-                console.log(`Fetching user from: ${API_URL}/api/users/me`);
-                const res = await fetch(`${API_URL}/api/users/me`, {
-                    headers: {
-                        Authorization: `Bearer ${finalJwt}`,
-                    },
-                });
-
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    console.error("User Fetch Failed:", res.status, JSON.stringify(errorData));
-                    throw new Error(`User Fetch Failed: ${res.status} ${JSON.stringify(errorData)}`);
-                }
-
-                const userData = await res.json();
-                console.log("User Fetched Successfully:", userData);
-
-                localStorage.setItem("user", JSON.stringify(userData));
-
-                // 6. Success! Redirect
                 setStatus("success");
-                setTimeout(() => {
-                    router.push("/");
-                }, 1500);
-
-            } catch (err: any) {
-                console.error("Login Sequence Error:", err);
-                setStatus("error");
-                // Show detailed error on screen
-                alert("Login Error: " + err.message);
+                setTimeout(() => router.push("/"), 1500);
+            } else {
+                // No JWT found? Check for error params
+                const error = searchParams.get("error");
+                if (error) {
+                    console.error("Login Error from Strapi:", error);
+                    setStatus("error");
+                    alert("Login Failed: " + error);
+                } else {
+                    // Fallback: Maybe Strapi sent access_token but failed to exchange? 
+                    // For now, treat as error if we expected standard flow
+                    console.warn("No JWT found in redirect URL.");
+                    setStatus("error");
+                }
             }
         };
 
