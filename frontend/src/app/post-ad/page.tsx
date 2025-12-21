@@ -10,7 +10,7 @@ import { countryCodes } from "../../utils/countryCodes";
 
 export default function PostAdPage() {
     const router = useRouter();
-    const { t } = useLanguage();
+    const { t, locale } = useLanguage();
     const { selectedCountry } = useCountry();
     const { showToast } = useToast();
     const [formData, setFormData] = useState({
@@ -161,6 +161,7 @@ export default function PostAdPage() {
         try {
             const formDataAI = new FormData();
             formDataAI.append('image', formData.images[0]); // Analyze the first image
+            formDataAI.append('locale', locale); // Pass the current language
 
             const token = localStorage.getItem("jwt");
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';

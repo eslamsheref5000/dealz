@@ -24,13 +24,16 @@ export default ({ strapi }) => ({
             // This prevents "Unsupported MIME type: " errors if the property is missing
             const mimeType = image.type || image.mimetype || 'image/jpeg';
 
-            console.log("Processing Image:", { name: image.name, path: filePath, mime: mimeType });
+            // Extract locale from request body (defaults to 'en')
+            const locale = ctx.request.body.locale || 'en';
+
+            console.log("Processing Image:", { name: image.name, path: filePath, mime: mimeType, locale });
 
             if (!filePath) {
                 throw new Error("File path not found in request");
             }
 
-            const result = await strapi.service('api::ai.ai').analyzeImage(filePath, mimeType);
+            const result = await strapi.service('api::ai.ai').analyzeImage(filePath, mimeType, locale);
 
             ctx.body = { data: result };
         } catch (err: any) {
