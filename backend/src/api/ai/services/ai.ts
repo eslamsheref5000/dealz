@@ -8,7 +8,8 @@ export default ({ strapi }) => ({
             if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
 
             const genAI = new GoogleGenerativeAI(apiKey);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            // Using the specific version alias to avoid 404s
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
 
             // Function to convert file to GenerativePart
             function fileToGenerativePart(path: string, mimeType: string) {
