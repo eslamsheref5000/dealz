@@ -39,7 +39,7 @@ export default function GoogleRedirectPage() {
 
                     // Try the exchange
                     // Try the exchange
-                    const exchangeRes = await fetch(`${API_URL}/api/google-login/exchange`, {
+                    const exchangeRes = await fetch(`${API_URL}/api/manual-exchange`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
