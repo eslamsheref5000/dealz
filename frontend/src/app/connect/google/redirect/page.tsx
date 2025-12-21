@@ -111,54 +111,52 @@ export default function GoogleRedirectPage() {
                 return; // Exit after attempting plugin exchange
             }
 
-            // 6. If neither standard JWT nor plugin tokens are found, check for errors
+            // 6. Check for errors if no token handling occurred
             const error = searchParams.get("error");
             if (error) {
                 console.error("Login Error from Strapi:", error);
                 setStatus("error");
                 alert("Login Failed: " + error);
-            } else {
             }
-        }
-    };
+        };
 
-    handleLogin();
-}, [searchParams, router, status, t]);
+        handleLogin();
+    }, [searchParams, router, status, t]);
 
-return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm w-full">
-            {status === "loading" && (
-                <>
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-                    <h2 className="text-xl font-bold text-gray-800">{t('auth.connecting')}</h2>
-                    <p className="text-gray-500 mt-2">{t('auth.pleaseWait')}</p>
-                </>
-            )}
-            {status === "success" && (
-                <>
-                    <div className="h-12 w-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-                    <h2 className="text-xl font-bold text-gray-800">{t('auth.loginSuccess')}</h2>
-                    <p className="text-gray-500 mt-2">{t('auth.redirecting')}</p>
-                </>
-            )}
-            {status === "error" && (
-                <>
-                    <div className="h-12 w-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✕</div>
-                    <h2 className="text-xl font-bold text-gray-800">{t('auth.loginFailed')}</h2>
-                    <div className="mt-4 p-4 bg-gray-100 rounded text-left text-xs overflow-auto max-h-48">
-                        <p className="font-bold mb-1">Debug Info:</p>
-                        <pre>{JSON.stringify(Object.fromEntries(searchParams.entries()), null, 2)}</pre>
-                    </div>
-                    <button
-                        onClick={() => router.push("/login")}
-                        className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                    >
-                        Return to Login
-                    </button>
-                </>
-            )}
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm w-full">
+                {status === "loading" && (
+                    <>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+                        <h2 className="text-xl font-bold text-gray-800">{t('auth.connecting')}</h2>
+                        <p className="text-gray-500 mt-2">{t('auth.pleaseWait')}</p>
+                    </>
+                )}
+                {status === "success" && (
+                    <>
+                        <div className="h-12 w-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
+                        <h2 className="text-xl font-bold text-gray-800">{t('auth.loginSuccess')}</h2>
+                        <p className="text-gray-500 mt-2">{t('auth.redirecting')}</p>
+                    </>
+                )}
+                {status === "error" && (
+                    <>
+                        <div className="h-12 w-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✕</div>
+                        <h2 className="text-xl font-bold text-gray-800">{t('auth.loginFailed')}</h2>
+                        <div className="mt-4 p-4 bg-gray-100 rounded text-left text-xs overflow-auto max-h-48">
+                            <p className="font-bold mb-1">Debug Info:</p>
+                            <pre>{JSON.stringify(Object.fromEntries(searchParams.entries()), null, 2)}</pre>
+                        </div>
+                        <button
+                            onClick={() => router.push("/login")}
+                            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                        >
+                            Return to Login
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
-    </div>
-);
+    );
 }
