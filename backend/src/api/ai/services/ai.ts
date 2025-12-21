@@ -40,9 +40,16 @@ export default ({ strapi }) => ({
             const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
 
             return JSON.parse(cleanText);
-        } catch (error) {
-            console.error("Gemini Analysis Error:", error);
-            throw new Error("Failed to analyze image");
+        } catch (error: any) {
+            console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
+            const msg = error.message || "Unknown Gemini Error";
+
+            // Check for specific Google API errors
+            if (msg.includes("API key")) {
+                throw new Error("Invalid or Missing API Key");
+            }
+
+            throw new Error(`AI Service Failed: ${msg}`);
         }
     },
 });

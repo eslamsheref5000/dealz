@@ -29,10 +29,16 @@ export default ({ strapi }) => ({
             const result = await strapi.service('api::ai.ai').analyzeImage(filePath, image.type);
 
             ctx.body = { data: result };
-        } catch (err) {
+        } catch (err: any) {
             console.error("Controller Error:", err);
-            ctx.body = { error: { message: "AI Analysis Failed" } };
-            ctx.status = 500;
+            const status = err.message.includes("not found") ? 404 : 500;
+            ctx.status = status;
+            ctx.body = {
+                error: {
+                    message: err.message || "AI Analysis Failed",
+                    details: err.stack
+                }
+            };
         }
     },
 });
