@@ -64,7 +64,7 @@ export default function GoogleRedirectPage() {
                     const tokenToExchange = idToken || rawJwt || accessToken;
                     console.log("Exchanging Token via Manual API:", tokenToExchange?.substring(0, 10) + "...");
 
-                    const exchangeRes = await fetch(`${API_URL}/api/auth-google/login`, {
+                    const exchangeRes = await fetch(`${API_URL}/api/google-login/authenticate`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ token: tokenToExchange }),

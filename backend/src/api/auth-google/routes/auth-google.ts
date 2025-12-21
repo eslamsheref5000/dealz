@@ -3,12 +3,18 @@ export default {
     routes: [
         {
             method: 'POST',
-            path: '/auth-google/login',
+            path: '/google-login/authenticate',
             handler: 'auth-google.login',
             config: {
-                auth: false, // Public endpoint
-                policies: [],
-                middlewares: [],
+                auth: false,
+            },
+        },
+        {
+            method: 'GET',
+            path: '/google-login/test',
+            handler: 'auth-google.test',
+            config: {
+                auth: false,
             },
         },
     ],

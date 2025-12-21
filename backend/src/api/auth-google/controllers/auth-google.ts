@@ -1,8 +1,7 @@
 
-import { factories } from '@strapi/strapi';
 import { OAuth2Client } from 'google-auth-library';
 
-export default factories.createCoreController('api::auth-google.auth-google' as any, ({ strapi }) => ({
+export default {
     async login(ctx) {
         const { token } = ctx.request.body;
 
@@ -49,8 +48,6 @@ export default factories.createCoreController('api::auth-google.auth-google' as 
                     provider: 'google',
                     firstName: given_name,
                     lastName: family_name,
-                    // You might need to add logic to download/upload the picture if you want to store it locally
-                    // For now we skip picture to avoid complexity errors
                 });
             }
 
@@ -79,4 +76,8 @@ export default factories.createCoreController('api::auth-google.auth-google' as 
             return ctx.badRequest('Google Authentication Failed', { moreDetails: error.message });
         }
     },
-}));
+
+    async test(ctx) {
+        ctx.send({ message: 'Google Auth API is working!' });
+    }
+};
