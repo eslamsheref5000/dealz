@@ -40,6 +40,9 @@ export default function PostAdPage() {
     const [maxPrice, setMaxPrice] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
 
+    // AI Analysis State
+    const [analyzing, setAnalyzing] = useState(false);
+
 
 
     const [categories, setCategories] = useState<any[]>([]);
@@ -147,6 +150,65 @@ export default function PostAdPage() {
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
         setFormData(prev => ({ ...prev, [name]: checked }));
+    };
+
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setFormData(prev => ({ ...prev, [name]: checked }));
+    };
+
+    const analyzeImageWithAI = async () => {
+        if (formData.images.length === 0) return;
+        setAnalyzing(true);
+
+        try {
+            const formDataAI = new FormData();
+            formDataAI.append('image', formData.images[0]); // Analyze the first image
+
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+            const res = await fetch(`${API_URL}/api/ai/analyze`, {
+                method: 'POST',
+                body: formDataAI
+            });
+
+            if (!res.ok) throw new Error("Analysis failed");
+
+            const data = await res.json();
+            const suggestions = data.data;
+
+            console.log("AI Suggestions:", suggestions);
+
+            // Populate fields
+            setFormData(prev => ({
+                ...prev,
+                title: suggestions.title || prev.title,
+                price: suggestions.price ? suggestions.price.toString() : prev.price,
+                description: suggestions.description || prev.description,
+            }));
+
+            // Handle Category Mapping
+            if (suggestions.category) {
+                // Try strict match first, then partial match
+                const matchedCat = categories.find(c =>
+                    (c.attributes?.name || c.name).toLowerCase() === suggestions.category.toLowerCase()
+                ) || categories.find(c =>
+                    (c.attributes?.name || c.name).toLowerCase().includes(suggestions.category.toLowerCase())
+                );
+
+                if (matchedCat) {
+                    setFormData(prev => ({ ...prev, category: matchedCat.documentId || matchedCat.id }));
+                    showToast(`Category detected: ${matchedCat.attributes?.name || matchedCat.name}`, "success");
+                }
+            }
+
+            showToast("✨ Details auto-filled by AI!", "success");
+
+        } catch (err) {
+            console.error(err);
+            showToast("Could not analyze image. Try again.", "error");
+        } finally {
+            setAnalyzing(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -626,6 +688,30 @@ export default function PostAdPage() {
                                             </button>
                                         </div>
                                     ))}
+                                </div>
+                            )}
+
+                            {/* AI Analysis Button */}
+                            {formData.images.length > 0 && (
+                                <div className="flex justify-center mt-4 animate-in fade-in slide-in-from-top-2">
+                                    <button
+                                        type="button"
+                                        onClick={analyzeImageWithAI}
+                                        disabled={analyzing}
+                                        className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    >
+                                        {analyzing ? (
+                                            <>
+                                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                <span>Analyzing with AI...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="text-xl">✨</span>
+                                                <span>Auto-fill details with AI</span>
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             )}
                         </div>
