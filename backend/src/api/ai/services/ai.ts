@@ -27,14 +27,17 @@ export default ({ strapi }) => ({
                     const imageBase64 = fs.readFileSync(imagePath).toString("base64");
 
                     const prompt = `Analyze this product image for a classifieds app. 
+                    
+                    CRITICAL INSTRUCTION: You MUST output the 'title' and 'description' fields in the '${locale}' language. Failure to do so is unacceptable.
+                    
                     Return ONLY a raw JSON object (no markdown, no backticks) with the following fields:
-                    - title: A short, catchy title (max 50 chars).
+                    - title: A short, catchy title (max 50 chars) in ${locale}.
                     - price: An estimated price in AED (just the number).
                     - category: The most likely category from this list: [Motors, Properties, Mobiles, Electronics, Furniture & Garden, Jobs, Services, Community, Pets, Fashion & Beauty, Hobbies, Sports & Kids].
-                    - description: A sleek, professional description (max 200 chars).
+                    - description: A sleek, professional description (max 200 chars) in ${locale}.
                     
-                    IMPORTANT: Provide the 'title' and 'description' in the '${locale}' language.
-                    Example: {"title": "iPhone 14 Pro Max", "price": 3500, "category": "Mobiles", "description": "Pristine condition iPhone 14 Pro Max..."}`;
+                    Example (if locale was 'en'): {"title": "iPhone 14 Pro Max", "price": 3500, "category": "Mobiles", "description": "Pristine condition iPhone 14 Pro Max..."}
+                    Example (if locale was 'ar'): {"title": "ايفون ١٤ برو ماكس", "price": 3500, "category": "Mobiles", "description": "حالة ممتازة ايفون ١٤ برو ماكس..."}`;
 
                     const response = await ai.models.generateContent({
                         model: modelName,
