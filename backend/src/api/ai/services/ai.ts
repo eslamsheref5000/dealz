@@ -12,6 +12,17 @@ export default ({ strapi }) => ({
             const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro-vision"];
             let lastError;
 
+            // Function to convert file to GenerativePart
+            function fileToGenerativePart(path: string, mimeType: string) {
+                const fs = require('fs');
+                return {
+                    inlineData: {
+                        data: fs.readFileSync(path).toString("base64"),
+                        mimeType
+                    },
+                };
+            }
+
             for (const modelName of modelsToTry) {
                 try {
                     console.log(`Attempting analysis with model: ${modelName}`);
