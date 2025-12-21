@@ -1,3 +1,4 @@
+```javascript
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,21 +15,29 @@ export default function GoogleRedirectPage() {
         const handleLogin = async () => {
             if (status !== 'loading') return;
 
-            const jwt = searchParams.get("jwt");
-            const userStr = searchParams.get("user");
+            // 1. Extract potential tokens from URL
+            const jwt = searchParams.get("jwt"); // Standard Strapi JWT
+            const userStr = searchParams.get("user"); // Standard Strapi user data
+            const idToken = searchParams.get("id_token"); // Google ID Token
+            const accessToken = searchParams.get("access_token"); // Google Access Token
+            const rawJwt = searchParams.get("rawJwt"); // Custom param for raw JWT if needed
 
+            let finalJwt = null;
+
+            // 2. Prioritize standard Strapi JWT if available
             if (jwt) {
                 console.log("Strapi JWT found in URL!", jwt.substring(0, 10) + "...");
-
+                finalJwt = jwt;
                 localStorage.setItem("jwt", jwt);
+
                 if (userStr) {
                     localStorage.setItem("user", userStr);
                 } else {
                     // Fetch user if not provided in URL
                     try {
                         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                        const res = await fetch(`${API_URL}/api/users/me`, {
-                            headers: { Authorization: `Bearer ${jwt}` }
+                        const res = await fetch(`${ API_URL } /api/users / me`, {
+                            headers: { Authorization: `Bearer ${ jwt } ` }
                         });
                         if (res.ok) {
                             const userData = await res.json();
@@ -41,18 +50,74 @@ export default function GoogleRedirectPage() {
 
                 setStatus("success");
                 setTimeout(() => router.push("/"), 1500);
+                return; // Exit if standard JWT flow is complete
+            }
+
+            // 3. If no standard JWT, try the Plugin Strategy
+            // This is for cases where Google redirects with id_token/access_token
+            // and Strapi needs to exchange it via a custom plugin.
+            if (idToken || rawJwt || accessToken) {
+                try {
+                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+
+                    // 3. Plugin Strategy: Call strapi-google-auth-with-token
+                    // It expects { token: idToken }
+                    // We prefer id_token, but fallback to rawJwt (which might be access_token) if needed
+
+                    const tokenToExchange = idToken || rawJwt || accessToken;
+                    console.log("Exchanging Token via Plugin:", tokenToExchange?.substring(0, 10) + "...");
+
+                    const exchangeRes = await fetch(`${ API_URL } /strapi-google-auth-with-token/auth`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: tokenToExchange }),
+                    });
+
+                    if (!exchangeRes.ok) {
+                        const err = await exchangeRes.json();
+                        throw new Error(`Plugin Exchange Failed: ${ err.error?.message || exchangeRes.statusText } `);
+                    }
+
+                    const data = await exchangeRes.json();
+                    /* Plugin response format usually:
+                       {
+                         jwt: "...",
+                         user: { ... }
+                       }
+                    */
+
+                    finalJwt = data.jwt;
+                    console.log("Plugin Exchange Successful. New JWT:", finalJwt?.substring(0, 10) + "...");
+
+                    // 4. Store the JWT
+                    if (finalJwt) {
+                        localStorage.setItem("jwt", finalJwt);
+                        if (data.user) {
+                             localStorage.setItem("user", JSON.stringify(data.user));
+                        }
+                    }
+
+                    // 5. Success! Redirect
+                    setStatus("success");
+                    setTimeout(() => {
+                        router.push("/");
+                    }, 1500);
+
+                } catch (err: any) {
+                    console.error("Login Plugin Error:", err);
+                    setStatus("error");
+                    alert("Login Error: " + err.message);
+                }
+                return; // Exit after attempting plugin exchange
+            }
+
+            // 6. If neither standard JWT nor plugin tokens are found, check for errors
+            const error = searchParams.get("error");
+            if (error) {
+                console.error("Login Error from Strapi:", error);
+                setStatus("error");
+                alert("Login Failed: " + error);
             } else {
-                // No JWT found? Check for error params
-                const error = searchParams.get("error");
-                if (error) {
-                    console.error("Login Error from Strapi:", error);
-                    setStatus("error");
-                    alert("Login Failed: " + error);
-                } else {
-                    // Fallback: Maybe Strapi sent access_token but failed to exchange? 
-                    // For now, treat as error if we expected standard flow
-                    console.warn("No JWT found in redirect URL.");
-                    setStatus("error");
                 }
             }
         };

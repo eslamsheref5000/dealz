@@ -14,7 +14,7 @@ export default ({ env }) => ({
             },
         },
     },
-    'google-auth': {
+    'strapi-google-auth-with-token': {
         enabled: true,
     },
 });
