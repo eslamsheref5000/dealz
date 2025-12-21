@@ -18,53 +18,7 @@ export default {
   async bootstrap({ strapi }) {
     console.log("!!! BOOTSTRAP STARTED !!!");
 
-    // NUCLEAR OPTION: Inject Raw Route
-    strapi.server.router.post('/api/manual-exchange', async (ctx) => {
-      try {
-        console.log("NUCLEAR EXCHANGE HIT!");
-        const { access_token } = ctx.request.body;
-        if (!access_token) return ctx.badRequest('No token');
 
-        // 1. Verify Google
-        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${access_token}` }
-        });
-
-        if (!userInfoRes.ok) return ctx.badRequest('Invalid Google Token');
-        const googleUser = await userInfoRes.json() as any;
-
-        // 2. Find/Create User
-        let user = await strapi.query('plugin::users-permissions.user').findOne({
-          where: { email: googleUser.email }
-        });
-
-        if (!user) {
-          const role = await strapi.query('plugin::users-permissions.role').findOne({ where: { type: 'authenticated' } });
-          const baseUsername = googleUser.email.split('@')[0];
-          user = await strapi.query('plugin::users-permissions.user').create({
-            data: {
-              username: `${baseUsername}_${Math.floor(Math.random() * 10000)}`,
-              email: googleUser.email,
-              provider: 'google',
-              confirmed: true,
-              blocked: false,
-              role: role.id
-            }
-          });
-        }
-
-        // 3. Issue JWT
-        const jwt = strapi.plugin('users-permissions').service('jwt').issue({ id: user.id });
-
-        ctx.send({ jwt, user });
-
-      } catch (err) {
-        console.error(err);
-        ctx.badRequest("Exchange Failed");
-      }
-    });
-
-    console.log("!!! NUCLEAR ROUTE INJECTED: POST /api/manual-exchange !!!");
 
 
 
