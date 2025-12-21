@@ -75,8 +75,10 @@ export default ({ strapi }) => ({
                 console.log("All models failed. Listing available models...");
                 const models = await ai.models.list();
                 console.log("Available Models Object:", models);
-                // Throwing the LAST error, but catching list failure specifically below
-                throw new Error(`All models failed. Last Error: ${lastError.message}`);
+
+                // Force stringify the models object to see it in the error
+                const modelDump = JSON.stringify(models, null, 2);
+                throw new Error(`All models failed. Available Models Quote: ${modelDump}. Last Error: ${lastError.message}`);
             } catch (listError: any) {
                 // If listing ALSO fails, we need to know why listing failed.
                 // This usually means the API key is invalid or lacks permissions.
