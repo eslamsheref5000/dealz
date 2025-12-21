@@ -10,13 +10,12 @@ export default ({ strapi }) => ({
             // Initialize new SDK Client
             const ai = new GoogleGenAI({ apiKey });
 
-            // Extensive model list to try everything possible
+            // Verified models from user's API key capabilities (Dec 2025)
+            // Prioritizing 2.5 Flash as it is stable and multimodal.
             const modelsToTry = [
-                "gemini-1.5-flash",
-                "gemini-1.5-pro",
-                "gemini-2.0-flash-exp",
-                "gemini-pro",
-                "gemini-pro-vision"
+                "gemini-2.5-flash",
+                "gemini-2.5-pro",
+                "gemini-2.0-flash-exp"
             ];
 
             let lastError;
@@ -70,21 +69,9 @@ export default ({ strapi }) => ({
                 }
             }
 
-            // If all failed, try to list available models for debugging
-            try {
-                console.log("All models failed. Listing available models...");
-                const models = await ai.models.list();
-                console.log("Available Models Object:", models);
-
-                // Force stringify the models object to see it in the error
-                const modelDump = JSON.stringify(models, null, 2);
-                throw new Error(`All models failed. Available Models Quote: ${modelDump}. Last Error: ${lastError.message}`);
-            } catch (listError: any) {
-                // If listing ALSO fails, we need to know why listing failed.
-                // This usually means the API key is invalid or lacks permissions.
-                console.error("Failed to list models:", listError);
-                throw new Error(`CRITICAL: Model listing failed (${listError.message}). Last Model Error: ${lastError?.message}`);
-            }
+            // If all failed
+            console.error("All models failed. Last error from " + modelsToTry[modelsToTry.length - 1] + ": " + lastError?.message);
+            throw new Error(`AI Analysis Failed: Could not generate content with available models. Last Error: ${lastError?.message}`);
 
         } catch (error: any) {
             console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
