@@ -1,5 +1,5 @@
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from "@google/genai";
 
 export default ({ strapi }) => ({
     async analyzeImage(imagePath: string, mimeType: string) {
@@ -7,27 +7,21 @@ export default ({ strapi }) => ({
             const apiKey = process.env.GEMINI_API_KEY;
             if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
 
-            const genAI = new GoogleGenerativeAI(apiKey);
-            // Fallback logic for models: Try 1.5 Flash, 1.5 Pro, and the new 2.0 Flash Exp.
-            // Note: User mentioned '2.5', likely meaning the new 2.0 experimental or 1.5 updates.
-            const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
-            let lastError;
+            // Initialize new SDK Client
+            const ai = new GoogleGenAI({ apiKey });
 
-            // Function to convert file to GenerativePart
-            function fileToGenerativePart(path: string, mimeType: string) {
-                const fs = require('fs');
-                return {
-                    inlineData: {
-                        data: fs.readFileSync(path).toString("base64"),
-                        mimeType
-                    },
-                };
-            }
+            // Using the new model name from docs/user hint
+            // Trying 2.0 Flash Exp first as requested, then falling back to reliable ones
+            const modelsToTry = ["gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-1.5-pro"];
+
+            let lastError;
+            const fs = require('fs');
 
             for (const modelName of modelsToTry) {
                 try {
-                    console.log(`Attempting analysis with model: ${modelName}`);
-                    const model = genAI.getGenerativeModel({ model: modelName });
+                    console.log(`Attempting analysis with model: ${modelName} (New SDK)`);
+
+                    const imageBase64 = fs.readFileSync(imagePath).toString("base64");
 
                     const prompt = `Analyze this product image for a classifieds app. 
                     Return ONLY a raw JSON object (no markdown, no backticks) with the following fields:
@@ -38,11 +32,27 @@ export default ({ strapi }) => ({
                     
                     Example: {"title": "iPhone 14 Pro Max", "price": 3500, "category": "Mobiles", "description": "Pristine condition iPhone 14 Pro Max..."}`;
 
-                    const imagePart = fileToGenerativePart(imagePath, mimeType);
+                    const response = await ai.models.generateContent({
+                        model: modelName,
+                        contents: [
+                            {
+                                role: "user",
+                                parts: [
+                                    { text: prompt },
+                                    {
+                                        inlineData: {
+                                            mimeType: mimeType,
+                                            data: imageBase64
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
 
-                    const result = await model.generateContent([prompt, imagePart]);
-                    const response = await result.response;
                     const text = response.text();
+
+                    if (!text) throw new Error("Empty response from AI");
 
                     // Clean up markdown if Gemini adds it
                     const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -52,7 +62,6 @@ export default ({ strapi }) => ({
                 } catch (error: any) {
                     console.warn(`Model ${modelName} failed:`, error.message);
                     lastError = error;
-                    // Continue to next model
                 }
             }
 
@@ -61,12 +70,6 @@ export default ({ strapi }) => ({
         } catch (error: any) {
             console.error("Gemini Analysis Error Full:", JSON.stringify(error, null, 2));
             const msg = error.message || "Unknown Gemini Error";
-
-            // Check for specific Google API errors
-            if (msg.includes("API key")) {
-                throw new Error("Invalid or Missing API Key");
-            }
-
             throw new Error(`AI Service Failed: ${msg}`);
         }
     },
