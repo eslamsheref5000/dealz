@@ -132,6 +132,31 @@ export default factories.createCoreController('api::product.product', ({ strapi 
             } catch (e) { }
         }
 
+        // Emit Socket.io Event for "The Watchtower"
+        const io = (strapi as any).io;
+        if (io && data) {
+            try {
+                const geo = require('geoip-lite');
+                const ip = ctx.request.ip === '::1' ? '127.0.0.1' : ctx.request.ip;
+                const lookup = geo.lookup(ip) || { city: 'Unknown', country: 'Unknown', ll: [0, 0] };
+
+                // Get title safely
+                const title = (data as any).attributes?.title || (data as any).title || 'Product';
+
+                io.emit('new_action', {
+                    type: 'view',
+                    details: `Viewed: ${title}`,
+                    city: lookup.city || 'Unknown City',
+                    country: lookup.country || 'XX',
+                    lat: lookup.ll ? lookup.ll[0] : 0,
+                    lng: lookup.ll ? lookup.ll[1] : 0,
+                    timestamp: new Date()
+                });
+            } catch (err) {
+                // Ignore analytics errors
+            }
+        }
+
         return { data, meta };
     },
 

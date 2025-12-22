@@ -18,6 +18,35 @@ export default {
   async bootstrap({ strapi }) {
     console.log("!!! BOOTSTRAP STARTED !!!");
 
+    // Initialize Socket.io
+    try {
+      // @ts-ignore
+      const io = require("socket.io")(strapi.server.httpServer, {
+        cors: {
+          origin: "*", // Allow all for now, lock down in prod
+          methods: ["GET", "POST"],
+        },
+      });
+
+      io.on("connection", (socket) => {
+        strapi.log.info(`New client connected: ${socket.id}`);
+
+        // Emit current visitor count
+        const count = io.engine.clientsCount;
+        io.emit("visitor_update", { count });
+
+        socket.on("disconnect", () => {
+          io.emit("visitor_update", { count: Math.max(0, io.engine.clientsCount - 1) });
+        });
+      });
+
+      // Make io globally accessible
+      (strapi as any).io = io;
+      strapi.log.info("Socket.io initialized successfully.");
+    } catch (error) {
+      strapi.log.error("Failed to initialize Socket.io:", error);
+    }
+
     // Grant 'create' permission for Bids to Authenticated role
     try {
       const authenticatedRole = await strapi
