@@ -233,6 +233,8 @@ export default function PostAdPage() {
                 const formDataImage = new FormData();
                 formData.images.forEach((file) => {
                     formDataImage.append('files', file);
+                    // Add watermark flag for backend processing
+                    formDataImage.append('fileInfo', JSON.stringify({ caption: 'watermark_me', alternativeText: 'Dealz Ad' }));
                 });
 
                 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
