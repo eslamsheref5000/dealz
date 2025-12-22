@@ -185,8 +185,20 @@ export default function Header() {
                             )}
 
                             {user?.isAdmin && (
+                                <Link href="/admin/analytics" className="hidden lg:inline-block text-purple-600 dark:text-purple-400 font-bold text-sm bg-purple-50 dark:bg-purple-900/20 px-3 py-1.5 rounded-lg border border-purple-100 dark:border-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition" title="The Watchtower">
+                                    🏰 Watchtower
+                                </Link>
+                            )}
+
+                            {user?.isAdmin && (
                                 <Link href="/moderation" className="lg:hidden text-blue-600 dark:text-blue-400 text-xl">
                                     🛡️
+                                </Link>
+                            )}
+
+                            {user?.isAdmin && (
+                                <Link href="/admin/analytics" className="lg:hidden text-purple-600 dark:text-purple-400 text-xl">
+                                    🏰
                                 </Link>
                             )}
 
