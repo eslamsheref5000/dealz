@@ -48,7 +48,7 @@ export default function Header() {
                         .then(res => res.json())
                         .then(data => {
                             if (data.meta) {
-                                setUser(prev => ({ ...prev, unreadNotifications: data.meta.pagination.total }));
+                                setUser((prev: any) => ({ ...prev, unreadNotifications: data.meta.pagination.total }));
                             }
                         })
                         .catch(console.error);
