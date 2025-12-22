@@ -1840,7 +1840,7 @@ export const dictionaries = {
                 success: "AI द्वारा विवरण भरा गया!",
                 error: "विश्लेषण विफल",
                 categoryDetected: "श्रेणी का पता चला"
-            },,
+            },
             privacy: {
                 title: "संपर्क गोपनीयता",
                 showPhone: "विज्ञापन पर फ़ोन नंबर दिखाएं",
@@ -2407,7 +2407,7 @@ export const dictionaries = {
                 success: "AI کے ذریعے پُر کیا گیا!",
                 error: "تجزیہ ناکام",
                 categoryDetected: "زمرہ دریافت ہوا"
-            },,
+            },
             privacy: {
                 title: "رابطے کی رازداری",
                 showPhone: "اشتہار پر فون نمبر دکھائیں",
