@@ -143,6 +143,16 @@
         "buyNowPrice": {
             "type": "decimal"
         },
+        "shippingStatus": {
+            "type": "enumeration",
+            "enum": [
+                "waiting_payment",
+                "to_ship",
+                "shipped",
+                "delivered"
+            ],
+            "default": "waiting_payment"
+        },
         "winner": {
             "type": "relation",
             "relation": "oneToOne",

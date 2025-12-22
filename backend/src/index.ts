@@ -237,6 +237,11 @@ export default {
         "api::notification.notification.find",
         "api::notification.notification.findOne",
         "api::notification.notification.update", // To mark as read
+        "api::transaction.transaction.create",
+        "api::transaction.transaction.find",
+        "api::transaction.transaction.findOne",
+        "api::transaction.transaction.ship",
+        "api::transaction.transaction.receive"
       ];
 
       const existingPerms = await strapi.query("plugin::users-permissions.permission").findMany({
