@@ -642,7 +642,14 @@ export const dictionaries = {
             addToFavorites: "إضافة للمفضلة",
             removeFromFavorites: "حذف من المفضلة",
             compare: "مقارنة",
-            all: "الكل"
+            all: "الكل",
+            auction: "مزاد",
+            placeBid: "زاود الآن",
+            currentBid: "المزاد الحالي",
+            bidHistory: "سجل المزايدات",
+            auctionEndsIn: "ينتهي المزاد في",
+            auctionEnded: "انتهى المزاد",
+            minBid: "أقل زيادة"
         },
         header: {
             home: "الرئيسية",
@@ -708,6 +715,11 @@ export const dictionaries = {
                 showPhone: "إظهار رقم الهاتف في الإعلان",
                 enableChat: "السماح بالمراسلة عبر التطبيق"
             },
+            auction: {
+                label: "بيع كمزاد",
+                endTime: "وقت انتهاء المزاد",
+                startingPrice: "سعر بداية المزاد"
+            },
             errors: {
                 contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."
             },
@@ -741,6 +753,15 @@ export const dictionaries = {
             selectPrompt: "اختر محادثة من القائمة لبدء الدردشة.",
             newChat: "محادثة جديدة",
             negotiation: "مفاوضات"
+        },
+        analytics: {
+            title: "تحليلات البائع",
+            totalViews: "إجمالي المشاهدات",
+            totalAds: "إجمالي الإعلانات",
+            activeAuctions: "مزادات نشطة",
+            totalBids: "مزايدات مستلمة",
+            topPerforming: "أفضل الإعلانات أداءً",
+            engagement: "إحصائيات التفاعل"
         },
         categories: {
             "Motors": "محركات",
@@ -1225,7 +1246,14 @@ export const dictionaries = {
             addToFavorites: "Ajouter aux favoris",
             removeFromFavorites: "Retirer des favoris",
             compare: "Comparer",
-            all: "Tout"
+            all: "Tout",
+            auction: "Enchère",
+            placeBid: "Enchérir",
+            currentBid: "Enchère actuelle",
+            bidHistory: "Historique des offres",
+            auctionEndsIn: "Se termine dans",
+            auctionEnded: "Enchère terminée",
+            minBid: "Incrément min."
         },
         header: {
             home: "Accueil",
@@ -1277,6 +1305,11 @@ export const dictionaries = {
                 showPhone: "Afficher le numéro de téléphone",
                 enableChat: "Autoriser le chat"
             },
+            auction: {
+                label: "Vendre aux enchères",
+                endTime: "Heure de fin",
+                startingPrice: "Prix de départ"
+            },
             errors: {
                 contactRequired: "Vous devez activer au moins une méthode de contact."
             },
@@ -1316,6 +1349,15 @@ export const dictionaries = {
             selectPrompt: "Choisissez une discussion à gauche pour commencer.",
             newChat: "Nouvelle discussion",
             negotiation: "Négociation"
+        },
+        analytics: {
+            title: "Analyses du vendeur",
+            totalViews: "Vues totales",
+            totalAds: "Total des annonces",
+            activeAuctions: "Enchères actives",
+            totalBids: "Offres reçues",
+            topPerforming: "Annonces les plus performantes",
+            engagement: "Statistiques d'engagement"
         },
         categories: {
             "Motors": "Moteurs",
@@ -1845,6 +1887,11 @@ export const dictionaries = {
                 showPhone: "विज्ञापन पर फ़ोन नंबर दिखाएं",
                 enableChat: "इन-ऐप चैट संदेशों की अनुमति दें"
             },
+            auction: {
+                label: "नीलामी के रूप में बेचें",
+                endTime: "नीलामी समाप्ति समय",
+                startingPrice: "शुरुआती बोली मूल्य"
+            },
             errors: {
                 contactRequired: "आपको कम से कम एक संपर्क विधि (फ़ोन या चैट) सक्षम करनी होगी।"
             },
@@ -1878,6 +1925,15 @@ export const dictionaries = {
             selectPrompt: "शुरू करने के लिए बाईं ओर से एक चैट चुनें।",
             newChat: "नई चैट",
             negotiation: "बातचीत"
+        },
+        analytics: {
+            title: "विक्रेता विश्लेषण",
+            totalViews: "कुल दृश्य",
+            totalAds: "कुल विज्ञापन",
+            activeAuctions: "सक्रिय नीलामी",
+            totalBids: "प्राप्त बोलियाँ",
+            topPerforming: "शीर्ष प्रदर्शन करने वाले विज्ञापन",
+            engagement: "जुड़ाव के आंकड़े"
         },
         categories: {
             "Motors": "मोटर्स",
@@ -2411,6 +2467,11 @@ export const dictionaries = {
                 title: "رابطے کی رازداری",
                 showPhone: "اشتہار پر فون نمبر دکھائیں",
                 enableChat: "ان ایپ چیٹ پیغامات کی اجازت دیں"
+            },
+            auction: {
+                label: "نیلامی کے طور پر بیچیں",
+                endTime: "نیلامی کا اختتامی وقت",
+                startingPrice: "شروع ہونے والی بولی"
             },
             errors: {
                 contactRequired: "آپ کو کم از کم ایک رابطہ طریقہ (فون یا چیٹ) کو فعال کرنا ہوگا۔"
