@@ -26,15 +26,12 @@ export default {
         .findOne({ type: "authenticated" });
 
       if (authenticatedRole) {
-        const permissions = await strapi
-          .plugin("users-permissions")
-          .service("permission")
-          .findMany({
-            where: {
-              role: authenticatedRole.id,
-              action: "api::bid.bid.create",
-            },
-          });
+        const permissions = await strapi.query("plugin::users-permissions.permission").findMany({
+          where: {
+            role: authenticatedRole.id,
+            action: "api::bid.bid.create",
+          },
+        });
 
         if (permissions.length === 0) {
           strapi.log.info("Granting 'create' permission for Bid to Authenticated role...");
@@ -460,14 +457,9 @@ export default {
           filters: {
             isAuction: true,
             auctionEndTime: { $lt: now },
-            // Only process if status is published and NOT already sold/closed
-            // We'll use a specific condition: Has bids but no winner yet? 
-            // Or just check if "status" is still "published". 
-            // We need to differentiate between "Active" and "Ended" status.
-            // Let's assume if it's expired and status is 'published', we need to close it.
-            status: 'published',
             winner: { $null: true } // Only if winner not yet assigned
           },
+          status: 'published',
           populate: ['bids', 'bids.bidder'] // We need bids to find winner
         });
 
