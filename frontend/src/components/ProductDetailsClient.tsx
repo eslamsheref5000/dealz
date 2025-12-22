@@ -364,12 +364,12 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                                     {t('postAd.auction.youWon') || "You Won!"} 🏆 <br />
                                                     <span className="font-bold text-green-600">{Number(product.currentBid).toLocaleString()} AED</span>
                                                 </p>
-                                                <button
-                                                    onClick={() => showToast("Payment Gateway Integration Coming Soon! 💳", "success")}
-                                                    className="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-700 transition shadow-lg shadow-green-200 animate-pulse"
+                                                <Link
+                                                    href={`/checkout/${product.documentId || product.id}`}
+                                                    className="block w-full text-center bg-green-600 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-700 transition shadow-lg shadow-green-200 animate-pulse"
                                                 >
                                                     💳 {t('postAd.auction.payNow') || "Pay Now"}
-                                                </button>
+                                                </Link>
                                             </div>
                                         ) : (
                                             <p className="text-gray-600 dark:text-gray-400">

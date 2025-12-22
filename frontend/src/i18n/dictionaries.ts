@@ -425,7 +425,10 @@ export const dictionaries = {
             savedItems: "Saved Items",
             noSavedItems: "No saved items yet",
             noMyAds: "You haven't posted any ads yet",
-            startSelling: "Start selling your items today!",
+            myBids: "My Bids",
+            myOrders: "My Orders",
+            mySales: "My Sales",
+            startSelling: "Start listing items to sell!",
             deleteAd: "Delete Ad",
             changeAvatar: "Change"
         },
@@ -1050,7 +1053,10 @@ export const dictionaries = {
             savedItems: "الاعلانات المفضلة",
             noSavedItems: "لا توجد إعلانات مفضلة بعد",
             noMyAds: "لم تقم بنشر أي إعلانات حتى الآن",
-            startSelling: "ابدأ ببيع أغراضك اليوم!",
+            myBids: "مزاداتي",
+            myOrders: "طلباتي",
+            mySales: "مبيعاتي",
+            startSelling: "ابدأ بعرض السلع للبيع!",
             deleteAd: "حذف الإعلان",
             changeAvatar: "تغيير"
         },

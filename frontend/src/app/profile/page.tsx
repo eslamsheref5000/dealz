@@ -6,6 +6,7 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import AnalyticsDashboard from "../../components/AnalyticsDashboard";
 import MyBids from "../../components/MyBids";
+import OrderManagement from "../../components/OrderManagement";
 import { useLanguage } from "../../context/LanguageContext";
 import { useFavorites } from "../../context/FavoriteContext";
 import { countries } from "../../data/countries";
@@ -20,7 +21,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [kycUploading, setKycUploading] = useState(false);
-    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved' | 'analytics' | 'my-bids'>('my-ads');
+    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved' | 'analytics' | 'my-bids' | 'my-orders' | 'my-sales'>('my-ads');
 
 
 
@@ -466,12 +467,28 @@ export default function ProfilePage() {
                     >
                         🔨 {t('postAd.auction.label') || "My Bids"}
                     </button>
+                    <button
+                        onClick={() => setActiveTab('my-orders')}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'my-orders' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        📦 {t('profile.myOrders') || "My Orders"}
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('my-sales')}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'my-sales' ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        💸 {t('profile.mySales') || "My Sales"}
+                    </button>
                 </div>
 
                 {activeTab === 'analytics' ? (
                     <AnalyticsDashboard />
                 ) : activeTab === 'my-bids' ? (
                     <MyBids />
+                ) : activeTab === 'my-orders' ? (
+                    <OrderManagement tab="orders" />
+                ) : activeTab === 'my-sales' ? (
+                    <OrderManagement tab="sales" />
                 ) : displayAds.length === 0 ? (
                     <div className="bg-white dark:bg-gray-900 p-12 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
                         <div className="text-4xl mb-4">{activeTab === 'my-ads' ? '📢' : '❤️'}</div>
