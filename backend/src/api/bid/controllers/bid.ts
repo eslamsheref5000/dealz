@@ -87,4 +87,5 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
 
         return { data: newBid, meta: { message: "Bid placed successfully" } };
     }
+}));
 
