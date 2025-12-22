@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useLanguage } from "../../context/LanguageContext";
-import { useToast } from "../../context/ToastContext";
-import Header from "../../components/Header";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useToast } from "../../../context/ToastContext";
+import Header from "../../../components/Header";
 
 export default function CheckoutPage() {
     const { id } = useParams();
