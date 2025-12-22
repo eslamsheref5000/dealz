@@ -74,18 +74,40 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
             status: 'published'
         });
 
-        // 5. Update Product (Current Bid & Count)
+        // 5. Update Product (Current Bid, Count & Anti-Sniping)
+        // Check for Anti-Sniping (Soft Close)
+        // @ts-ignore
+        const timeRemaining = new Date(product.auctionEndTime).getTime() - new Date().getTime();
+        const FIVE_MINUTES = 5 * 60 * 1000;
+        let newEndTime = undefined;
+
+        if (timeRemaining < FIVE_MINUTES && timeRemaining > 0) {
+            // Extend by 5 minutes from specific end time or current time? 
+            // Standard soft close: Extend to Current Time + 5 mins OR Original End + 5 mins.
+            // Let's do Current Time + 5 mins to guarantee a window.
+            newEndTime = new Date(Date.now() + FIVE_MINUTES);
+            strapi.log.info(`[Anti-Sniping] Auction ${productId} extended by 5 mins.`);
+        }
+
         await strapi.documents('api::product.product' as any).update({
             documentId: productId,
             data: {
                 currentBid: amount,
                 // @ts-ignore
-                bidCount: (product.bidCount || 0) + 1
+                bidCount: (product.bidCount || 0) + 1,
+                // @ts-ignore
+                auctionEndTime: newEndTime || product.auctionEndTime
             } as any, // Cast data to any to bypass strict type check on update
             status: 'published'
         });
 
-        return { data: newBid, meta: { message: "Bid placed successfully" } };
+        return {
+            data: newBid,
+            meta: {
+                message: newEndTime ? "Bid placed! Auction time extended." : "Bid placed successfully",
+                auctionExtended: !!newEndTime
+            }
+        };
     }
 }));
 

@@ -139,6 +139,9 @@
             "relation": "oneToMany",
             "target": "api::bid.bid",
             "mappedBy": "product"
+        },
+        "buyNowPrice": {
+            "type": "decimal"
         }
     }
 }
