@@ -17,25 +17,41 @@ module.exports = (plugin) => {
                 }
 
                 if (buffer) {
-                    strapi.log.info(`Applying watermark to ${file.name}...`);
+                    strapi.log.info(`Applying large diagonal watermark to ${file.name}...`);
 
                     // Get metadata
                     const metadata = await sharp(buffer).metadata();
                     const width = metadata.width || 1000;
+                    const height = metadata.height || 1000;
 
-                    // Dynamic size: 20% of width for the box
-                    const boxWidth = Math.floor(width * 0.2);
-                    const boxHeight = Math.floor(boxWidth * 0.4);
-                    const fontSize = Math.floor(boxHeight * 0.5);
+                    // Large watermark calculations
+                    // Font size relative to width (e.g. 15% of image width)
+                    const fontSize = Math.floor(width * 0.15);
+
+                    // Box size (large enough to hold rotated text)
+                    const boxWidth = Math.floor(width * 0.8);
+                    const boxHeight = Math.floor(height * 0.8);
 
                     const svgImage = `
-            <svg width="${boxWidth}" height="${boxHeight}">
+            <svg width="${width}" height="${height}" viewbox="0 0 ${width} ${height}">
               <style>
-                .text { fill: white; font-size: ${fontSize}px; font-weight: 800; font-family: Arial, sans-serif; }
-                .bg { fill: black; opacity: 0.5; }
+                .text { 
+                    fill: white; 
+                    font-size: ${fontSize}px; 
+                    font-weight: 900; 
+                    font-family: Arial, sans-serif; 
+                    opacity: 0.15; /* Very faint */
+                    text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+                }
               </style>
-              <rect x="0" y="0" width="${boxWidth}" height="${boxHeight}" rx="5" ry="5" class="bg" />
-              <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="text">Dealz</text>
+              <text 
+                x="50%" 
+                y="50%" 
+                dominant-baseline="middle" 
+                text-anchor="middle" 
+                class="text"
+                transform="rotate(-45, ${width / 2}, ${height / 2})"
+              >Dealz</text>
             </svg>
           `;
 
@@ -43,10 +59,9 @@ module.exports = (plugin) => {
                         .composite([
                             {
                                 input: Buffer.from(svgImage),
-                                gravity: 'southeast',
-                                blend: 'over',
-                                top: Math.floor(metadata.height - boxHeight - 20), // 20px padding from bottom
-                                left: Math.floor(width - boxWidth - 20)            // 20px padding from right (though gravity southeast handles this usually, explicit placement is safer if gravity fails or behaves oddly with offsets)
+                                top: 0,
+                                left: 0,
+                                blend: 'over'
                             }
                         ])
                         .toBuffer();
