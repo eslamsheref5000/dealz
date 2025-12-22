@@ -31,7 +31,6 @@ export const dictionaries = {
             addToFavorites: "Add to Favorites",
             removeFromFavorites: "Remove from Favorites",
             compare: "Compare",
-            compare: "Compare",
             all: "All",
             auction: "Auction",
             placeBid: "Place Bid",
