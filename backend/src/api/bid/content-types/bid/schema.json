@@ -1,0 +1,32 @@
+{
+    "kind": "collectionType",
+    "collectionName": "bids",
+    "info": {
+        "singularName": "bid",
+        "pluralName": "bids",
+        "displayName": "Bid",
+        "description": "Auction bids"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "attributes": {
+        "amount": {
+            "type": "decimal",
+            "required": true
+        },
+        "bidder": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user",
+            "inversedBy": "bids"
+        },
+        "product": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::product.product",
+            "inversedBy": "bids"
+        }
+    }
+}

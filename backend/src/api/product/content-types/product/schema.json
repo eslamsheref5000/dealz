@@ -114,6 +114,31 @@
         "enableChat": {
             "type": "boolean",
             "default": true
+        },
+        "isAuction": {
+            "type": "boolean",
+            "default": false
+        },
+        "auctionEndTime": {
+            "type": "datetime"
+        },
+        "currentBid": {
+            "type": "decimal",
+            "default": 0
+        },
+        "minBidIncrement": {
+            "type": "decimal",
+            "default": 10
+        },
+        "bidCount": {
+            "type": "integer",
+            "default": 0
+        },
+        "bids": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::bid.bid",
+            "mappedBy": "product"
         }
     }
 }

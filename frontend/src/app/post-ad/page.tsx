@@ -26,6 +26,8 @@ export default function PostAdPage() {
         specs: {} as any,
         showPhone: true,
         enableChat: true,
+        isAuction: false,
+        auctionEndTime: "",
     });
 
     // Payment State
@@ -199,15 +201,15 @@ export default function PostAdPage() {
 
                 if (matchedCat) {
                     setFormData(prev => ({ ...prev, category: matchedCat.documentId || matchedCat.id }));
-                    showToast(`Category detected: ${matchedCat.attributes?.name || matchedCat.name}`, "success");
+                    showToast(`${t('postAd.ai.categoryDetected')}: ${matchedCat.attributes?.name || matchedCat.name}`, "success");
                 }
             }
 
-            showToast("✨ Details auto-filled by AI!", "success");
+            showToast("✨ " + t('postAd.ai.success'), "success");
 
         } catch (err) {
             console.error(err);
-            showToast("Could not analyze image. Try again.", "error");
+            showToast(t('postAd.ai.error'), "error");
         } finally {
             setAnalyzing(false);
         }
@@ -270,7 +272,11 @@ export default function PostAdPage() {
                 paymentTransactionId: isFeatured ? transactionId : null,
                 specifications: formData.specs,
                 showPhone: formData.showPhone,
-                enableChat: formData.enableChat
+                enableChat: formData.enableChat,
+                isAuction: formData.isAuction,
+                auctionEndTime: formData.isAuction ? formData.auctionEndTime : null,
+                currentBid: 0,
+                bidCount: 0
             };
 
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
@@ -390,6 +396,40 @@ export default function PostAdPage() {
                                     {categories.length === 0 && <option value="">{t('common.loading')}</option>}
                                 </select>
                             </div>
+                        </div>
+
+                        {/* Auction Toggle */}
+                        <div className="col-span-2 bg-yellow-50 dark:bg-yellow-900/10 p-4 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                            <label className="flex items-center gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    name="isAuction"
+                                    checked={formData.isAuction}
+                                    onChange={handleCheckboxChange}
+                                    className="w-5 h-5 text-yellow-600 rounded focus:ring-yellow-500"
+                                />
+                                <div>
+                                    <span className="font-bold text-gray-900 dark:text-white block">{t('postAd.auction.label') || "Sell as Auction"}</span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">Allow users to bid on your item. Price above becomes the starting bid.</span>
+                                </div>
+                            </label>
+
+                            {formData.isAuction && (
+                                <div className="mt-4 animate-in slide-in-from-top-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        {t('postAd.auction.endTime') || "Auction End Time"} <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="datetime-local"
+                                        name="auctionEndTime"
+                                        required={formData.isAuction}
+                                        value={formData.auctionEndTime}
+                                        onChange={handleChange}
+                                        min={new Date().toISOString().slice(0, 16)}
+                                        className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         {/* Sub-Category Dropdown */}
@@ -705,12 +745,12 @@ export default function PostAdPage() {
                                         {analyzing ? (
                                             <>
                                                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                                <span>Analyzing with AI...</span>
+                                                <span>{t('postAd.ai.analyzing')}</span>
                                             </>
                                         ) : (
                                             <>
                                                 <span className="text-xl">✨</span>
-                                                <span>Auto-fill details with AI</span>
+                                                <span>{t('postAd.ai.button')}</span>
                                             </>
                                         )}
                                     </button>

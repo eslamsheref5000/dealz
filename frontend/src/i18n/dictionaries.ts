@@ -31,7 +31,15 @@ export const dictionaries = {
             addToFavorites: "Add to Favorites",
             removeFromFavorites: "Remove from Favorites",
             compare: "Compare",
-            all: "All"
+            compare: "Compare",
+            all: "All",
+            auction: "Auction",
+            placeBid: "Place Bid",
+            currentBid: "Current Bid",
+            bidHistory: "Bid History",
+            auctionEndsIn: "Auction Ends in",
+            auctionEnded: "Auction Ended",
+            minBid: "Min Bid"
         },
         header: {
             home: "Home",
@@ -81,6 +89,13 @@ export const dictionaries = {
             submit: "Post Ad",
             uploadTip: "First image will be the cover.",
             success: "Ad posted successfully!",
+            ai: {
+                button: "Auto-fill details with AI",
+                analyzing: "Analyzing with AI...",
+                success: "Details auto-filled by AI!",
+                error: "Analysis failed",
+                categoryDetected: "Category detected"
+            },
             featured: {
                 title: "Boost Your Ad Visibility! 🚀",
                 desc: "Reach 10x more buyers and sell faster by featuring your ad."
@@ -89,6 +104,11 @@ export const dictionaries = {
                 title: "Contact Privacy",
                 showPhone: "Show Phone Number on Ad",
                 enableChat: "Allow In-App Chat Messages"
+            },
+            auction: {
+                label: "Sell as Auction",
+                endTime: "Auction End Time",
+                startingPrice: "Starting Bid Price"
             },
             errors: {
                 contactRequired: "You must enable at least one contact method (Phone or Chat)."
@@ -123,6 +143,15 @@ export const dictionaries = {
             selectPrompt: "Choose a chat from the left to start message history.",
             newChat: "New Chat",
             negotiation: "Negotiation"
+        },
+        analytics: {
+            title: "Seller Analytics",
+            totalViews: "Total Views",
+            totalAds: "Total Ads",
+            activeAuctions: "Active Auctions",
+            totalBids: "Bids Received",
+            topPerforming: "Top Performing Ads",
+            engagement: "Engagement Stats"
         },
         categories: {
             "Motors": "Motors",
@@ -664,6 +693,13 @@ export const dictionaries = {
             submit: "نشر الإعلان",
             uploadTip: "الصورة الأولى ستكون الغلاف.",
             success: "تم نشر الإعلان بنجاح!",
+            ai: {
+                button: "تعبئة تلقائية بالذكاء الاصطناعي",
+                analyzing: "جاري التحليل...",
+                success: "تمت التعبئة بواسطة الذكاء الاصطناعي!",
+                error: "فشل التحليل",
+                categoryDetected: "تم اكتشاف القسم"
+            },
             featured: {
                 title: "ضاعف مشاهدات إعلانك! 🚀",
                 desc: "وصل إعلانك لـ 10 أضعاف المشترين وبع أسرع مع خدمة التميز."
@@ -1247,7 +1283,14 @@ export const dictionaries = {
             },
             submit: "Publier l'annonce",
             uploadTip: "La première image sera la couverture.",
-            success: "Annonce publiée avec succès !"
+            success: "Annonce publiée avec succès !",
+            ai: {
+                button: "Remplissage auto par IA",
+                analyzing: "Analyse IA...",
+                success: "Rempli par l'IA !",
+                error: "Échec de l'analyse",
+                categoryDetected: "Catégorie détectée"
+            },
         },
         product: {
             showPhone: "Afficher le numéro",
@@ -1791,6 +1834,13 @@ export const dictionaries = {
             submit: "विज्ञापन डालें",
             uploadTip: "पहला चित्र कवर होगा।",
             success: "विज्ञापन सफलतापूर्वक पोस्ट किया गया!",
+            ai: {
+                button: "AI के साथ स्वतः भरें",
+                analyzing: "AI विश्लेषण कर रहा है...",
+                success: "AI द्वारा विवरण भरा गया!",
+                error: "विश्लेषण विफल",
+                categoryDetected: "श्रेणी का पता चला"
+            },,
             privacy: {
                 title: "संपर्क गोपनीयता",
                 showPhone: "विज्ञापन पर फ़ोन नंबर दिखाएं",
@@ -2351,6 +2401,13 @@ export const dictionaries = {
             submit: "اشتہار پوسٹ کریں",
             uploadTip: "پہلی تصویر کور ہو گی۔",
             success: "اشتہار کامیابی سے پوسٹ ہو گیا!",
+            ai: {
+                button: "AI کے ساتھ خود بخود پُر کریں",
+                analyzing: "AI تجزیہ کر رہا ہے...",
+                success: "AI کے ذریعے پُر کیا گیا!",
+                error: "تجزیہ ناکام",
+                categoryDetected: "زمرہ دریافت ہوا"
+            },,
             privacy: {
                 title: "رابطے کی رازداری",
                 showPhone: "اشتہار پر فون نمبر دکھائیں",

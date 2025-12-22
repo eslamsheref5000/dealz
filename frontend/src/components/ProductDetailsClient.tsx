@@ -22,9 +22,14 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [showNumber, setShowNumber] = useState(false);
 
-    // Hydrate state
-    const product = initialProduct;
-    // We can use the passed related products directly.
+    // Auction State
+    const [product, setProduct] = useState(initialProduct);
+    const [bidAmount, setBidAmount] = useState("");
+    const [timeLeft, setTimeLeft] = useState("");
+    const [isBidding, setIsBidding] = useState(false);
+
+    // Initial hydration
+    const attrs = product;
 
     // Logic from original page
     const handleShare = () => {
@@ -60,10 +65,86 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
             fetch(`${API_URL}/api/products/${product.documentId || product.id}/view`, { method: 'PUT' }).catch(console.error);
         }
-    }, [product]);
+    }, []); // Run once on mount
+
+    // Countdown Timer for Auctions
+    useEffect(() => {
+        if (!product.isAuction || !product.auctionEndTime) return;
+
+        const timer = setInterval(() => {
+            const end = moment(product.auctionEndTime);
+            const now = moment();
+            const duration = moment.duration(end.diff(now));
+
+            if (duration.asSeconds() <= 0) {
+                setTimeLeft(t('common.auctionEnded'));
+                clearInterval(timer);
+            } else {
+                setTimeLeft(`${Math.floor(duration.asDays())}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`);
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [product.isAuction, product.auctionEndTime, t]);
+
+
+    const handlePlaceBid = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!currentUser) return showToast(t('reviews.loginToReview'), "error");
+
+        const amount = parseFloat(bidAmount);
+        const currentPrice = Number(product.currentBid) > 0 ? Number(product.currentBid) : Number(product.price);
+        const minIncrement = Number(product.minBidIncrement || 10);
+
+        if (amount < currentPrice + minIncrement) {
+            return showToast(`${t('common.minBid')} ${currentPrice + minIncrement}`, "error");
+        }
+
+        setIsBidding(true);
+        try {
+            const token = localStorage.getItem("jwt");
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+            const res = await fetch(`${API_URL}/api/bids`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    data: {
+                        amount: amount,
+                        product: product.documentId || product.id
+                    }
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                showToast("Bid Placed Successfully!", "success");
+                setBidAmount("");
+                // Optimistic Update
+                setProduct({
+                    ...product,
+                    currentBid: amount,
+                    bidCount: (product.bidCount || 0) + 1
+                });
+            } else {
+                showToast(data.error?.message || "Bid Failed", "error");
+            }
+
+        } catch (err) {
+            console.error(err);
+            showToast("Network Error", "error");
+        } finally {
+            setIsBidding(false);
+        }
+    };
+
 
     if (!product) return <div className="text-center py-20 text-xl text-red-500">{t('home.noProducts')}</div>;
-    const attrs = product;
+
+    const isAuction = product.isAuction;
+    const currentPrice = isAuction && Number(product.currentBid) > 0 ? Number(product.currentBid) : Number(product.price);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans transition-colors duration-300">
@@ -145,11 +226,57 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                 </div>
                             </div>
 
-                            <div className="text-3xl font-extrabold text-red-600 mb-8">
-                                {attrs.price?.toLocaleString()} <span className="text-lg text-gray-500 dark:text-gray-400">
-                                    {countries.find(c => c.id === attrs.country)?.currency || 'AED'}
-                                </span>
+                            {/* Price / Auction Block */}
+                            <div className={`mb-8 p-4 rounded-xl ${isAuction ? 'bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200' : ''}`}>
+                                {isAuction && (
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-yellow-700 dark:text-yellow-500 font-bold uppercase text-xs tracking-wider">
+                                            {timeLeft === t('common.auctionEnded') ? '🏁 ' : '🔥 '}
+                                            {timeLeft === t('common.auctionEnded') ? t('common.auctionEnded') : t('common.auctionEndsIn')}
+                                        </span>
+                                        <span className="font-mono font-bold text-red-600">{timeLeft}</span>
+                                    </div>
+                                )}
+
+                                <div className="text-3xl font-extrabold text-red-600">
+                                    {currentPrice.toLocaleString()} <span className="text-lg text-gray-500 dark:text-gray-400">
+                                        {countries.find(c => c.id === attrs.country)?.currency || 'AED'}
+                                    </span>
+                                </div>
+
+                                {isAuction && (
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        {product.bidCount || 0} {t('common.bidHistory') || "Bids"}
+                                    </div>
+                                )}
                             </div>
+
+                            {/* Auction Bidding UI */}
+                            {isAuction && timeLeft !== t('common.auctionEnded') && (
+                                <form onSubmit={handlePlaceBid} className="mb-6 animate-in fade-in">
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="number"
+                                            required
+                                            placeholder={(currentPrice + (Number(product.minBidIncrement) || 10)).toString()}
+                                            value={bidAmount}
+                                            onChange={(e) => setBidAmount(e.target.value)}
+                                            className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 focus:ring-2 focus:ring-red-500 outline-none"
+                                        />
+                                        <button
+                                            type="submit"
+                                            disabled={isBidding}
+                                            className="bg-red-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition disabled:opacity-50"
+                                        >
+                                            {isBidding ? "..." : t('common.placeBid')}
+                                        </button>
+                                    </div>
+                                    <p className="text-xs text-gray-400 mt-2 text-center">
+                                        {t('common.minBid')}: {(currentPrice + (Number(product.minBidIncrement) || 10)).toLocaleString()}
+                                    </p>
+                                </form>
+                            )}
+
 
                             <div className="space-y-3">
                                 {/* Phone Button - Respects Privacy */}

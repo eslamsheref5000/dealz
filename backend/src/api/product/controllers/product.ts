@@ -406,5 +406,45 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         } catch (err) {
             return ctx.badRequest("Failed to increment views", { error: err });
         }
+    },
+
+    async getMyAnalytics(ctx) {
+        const user = ctx.state.user;
+        if (!user) return ctx.unauthorized("Authentication required");
+
+        const { id } = user;
+
+        // 1. Get all products for this user
+        // Note: Strapi 5 might require 'documentId' or 'id' depending on the filter context. 
+        // Using entityService.findMany is usually safe with 'id' for relations in filters.
+        const products = await strapi.entityService.findMany('api::product.product', {
+            filters: { ad_owner: id },
+            fields: ['id', 'title', 'views', 'isAuction', 'auctionEndTime', 'currentBid', 'bidCount', 'publishedAt'],
+            sort: { views: 'desc' }
+        });
+
+        // 2. Aggregate Data
+        const totalViews = products.reduce((acc, curr) => acc + (curr.views || 0), 0);
+        const totalAds = products.length;
+        // @ts-ignore
+        const activeAuctions = products.filter(p => p.isAuction && new Date(p.auctionEndTime) > new Date()).length;
+        // @ts-ignore
+        const totalBidsReceived = products.reduce((acc, curr) => acc + (curr.bidCount || 0), 0);
+
+        // 3. Prepare Chart Data (Top 5 Ads)
+        const topAds = products.slice(0, 5).map(p => ({
+            name: p.title,
+            views: p.views || 0,
+            // @ts-ignore
+            bids: p.bidCount || 0
+        }));
+
+        return {
+            totalViews,
+            totalAds,
+            activeAuctions,
+            totalBidsReceived,
+            topAds
+        };
     }
 }));

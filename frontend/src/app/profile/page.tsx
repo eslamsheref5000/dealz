@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "../../components/Header";
+import AnalyticsDashboard from "../../components/AnalyticsDashboard";
 import { useLanguage } from "../../context/LanguageContext";
 import { useFavorites } from "../../context/FavoriteContext";
 import { countries } from "../../data/countries";
@@ -18,7 +19,9 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [kycUploading, setKycUploading] = useState(false);
-    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved'>('my-ads');
+    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved' | 'analytics'>('my-ads');
+
+
 
     // KYC Form State
     const [showKycModal, setShowKycModal] = useState(false);
@@ -437,22 +440,30 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Tabs */}
-                <div className="flex gap-4 border-b dark:border-gray-800 mb-8">
+                <div className="flex gap-4 border-b dark:border-gray-800 mb-8 overflow-x-auto">
                     <button
                         onClick={() => setActiveTab('my-ads')}
-                        className={`pb-4 px-4 text-lg font-bold transition ${activeTab === 'my-ads' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'my-ads' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
                         {t('header.profile')} ({ads.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('saved')}
-                        className={`pb-4 px-4 text-lg font-bold transition ${activeTab === 'saved' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'saved' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
                         {t('profile.savedItems')} ({savedAds.length})
                     </button>
+                    <button
+                        onClick={() => setActiveTab('analytics')}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'analytics' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        📊 {t('analytics.title') || "Analytics"}
+                    </button>
                 </div>
 
-                {displayAds.length === 0 ? (
+                {activeTab === 'analytics' ? (
+                    <AnalyticsDashboard />
+                ) : displayAds.length === 0 ? (
                     <div className="bg-white dark:bg-gray-900 p-12 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
                         <div className="text-4xl mb-4">{activeTab === 'my-ads' ? '📢' : '❤️'}</div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
