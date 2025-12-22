@@ -107,7 +107,8 @@ export const dictionaries = {
             auction: {
                 label: "Sell as Auction",
                 endTime: "Auction End Time",
-                startingPrice: "Starting Bid Price"
+                startingPrice: "Starting Bid Price",
+                description: "Allow users to bid on your item. Price above becomes the starting bid."
             },
             errors: {
                 contactRequired: "You must enable at least one contact method (Phone or Chat)."
@@ -718,7 +719,8 @@ export const dictionaries = {
             auction: {
                 label: "بيع كمزاد",
                 endTime: "وقت انتهاء المزاد",
-                startingPrice: "سعر بداية المزاد"
+                startingPrice: "سعر بداية المزاد",
+                description: "السماح للمستخدمين بالمزايدة على سلعتك. السعر أعلاه يصبح سعر بداية المزاد."
             },
             errors: {
                 contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."
@@ -1308,7 +1310,8 @@ export const dictionaries = {
             auction: {
                 label: "Vendre aux enchères",
                 endTime: "Heure de fin",
-                startingPrice: "Prix de départ"
+                startingPrice: "Prix de départ",
+                description: "Autorisez les utilisateurs à enchérir sur votre article. Le prix ci-dessus devient l'enchère de départ."
             },
             errors: {
                 contactRequired: "Vous devez activer au moins une méthode de contact."
@@ -1890,7 +1893,8 @@ export const dictionaries = {
             auction: {
                 label: "नीलामी के रूप में बेचें",
                 endTime: "नीलामी समाप्ति समय",
-                startingPrice: "शुरुआती बोली मूल्य"
+                startingPrice: "शुरुआती बोली मूल्य",
+                description: "उपयोगकर्ताओं को अपनी वस्तु पर बोली लगाने दें। उपरोक्त मूल्य शुरूआती बोली बन जाता है।"
             },
             errors: {
                 contactRequired: "आपको कम से कम एक संपर्क विधि (फ़ोन या चैट) सक्षम करनी होगी।"
@@ -2471,7 +2475,8 @@ export const dictionaries = {
             auction: {
                 label: "نیلامی کے طور پر بیچیں",
                 endTime: "نیلامی کا اختتامی وقت",
-                startingPrice: "شروع ہونے والی بولی"
+                startingPrice: "شروع ہونے والی بولی",
+                description: "صارفین کو اپنی چیز پر بولی لگانے کی اجازت دیں۔ اوپر دی گئی قیمت ابتدائی بولی بن جاتی ہے۔"
             },
             errors: {
                 contactRequired: "آپ کو کم از کم ایک رابطہ طریقہ (فون یا چیٹ) کو فعال کرنا ہوگا۔"

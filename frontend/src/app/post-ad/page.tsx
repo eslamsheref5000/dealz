@@ -410,7 +410,7 @@ export default function PostAdPage() {
                                 />
                                 <div>
                                     <span className="font-bold text-gray-900 dark:text-white block">{t('postAd.auction.label') || "Sell as Auction"}</span>
-                                    <span className="text-xs text-gray-500 dark:text-gray-400">Allow users to bid on your item. Price above becomes the starting bid.</span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">{t('postAd.auction.description') || "Allow users to bid on your item. Price above becomes the starting bid."}</span>
                                 </div>
                             </label>
 
