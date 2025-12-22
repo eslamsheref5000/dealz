@@ -1,0 +1,56 @@
+{
+    "kind": "collectionType",
+    "collectionName": "transactions",
+    "info": {
+        "singularName": "transaction",
+        "pluralName": "transactions",
+        "displayName": "Transaction",
+        "description": "Escrow transaction records"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "attributes": {
+        "buyer": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user"
+        },
+        "seller": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user"
+        },
+        "product": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::product.product"
+        },
+        "amount": {
+            "type": "decimal",
+            "required": true
+        },
+        "status": {
+            "type": "enumeration",
+            "enum": [
+                "pending",
+                "held",
+                "shipped",
+                "completed",
+                "disputed",
+                "cancelled"
+            ],
+            "default": "pending",
+            "required": true
+        },
+        "paymentMethod": {
+            "type": "string",
+            "default": "card"
+        },
+        "transactionId": {
+            "type": "string",
+            "private": true
+        }
+    }
+}
