@@ -54,6 +54,10 @@ export default function ImageGallery({ images, title, isFavorite, onToggleFavori
                     </>
                 )}
 
+                <div className="absolute bottom-2 left-2 z-10 pointer-events-none opacity-60">
+                    <span className="text-white text-[10px] font-black bg-black/30 px-1 rounded backdrop-blur-[2px]">Dealz</span>
+                </div>
+
                 {/* Heart Button */}
                 <button
                     onClick={onToggleFavorite}

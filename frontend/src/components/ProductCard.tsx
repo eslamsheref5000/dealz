@@ -40,6 +40,11 @@ export default function ProductCard({ product }: ProductCardProps) {
                     />
                 </Link>
 
+                {/* Watermark */}
+                <div className="absolute bottom-1 right-2 z-10 pointer-events-none opacity-50">
+                    <span className="text-white text-[8px] font-black bg-black/20 px-1 rounded backdrop-blur-[1px]">Dealz</span>
+                </div>
+
                 {/* Overlays */}
                 <div className="absolute top-2 left-2 flex flex-col gap-2 z-10">
                     {product.isFeatured && (
