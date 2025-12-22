@@ -19,6 +19,50 @@ export default function NotificationManager() {
         }
     }, []);
 
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        const token = localStorage.getItem("jwt");
+
+        if (storedUser && token) {
+            const user = JSON.parse(storedUser);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+
+            const checkNotifications = async () => {
+                try {
+                    const res = await fetch(`${API_URL}/api/notifications?filters[recipient][id][$eq]=${user.id}&filters[isRead][$eq]=false&sort=createdAt:desc&pagination[limit]=1`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    if (data.data && data.data.length > 0) {
+                        const latest = data.data[0];
+                        const lastNotifId = localStorage.getItem("lastNotifId");
+
+                        if (latest.documentId !== lastNotifId) {
+                            localStorage.setItem("lastNotifId", latest.documentId);
+
+                            // Show browser notification if allowed
+                            if (Notification.permission === 'granted') {
+                                new Notification(t('common.dealz') || "Dealz", {
+                                    body: latest.content,
+                                    icon: "/brand-icon.png"
+                                });
+                            }
+
+                            // Could also show a toast here
+                        }
+                    }
+                } catch (e) {
+                    console.error("Notification poll failed", e);
+                }
+            };
+
+            // Check immediately then poll every 60s
+            checkNotifications();
+            const interval = setInterval(checkNotifications, 60000);
+            return () => clearInterval(interval);
+        }
+    }, [t]);
+
     const handleAllow = async () => {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {

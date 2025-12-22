@@ -75,8 +75,8 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
         const interval = setInterval(async () => {
             try {
                 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                // Need to populate bids to show history
-                const res = await fetch(`${API_URL}/api/products/${product.documentId || product.id}?populate[bids][populate][bidder]=true&populate[ad_owner]=true`);
+                // Need to populate bids to show history AND winner
+                const res = await fetch(`${API_URL}/api/products/${product.documentId || product.id}?populate[bids][populate][bidder]=true&populate[ad_owner]=true&populate[winner]=true`);
                 const data = await res.json();
 
                 if (data.data) {
@@ -353,8 +353,35 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                 )}
                             </div>
 
+                            {/* Winner / Sold Status UI */}
+                            {product.isAuction && product.winner && (
+                                <div className="mb-6 p-6 rounded-2xl bg-gradient-to-br from-yellow-100 to-yellow-50 dark:from-yellow-900/30 dark:to-yellow-800/10 border-2 border-yellow-400 dark:border-yellow-600 shadow-xl animate-in zoom-in-95">
+                                    <div className="text-center">
+                                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">🎉 {t('postAd.auction.sold') || "Auction Sold"}!</h3>
+                                        {currentUser && (product.winner.documentId === currentUser.documentId || product.winner.id === currentUser.id) ? (
+                                            <div>
+                                                <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
+                                                    {t('postAd.auction.youWon') || "You Won!"} 🏆 <br />
+                                                    <span className="font-bold text-green-600">{Number(product.currentBid).toLocaleString()} AED</span>
+                                                </p>
+                                                <button
+                                                    onClick={() => showToast("Payment Gateway Integration Coming Soon! 💳", "success")}
+                                                    className="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-700 transition shadow-lg shadow-green-200 animate-pulse"
+                                                >
+                                                    💳 {t('postAd.auction.payNow') || "Pay Now"}
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <p className="text-gray-600 dark:text-gray-400">
+                                                {t('postAd.auction.winner')}: <span className="font-bold">{product.winner.username}</span>
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Auction Bidding UI */}
-                            {isAuction && timeLeft !== t('common.auctionEnded') && (
+                            {isAuction && !product.winner && timeLeft !== t('common.auctionEnded') && (
                                 <div className="space-y-4 mb-6">
                                     {/* Buy Now Button */}
                                     {product.buyNowPrice && (

@@ -117,7 +117,11 @@ export const dictionaries = {
                 noBids: "No bids yet. Be the first!",
                 bidder: "Bidder",
                 amount: "Amount",
-                time: "Time"
+                time: "Time",
+                sold: "Auction Sold",
+                youWon: "You Won this Auction!",
+                payNow: "Pay Now",
+                winner: "Winner"
             },
             errors: {
                 contactRequired: "You must enable at least one contact method (Phone or Chat)."
@@ -738,7 +742,11 @@ export const dictionaries = {
                 noBids: "لا توجد مزايدات بعد. كن الأول!",
                 bidder: "المزايد",
                 amount: "المبلغ",
-                time: "الوقت"
+                time: "الوقت",
+                sold: "تم بيع المزاد",
+                youWon: "لقد ربحت هذا المزاد!",
+                payNow: "ادفع الآن",
+                winner: "الفائز"
             },
             errors: {
                 contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."

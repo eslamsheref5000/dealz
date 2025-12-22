@@ -430,27 +430,31 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAuthGoogleAuthGoogle extends Struct.SingleTypeSchema {
-  collectionName: 'auth_googles';
+export interface ApiBidBid extends Struct.CollectionTypeSchema {
+  collectionName: 'bids';
   info: {
-    description: 'API for manual Google Authentication';
-    displayName: 'Auth Google';
-    pluralName: 'auth-googles';
-    singularName: 'auth-google';
+    description: 'Auction bids';
+    displayName: 'Bid';
+    pluralName: 'bids';
+    singularName: 'bid';
   };
   options: {
     draftAndPublish: false;
+    timestamps: true;
   };
   attributes: {
+    amount: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    bidder: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::auth-google.auth-google'
-    > &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::bid.bid'> &
       Schema.Attribute.Private;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -620,15 +624,21 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       ['pending', 'approved', 'rejected']
     > &
       Schema.Attribute.DefaultTo<'pending'>;
+    auctionEndTime: Schema.Attribute.DateTime;
+    bidCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    bids: Schema.Attribute.Relation<'oneToMany', 'api::bid.bid'>;
+    buyNowPrice: Schema.Attribute.Decimal;
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     city: Schema.Attribute.String;
     country: Schema.Attribute.String & Schema.Attribute.DefaultTo<'UAE'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    currentBid: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
     description: Schema.Attribute.Text;
     enableChat: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     images: Schema.Attribute.Media<'images', true>;
+    isAuction: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     items: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -637,6 +647,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'api::product.product'
     > &
       Schema.Attribute.Private;
+    minBidIncrement: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<10>;
     paymentMethod: Schema.Attribute.Enumeration<['none', 'instapay', 'card']> &
       Schema.Attribute.DefaultTo<'none'>;
     paymentStatus: Schema.Attribute.Enumeration<
@@ -659,6 +670,10 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     views: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    winner: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -1226,6 +1241,7 @@ export interface PluginUsersPermissionsUser
   attributes: {
     address: Schema.Attribute.Text;
     avatar: Schema.Attribute.Media<'images'>;
+    bids: Schema.Attribute.Relation<'oneToMany', 'api::bid.bid'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1288,7 +1304,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::auth-google.auth-google': ApiAuthGoogleAuthGoogle;
+      'api::bid.bid': ApiBidBid;
       'api::category.category': ApiCategoryCategory;
       'api::conversation.conversation': ApiConversationConversation;
       'api::global-setting.global-setting': ApiGlobalSettingGlobalSetting;

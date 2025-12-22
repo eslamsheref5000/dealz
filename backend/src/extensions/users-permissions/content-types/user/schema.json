@@ -120,6 +120,12 @@
             "relation": "oneToMany",
             "target": "api::bid.bid",
             "mappedBy": "bidder"
+        },
+        "notifications": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::notification.notification",
+            "mappedBy": "recipient"
         }
     }
 }

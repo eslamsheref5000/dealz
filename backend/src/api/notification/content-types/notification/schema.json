@@ -1,0 +1,46 @@
+{
+    "kind": "collectionType",
+    "collectionName": "notifications",
+    "info": {
+        "singularName": "notification",
+        "pluralName": "notifications",
+        "displayName": "Notification",
+        "description": "User notifications"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "attributes": {
+        "type": {
+            "type": "enumeration",
+            "enum": [
+                "info",
+                "outbid",
+                "auction_won",
+                "auction_lost"
+            ],
+            "default": "info",
+            "required": true
+        },
+        "content": {
+            "type": "text",
+            "required": true
+        },
+        "isRead": {
+            "type": "boolean",
+            "default": false
+        },
+        "recipient": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user",
+            "inversedBy": "notifications"
+        },
+        "product": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::product.product"
+        }
+    }
+}

@@ -35,7 +35,25 @@ export default function Header() {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             try {
-                setUser(JSON.parse(storedUser));
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+
+                // Fetch Notifications Count
+                const token = localStorage.getItem("jwt");
+                if (token) {
+                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                    fetch(`${API_URL}/api/notifications?filters[recipient][id][$eq]=${parsedUser.id}&filters[isRead][$eq]=false`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.meta) {
+                                setUser(prev => ({ ...prev, unreadNotifications: data.meta.pagination.total }));
+                            }
+                        })
+                        .catch(console.error);
+                }
+
             } catch (e) {
                 console.error("Invalid user data");
             }
@@ -138,6 +156,16 @@ export default function Header() {
                                     👤
                                 </div>
                                 <span className="hidden lg:inline">{user.username}</span>
+                            </Link>
+
+                            {/* Notifications Bell */}
+                            <Link href="/profile?tab=notifications" className="text-gray-600 dark:text-gray-300 hover:text-red-600 text-xl relative">
+                                🔔
+                                {user.unreadNotifications > 0 && (
+                                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-[10px] flex items-center justify-center rounded-full font-bold">
+                                        {user.unreadNotifications}
+                                    </span>
+                                )}
                             </Link>
 
                             <Link href="/inbox" className="text-gray-600 dark:text-gray-300 hover:text-red-600 text-xl relative">

@@ -17,7 +17,6 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
             return ctx.badRequest("Amount and Product ID are required.");
         }
 
-
         // 1. Fetch Product
         const product = await strapi.documents('api::product.product' as any).findOne({
             documentId: productId,
@@ -39,13 +38,7 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
             return ctx.badRequest("This auction has ended.");
         }
 
-        if (product.ad_owner && product.ad_owner.documentId === user.documentId) {
-            // Check against documentId for consistency, or id if mixed. 
-            // strapi.documents returns documentId. user from ctx might have id or documentId.
-            // Best to check both or assume documentId if Strapi 5 user
-        }
         // Safety check for user ownership:
-        // user object in ctx usually has id (int) and documentId (string) in Strapi 5
         // @ts-ignore
         if (product.ad_owner && (product.ad_owner.documentId === user.documentId || product.ad_owner.id === user.id)) {
             return ctx.badRequest("You cannot bid on your own item.");
@@ -60,6 +53,25 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
 
         if (amount < minRequired) {
             return ctx.badRequest(`Bid must be at least ${minRequired}.`);
+        }
+
+        // 3.5 Find Previous Highest Bidder (for Notification)
+        let previousLowBidder = null;
+        try {
+            // Re-fetch product with bids to be sure we have latest state
+            const productWithBids = await strapi.documents('api::product.product' as any).findOne({
+                documentId: productId,
+                populate: ['bids', 'bids.bidder']
+            }) as any;
+
+            if (productWithBids && productWithBids.bids && productWithBids.bids.length > 0) {
+                const sortedBids = (productWithBids.bids as any[]).sort((a: any, b: any) => b.amount - a.amount);
+                if (sortedBids.length > 0) {
+                    previousLowBidder = sortedBids[0].bidder;
+                }
+            }
+        } catch (e) {
+            console.error("Error finding previous bidder:", e);
         }
 
         // 4. Create Bid
@@ -82,9 +94,7 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
         let newEndTime = undefined;
 
         if (timeRemaining < FIVE_MINUTES && timeRemaining > 0) {
-            // Extend by 5 minutes from specific end time or current time? 
-            // Standard soft close: Extend to Current Time + 5 mins OR Original End + 5 mins.
-            // Let's do Current Time + 5 mins to guarantee a window.
+            // Extend by 5 minutes
             newEndTime = new Date(Date.now() + FIVE_MINUTES);
             strapi.log.info(`[Anti-Sniping] Auction ${productId} extended by 5 mins.`);
         }
@@ -97,9 +107,28 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
                 bidCount: (product.bidCount || 0) + 1,
                 // @ts-ignore
                 auctionEndTime: newEndTime || product.auctionEndTime
-            } as any, // Cast data to any to bypass strict type check on update
+            } as any,
             status: 'published'
         });
+
+        // 6. Notify Previous Bidder (Outbid)
+        if (previousLowBidder && previousLowBidder.documentId !== user.documentId) {
+            try {
+                console.log(`Notifying previous bidder ${previousLowBidder.username}`);
+                await strapi.documents('api::notification.notification' as any).create({
+                    data: {
+                        type: 'outbid',
+                        content: `You have been outbid on "${product.title}"! Current bid: ${amount}`,
+                        recipient: previousLowBidder.documentId,
+                        product: productId,
+                        isRead: false
+                    },
+                    status: 'published'
+                });
+            } catch (err) {
+                console.error("Failed to create outbid notification:", err);
+            }
+        }
 
         return {
             data: newBid,
@@ -110,4 +139,3 @@ export default factories.createCoreController('api::bid.bid' as any, ({ strapi }
         };
     }
 }));
-

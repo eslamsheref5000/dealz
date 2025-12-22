@@ -234,6 +234,9 @@ export default {
         "api::product.product.getPendingKYC",
         "api::product.product.approveKYC",
         "api::product.product.rejectKYC",
+        "api::notification.notification.find",
+        "api::notification.notification.findOne",
+        "api::notification.notification.update", // To mark as read
       ];
 
       const existingPerms = await strapi.query("plugin::users-permissions.permission").findMany({
@@ -443,5 +446,85 @@ export default {
       });
       console.log("Seeding completed!");
     }
+    // 5. Automated Auction Closing Logic (Interval: Every 60 seconds)
+    // Run this outside the critical boot path so it doesn't block startup
+    setInterval(async () => {
+      try {
+        const now = new Date();
+        const expiredAuctions = await strapi.documents('api::product.product').findMany({
+          filters: {
+            isAuction: true,
+            auctionEndTime: { $lt: now },
+            // Only process if status is published and NOT already sold/closed
+            // We'll use a specific condition: Has bids but no winner yet? 
+            // Or just check if "status" is still "published". 
+            // We need to differentiate between "Active" and "Ended" status.
+            // Let's assume if it's expired and status is 'published', we need to close it.
+            status: 'published',
+            winner: { $null: true } // Only if winner not yet assigned
+          },
+          populate: ['bids', 'bids.bidder'] // We need bids to find winner
+        });
+
+        if (expiredAuctions.length > 0) {
+          strapi.log.info(`Found ${expiredAuctions.length} expired auctions to close.`);
+
+          for (const product of expiredAuctions) {
+            // Find highest bidder
+            const bids = product.bids || [];
+            if (bids.length === 0) {
+              strapi.log.info(`Auction ${product.documentId} ended with no bids.`);
+              // Optional: Mark as 'expired' or just leave it? 
+              // Let's leave it as published but maybe update a flag if we had one.
+              // For now, do nothing if no bids.
+              continue;
+            }
+
+            // Sort bids desc
+            bids.sort((a, b) => b.amount - a.amount);
+            const highestBid = bids[0];
+            const winner = highestBid.bidder;
+
+            if (winner) {
+              strapi.log.info(`Closing Auction ${product.documentId}. Winner: ${winner.username} (${highestBid.amount})`);
+
+              await strapi.documents('api::product.product').update({
+                documentId: product.documentId,
+                data: {
+                  winner: winner.documentId,
+                  // We can change status to 'awaiting_payment' if we want to hide it from main list
+                  // or keep it published but show "SOLD" in UI.
+                  // Let's use 'published' but reliance on 'winner' field in UI.
+                  // Actually, let's add a custom field or reuse one.
+                  // Strapi default status is draft/published. 
+                  // Let's just set winner. The UI will check "if winner exists" -> Sold/Ended.
+                } as any,
+                status: 'published'
+              });
+
+              // Notification for Winner
+              try {
+                await strapi.documents('api::notification.notification').create({
+                  data: {
+                    type: 'auction_won',
+                    content: `Congratulations! You won the auction for "${product.title}"! Pay now to claim your item.`,
+                    recipient: winner.documentId,
+                    product: product.documentId,
+                    isRead: false
+                  },
+                  status: 'published'
+                });
+              } catch (nErr) {
+                // Ignore notification errors to not block closure
+                console.error("Failed to notify winner:", nErr);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        strapi.log.error("Error in Auction Closing Interval:", err);
+      }
+    }, 60000); // Check every 60 seconds
+
   },
 };

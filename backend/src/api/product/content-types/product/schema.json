@@ -142,6 +142,11 @@
         },
         "buyNowPrice": {
             "type": "decimal"
+        },
+        "winner": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "plugin::users-permissions.user"
         }
     }
 }
