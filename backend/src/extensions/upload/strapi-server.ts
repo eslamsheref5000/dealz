@@ -6,8 +6,8 @@ module.exports = (plugin) => {
     const originalUpload = uploadService.upload;
 
     plugin.services.upload.upload = async (file) => {
-        // Check if this file is flagged for watermarking
-        if (file.caption === 'watermark_me') {
+        // Check if file is an image
+        if (file.mime && file.mime.startsWith('image/')) {
             try {
                 let buffer = file.buffer;
 
@@ -71,7 +71,7 @@ module.exports = (plugin) => {
                     file.size = (watermarkedBuffer.length / 1024).toFixed(2); // kb
 
                     // Clean up caption so it doesn't show "watermark_me" in UI
-                    file.caption = "Dealz Ad";
+                    // file.caption = "Dealz Ad"; 
                 }
             } catch (err) {
                 strapi.log.error('Watermark processing failed:', err);
