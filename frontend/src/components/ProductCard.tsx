@@ -41,8 +41,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </Link>
 
                 {/* Watermark */}
-                <div className="absolute bottom-1 right-2 z-10 pointer-events-none opacity-50">
-                    <span className="text-white text-[8px] font-black bg-black/20 px-1 rounded backdrop-blur-[1px]">Dealz</span>
+                <div className="absolute bottom-2 right-2 z-10 pointer-events-none opacity-80 mix-blend-overlay">
+                    <span className="text-white text-[12px] font-black bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm border border-white/20">Dealz</span>
                 </div>
 
                 {/* Overlays */}

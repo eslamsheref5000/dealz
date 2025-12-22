@@ -54,8 +54,8 @@ export default function ImageGallery({ images, title, isFavorite, onToggleFavori
                     </>
                 )}
 
-                <div className="absolute bottom-2 left-2 z-10 pointer-events-none opacity-60">
-                    <span className="text-white text-[10px] font-black bg-black/30 px-1 rounded backdrop-blur-[2px]">Dealz</span>
+                <div className="absolute bottom-4 left-4 z-10 pointer-events-none opacity-80 mix-blend-overlay">
+                    <span className="text-white text-sm font-black bg-black/40 px-3 py-1 rounded backdrop-blur-md border border-white/20">Dealz</span>
                 </div>
 
                 {/* Heart Button */}
