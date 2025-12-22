@@ -18,10 +18,50 @@ export default {
   async bootstrap({ strapi }) {
     console.log("!!! BOOTSTRAP STARTED !!!");
 
+    // Grant 'create' permission for Bids to Authenticated role
+    try {
+      const authenticatedRole = await strapi
+        .plugin("users-permissions")
+        .service("role")
+        .findOne({ type: "authenticated" });
 
+      if (authenticatedRole) {
+        const permissions = await strapi
+          .plugin("users-permissions")
+          .service("permission")
+          .findMany({
+            where: {
+              role: authenticatedRole.id,
+              action: "api::bid.bid.create",
+            },
+          });
 
-
-
+        if (permissions.length === 0) {
+          strapi.log.info("Granting 'create' permission for Bid to Authenticated role...");
+          await strapi.plugin("users-permissions").service("permission").create({
+            data: {
+              action: "api::bid.bid.create",
+              role: authenticatedRole.id,
+            },
+          });
+          // Also grant 'find' and 'findOne' if needed
+          await strapi.plugin("users-permissions").service("permission").create({
+            data: {
+              action: "api::bid.bid.find",
+              role: authenticatedRole.id,
+            },
+          });
+          await strapi.plugin("users-permissions").service("permission").create({
+            data: {
+              action: "api::bid.bid.findOne",
+              role: authenticatedRole.id,
+            },
+          });
+        }
+      }
+    } catch (error) {
+      strapi.log.error("Failed to auto-grant Bid permissions:", error);
+    }
 
     // 0. Backfill Slugs (SEO)
     const makeSlug = (str) => {
