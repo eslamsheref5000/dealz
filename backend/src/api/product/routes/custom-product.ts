@@ -1,12 +1,23 @@
-module.exports = {
+
+export default {
     routes: [
         {
-            method: 'PUT',
-            path: '/products/:id/view',
-            handler: 'product.incrementViews',
+            method: 'GET',
+            path: '/products/analytics/my-stats',
+            handler: 'product.getMyAnalytics',
             config: {
-                auth: false, // Public endpoint
+                policies: [],
+                middlewares: [],
             },
         },
+        {
+            method: 'POST',
+            path: '/products/:id/buy-now',
+            handler: 'product.buyNow',
+            config: {
+                policies: [],
+                middlewares: [],
+            },
+        }
     ],
 };

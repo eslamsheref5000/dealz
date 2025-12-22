@@ -415,8 +415,6 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         const { id } = user;
 
         // 1. Get all products for this user
-        // Note: Strapi 5 might require 'documentId' or 'id' depending on the filter context. 
-        // Using entityService.findMany is usually safe with 'id' for relations in filters.
         const products = await strapi.entityService.findMany('api::product.product', {
             filters: { ad_owner: id },
             fields: ['id', 'title', 'views', 'isAuction', 'auctionEndTime', 'currentBid', 'bidCount', 'publishedAt'] as any,
@@ -446,5 +444,76 @@ export default factories.createCoreController('api::product.product', ({ strapi 
             totalBidsReceived,
             topAds
         };
+    },
+
+    async buyNow(ctx) {
+        const user = ctx.state.user;
+        const { id } = ctx.params;
+
+        if (!user) {
+            return ctx.unauthorized("You must be logged in to buy an item.");
+        }
+
+        // 1. Fetch Product
+        const product = await strapi.documents('api::product.product' as any).findOne({
+            documentId: id,
+            populate: ['ad_owner']
+        }) as any;
+
+        if (!product) {
+            return ctx.notFound("Product not found.");
+        }
+
+        // @ts-ignore
+        if (!product.isAuction) {
+            return ctx.badRequest("This item is not an auction.");
+        }
+
+        // @ts-ignore
+        if (!product.buyNowPrice) {
+            return ctx.badRequest("This item does not have a Buy Now price.");
+        }
+
+        // @ts-ignore
+        if (new Date() > new Date(product.auctionEndTime)) {
+            return ctx.badRequest("This auction has already ended.");
+        }
+
+        // Check ownership
+        // @ts-ignore
+        if (product.ad_owner && (product.ad_owner.documentId === user.documentId || product.ad_owner.id === user.id)) {
+            return ctx.badRequest("You cannot buy your own item.");
+        }
+
+        // 2. Execute Purchase (Simulated by closing auction with max bid)
+        // Create specific "Buy Now" bid
+        await strapi.documents('api::bid.bid' as any).create({
+            data: {
+                // @ts-ignore
+                amount: product.buyNowPrice,
+                product: id,
+                bidder: user.documentId,
+                publishedAt: new Date()
+            },
+            status: 'published'
+        });
+
+        // 3. Close Auction
+        await strapi.documents('api::product.product' as any).update({
+            documentId: id,
+            data: {
+                // @ts-ignore
+                currentBid: product.buyNowPrice,
+                // @ts-ignore
+                bidCount: (product.bidCount || 0) + 1,
+                // End immediately
+                auctionEndTime: new Date(),
+                // @ts-ignore
+                isFeatured: product.isFeatured // Keep other fields
+            } as any,
+            status: 'published'
+        });
+
+        return { message: "Item purchased successfully!", success: true };
     }
 }));
