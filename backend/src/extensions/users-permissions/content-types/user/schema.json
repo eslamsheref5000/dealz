@@ -114,6 +114,12 @@
         "isAdmin": {
             "type": "boolean",
             "default": false
+        },
+        "bids": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::bid.bid",
+            "mappedBy": "bidder"
         }
     }
 }
