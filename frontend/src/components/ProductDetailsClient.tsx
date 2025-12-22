@@ -27,6 +27,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
     const [bidAmount, setBidAmount] = useState("");
     const [timeLeft, setTimeLeft] = useState("");
     const [isBidding, setIsBidding] = useState(false);
+    const [recentBids, setRecentBids] = useState<any[]>([]);
 
     // Initial hydration
     const attrs = product;
@@ -66,6 +67,43 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
             fetch(`${API_URL}/api/products/${product.documentId || product.id}/view`, { method: 'PUT' }).catch(console.error);
         }
     }, []); // Run once on mount
+
+    // Real-time Polling for Auction Updates
+    useEffect(() => {
+        if (!product.isAuction || timeLeft === t('common.auctionEnded')) return;
+
+        const interval = setInterval(async () => {
+            try {
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                // Need to populate bids to show history
+                const res = await fetch(`${API_URL}/api/products/${product.documentId || product.id}?populate[bids][populate][bidder]=true&populate[ad_owner]=true`);
+                const data = await res.json();
+
+                if (data.data) {
+                    const newProduct = data.data;
+
+                    // Check for Anti-Sniping Extension
+                    if (newProduct.auctionEndTime !== product.auctionEndTime) {
+                        showToast(t('postAd.auction.auctionExtended'), "info");
+                    }
+
+                    setProduct(newProduct);
+
+                    // Update local bids list
+                    if (newProduct.bids) {
+                        // Sort by amount desc
+                        const sortedBids = (newProduct.bids as any[]).sort((a: any, b: any) => b.amount - a.amount);
+                        setRecentBids(sortedBids.slice(0, 5)); // Show top 5
+                    }
+                }
+            } catch (err) {
+                console.error("Polling error:", err);
+            }
+        }, 3000); // Poll every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [product.documentId, product.id, product.isAuction, product.auctionEndTime, timeLeft, t]);
+
 
     // Countdown Timer for Auctions
     useEffect(() => {
@@ -120,13 +158,16 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
             const data = await res.json();
             if (res.ok) {
-                showToast("Bid Placed Successfully!", "success");
+                showToast(data.meta?.message || "Bid Placed Successfully!", "success");
                 setBidAmount("");
-                // Optimistic Update
+                // Immediate refresh handled by polling or response
+                // Optimistically update
                 setProduct({
                     ...product,
                     currentBid: amount,
-                    bidCount: (product.bidCount || 0) + 1
+                    bidCount: (product.bidCount || 0) + 1,
+                    // If backend returned extension info, handle it? 
+                    // Polling will catch it in 3s anyway.
                 });
             } else {
                 showToast(data.error?.message || "Bid Failed", "error");
@@ -134,6 +175,37 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
         } catch (err) {
             console.error(err);
+            showToast("Network Error", "error");
+        } finally {
+            setIsBidding(false);
+        }
+    };
+
+    const handleBuyNow = async () => {
+        if (!currentUser) return showToast(t('reviews.loginToReview'), "error");
+
+        if (!confirm(`${t('postAd.auction.buyNow')} ${product.buyNowPrice}?`)) return;
+
+        setIsBidding(true);
+        try {
+            const token = localStorage.getItem("jwt");
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+            const res = await fetch(`${API_URL}/api/products/${product.documentId || product.id}/buy-now`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                showToast("Item Purchased Successfully! 🎉", "success");
+                // Force refresh / redirect
+                window.location.reload();
+            } else {
+                showToast(data.error?.message || "Purchase Failed", "error");
+            }
+        } catch (err) {
             showToast("Network Error", "error");
         } finally {
             setIsBidding(false);
@@ -170,6 +242,36 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                             isFavorite={isFavorite(attrs.documentId)}
                             onToggleFavorite={() => toggleFavorite(attrs.documentId)}
                         />
+
+                        {/* Bid History (Only for Auctions) */}
+                        {isAuction && recentBids.length > 0 && (
+                            <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 animate-in fade-in slide-in-from-bottom-4">
+                                <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                    📜 {t('postAd.auction.bidHistory')}
+                                </h3>
+                                <div className="space-y-3">
+                                    {recentBids.map((bid, idx) => (
+                                        <div key={idx} className="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold">
+                                                    {bid.bidder?.username ? bid.bidder.username.substring(0, 2).toUpperCase() : '??'}
+                                                </div>
+                                                <div>
+                                                    <div className="font-bold text-gray-900 dark:text-gray-100 text-sm">
+                                                        {bid.bidder?.username || t('postAd.auction.bidder')}
+                                                        {idx === 0 && <span className="ml-2 bg-yellow-400 text-black text-[10px] px-1 rounded">WINNING</span>}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">{moment(bid.publishedAt).fromNow()}</div>
+                                                </div>
+                                            </div>
+                                            <div className="font-mono font-bold text-green-600">
+                                                {Number(bid.amount).toLocaleString()} AED
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('product.description')}</h2>
@@ -253,28 +355,42 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
                             {/* Auction Bidding UI */}
                             {isAuction && timeLeft !== t('common.auctionEnded') && (
-                                <form onSubmit={handlePlaceBid} className="mb-6 animate-in fade-in">
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="number"
-                                            required
-                                            placeholder={(currentPrice + (Number(product.minBidIncrement) || 10)).toString()}
-                                            value={bidAmount}
-                                            onChange={(e) => setBidAmount(e.target.value)}
-                                            className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 focus:ring-2 focus:ring-red-500 outline-none"
-                                        />
+                                <div className="space-y-4 mb-6">
+                                    {/* Buy Now Button */}
+                                    {product.buyNowPrice && (
                                         <button
-                                            type="submit"
+                                            onClick={handleBuyNow}
                                             disabled={isBidding}
-                                            className="bg-red-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition disabled:opacity-50"
+                                            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 dark:shadow-indigo-900/20 flex justify-center items-center gap-2"
                                         >
-                                            {isBidding ? "..." : t('common.placeBid')}
+                                            🚀 {t('postAd.auction.buyNow')} @ {Number(product.buyNowPrice).toLocaleString()}
                                         </button>
-                                    </div>
-                                    <p className="text-xs text-gray-400 mt-2 text-center">
-                                        {t('common.minBid')}: {(currentPrice + (Number(product.minBidIncrement) || 10)).toLocaleString()}
-                                    </p>
-                                </form>
+                                    )}
+
+                                    <form onSubmit={handlePlaceBid} className="animate-in fade-in">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="number"
+                                                required
+                                                placeholder={(currentPrice + (Number(product.minBidIncrement) || 10)).toString()}
+                                                value={bidAmount}
+                                                onChange={(e) => setBidAmount(e.target.value)}
+                                                className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 focus:ring-2 focus:ring-red-500 outline-none"
+                                            />
+                                            <button
+                                                type="submit"
+                                                disabled={isBidding}
+                                                className="bg-red-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition disabled:opacity-50"
+                                            >
+                                                {isBidding ? "..." : t('common.placeBid')}
+                                            </button>
+                                        </div>
+                                        <p className="text-xs text-gray-400 mt-2 text-center">
+                                            {t('common.minBid')}: {(currentPrice + (Number(product.minBidIncrement) || 10)).toLocaleString()}
+                                        </p>
+                                    </form>
+
+                                </div>
                             )}
 
 

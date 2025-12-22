@@ -108,7 +108,16 @@ export const dictionaries = {
                 label: "Sell as Auction",
                 endTime: "Auction End Time",
                 startingPrice: "Starting Bid Price",
-                description: "Allow users to bid on your item. Price above becomes the starting bid."
+                description: "Allow users to bid on your item. Price above becomes the starting bid.",
+                buyNow: "Buy Now",
+                buyNowPrice: "Buy Now Price",
+                bidHistory: "Bid History",
+                auctionExtended: "Auction extended by 5 mins!",
+                timeExtended: "Time Extended",
+                noBids: "No bids yet. Be the first!",
+                bidder: "Bidder",
+                amount: "Amount",
+                time: "Time"
             },
             errors: {
                 contactRequired: "You must enable at least one contact method (Phone or Chat)."
@@ -720,7 +729,16 @@ export const dictionaries = {
                 label: "بيع كمزاد",
                 endTime: "وقت انتهاء المزاد",
                 startingPrice: "سعر بداية المزاد",
-                description: "السماح للمستخدمين بالمزايدة على سلعتك. السعر أعلاه يصبح سعر بداية المزاد."
+                description: "السماح للمستخدمين بالمزايدة على سلعتك. السعر أعلاه يصبح سعر بداية المزاد.",
+                buyNow: "شراء الآن",
+                buyNowPrice: "سعر الشراء الفوري",
+                bidHistory: "سجل المزايدات",
+                auctionExtended: "تم تمديد المزاد 5 دقائق!",
+                timeExtended: "تم تمديد الوقت",
+                noBids: "لا توجد مزايدات بعد. كن الأول!",
+                bidder: "المزايد",
+                amount: "المبلغ",
+                time: "الوقت"
             },
             errors: {
                 contactRequired: "يجب تفعيل وسيلة تواصل واحدة على الأقل (هاتف أو محادثة)."
