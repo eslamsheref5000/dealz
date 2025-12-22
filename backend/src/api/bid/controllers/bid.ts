@@ -4,7 +4,7 @@
 
 import { factories } from '@strapi/strapi'
 
-export default factories.createCoreController('api::bid.bid', ({ strapi }) => ({
+export default factories.createCoreController('api::bid.bid' as any, ({ strapi }) => ({
     async create(ctx) {
         const user = ctx.state.user;
         if (!user) {
@@ -20,7 +20,7 @@ export default factories.createCoreController('api::bid.bid', ({ strapi }) => ({
         // 1. Fetch Product
         // @ts-ignore
         const product = await strapi.entityService.findOne('api::product.product', productId, {
-            fields: ['id', 'title', 'price', 'isAuction', 'auctionEndTime', 'currentBid', 'minBidIncrement', 'bidCount', 'ad_owner'],
+            fields: ['id', 'title', 'price', 'isAuction', 'auctionEndTime', 'currentBid', 'minBidIncrement', 'bidCount', 'ad_owner'] as any,
             populate: ['ad_owner']
         });
 
@@ -61,7 +61,7 @@ export default factories.createCoreController('api::bid.bid', ({ strapi }) => ({
         }
 
         // 4. Create Bid
-        const newBid = await strapi.entityService.create('api::bid.bid', {
+        const newBid = await strapi.entityService.create('api::bid.bid' as any, {
             data: {
                 amount,
                 product: productId,

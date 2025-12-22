@@ -419,7 +419,7 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         // Using entityService.findMany is usually safe with 'id' for relations in filters.
         const products = await strapi.entityService.findMany('api::product.product', {
             filters: { ad_owner: id },
-            fields: ['id', 'title', 'views', 'isAuction', 'auctionEndTime', 'currentBid', 'bidCount', 'publishedAt'],
+            fields: ['id', 'title', 'views', 'isAuction', 'auctionEndTime', 'currentBid', 'bidCount', 'publishedAt'] as any,
             sort: { views: 'desc' }
         });
 
