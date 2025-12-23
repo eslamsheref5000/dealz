@@ -77,9 +77,34 @@ export default function CheckoutPage() {
     if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
     if (!product) return <div className="min-h-screen flex items-center justify-center text-red-500">Product not found</div>;
 
-    const price = product.currentBid > 0 ? product.currentBid : product.price;
-    const fee = price * 0.05; // 5% fee
-    const total = Number(price) + fee;
+    // Price Logic
+    let price;
+    if (product.isAuction) {
+        // If auction, use highest bid OR buy now price if specified in query/state? 
+        // For simplicity, we assume if they are here via buy-now button on auction, it might be BuyNowPrice.
+        // But usually currentBid is the winning bid.
+        // Let's assume: if winner exists (post-auction), use currentBid.
+        // If pre-auction buy-now, use buyNowPrice.
+
+        // Actually, let's look at the product state. 
+        // If the user clicked "Buy Now" on an active auction, the backend should probably lock it or we pass a query param.
+        // For now, let's use the BuyNowPrice if it exists and auction is active, else currentBid.
+        // A safer bet for MVP: Use BuyNowPrice if checking out an active auction via Buy Now button.
+        // But the previous page logic just sends them here.
+        // Let's use:
+        price = (product.isAuction && product.buyNowPrice && !product.winner)
+            ? Number(product.buyNowPrice)
+            : (Number(product.currentBid) > 0 ? Number(product.currentBid) : Number(product.price));
+    } else {
+        price = Number(product.price);
+    }
+
+    // Shipping Logic
+    const shippingCost = Number(product.shippingCost) || 0;
+    const shippingMethod = product.shippingMethod || 'pickup';
+
+    const fee = price * 0.05; // 5% Buyer Protection
+    const total = price + fee + shippingCost;
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -107,11 +132,24 @@ export default function CheckoutPage() {
 
                         <div className="space-y-3 text-sm">
                             <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                                <span>Item Price</span>
+                                <span>{t('checkout.itemPrice') || "Item Price"}</span>
                                 <span>{Number(price).toLocaleString()} AED</span>
                             </div>
+
+                            {shippingCost > 0 && (
+                                <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                                    <span>
+                                        {t('postAd.shipping.title') || "Shipping"}
+                                        <span className="text-xs ml-1 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded capitalize">
+                                            ({t(`postAd.shipping.methods.${shippingMethod}`) || shippingMethod})
+                                        </span>
+                                    </span>
+                                    <span>{shippingCost.toLocaleString()} AED</span>
+                                </div>
+                            )}
+
                             <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                                <span>Buyer Protection Fee (5%)</span>
+                                <span>{t('checkout.buyerProtection') || "Buyer Protection Fee"} (5%)</span>
                                 <span>{fee.toLocaleString()} AED</span>
                             </div>
                             <div className="flex justify-between font-bold text-xl text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800">
@@ -123,10 +161,10 @@ export default function CheckoutPage() {
                         <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-800 text-sm text-blue-700 dark:text-blue-300">
                             <strong>How it works:</strong>
                             <ol className="list-decimal ml-4 mt-2 space-y-1">
-                                <li>You pay now, money is held securely.</li>
-                                <li>Seller ships the item to you.</li>
-                                <li>You inspect and confirm receipt.</li>
-                                <li>Money is released to the seller.</li>
+                                <li>{t('checkout.step1') || "You pay now, money is held securely."}</li>
+                                <li>{t('checkout.step2') || "Seller ships the item to you."}</li>
+                                <li>{t('checkout.step3') || "You inspect and confirm receipt."}</li>
+                                <li>{t('checkout.step4') || "Money is released to the seller."}</li>
                             </ol>
                         </div>
 
