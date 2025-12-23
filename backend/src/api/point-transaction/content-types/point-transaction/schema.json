@@ -15,8 +15,7 @@
         "profile": {
             "type": "relation",
             "relation": "manyToOne",
-            "target": "api::gamification-profile.gamification-profile",
-            "inversedBy": "transactions"
+            "target": "api::gamification-profile.gamification-profile"
         },
         "amount": {
             "type": "integer",
