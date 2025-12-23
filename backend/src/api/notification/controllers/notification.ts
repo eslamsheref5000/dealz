@@ -30,7 +30,7 @@ export default factories.createCoreController('api::notification.notification' a
             const total = await strapi.entityService.count('api::notification.notification' as any, {
                 filters: {
                     recipient: { id: user.id },
-                    isRead: { $eq: false }
+                    isRead: { $eq: false } as any
                 }
             });
 
