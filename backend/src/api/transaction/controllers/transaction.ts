@@ -21,14 +21,38 @@ export default factories.createCoreController('api::transaction.transaction' as 
         if (!product) return ctx.notFound("Product not found");
         // @ts-ignore
         if (product.ad_owner.documentId === user.documentId) return ctx.badRequest("Cannot buy your own item.");
-        // @ts-ignore
-        if (product.shippingStatus !== 'waiting_payment') return ctx.badRequest("Product not available.");
+
+        // AUCTION LOGIC: If it's an auction, validate Buy Now availability
+        if (product.isAuction) {
+            // Check if auction ended naturally
+            if (new Date() > new Date(product.auctionEndTime)) {
+                // Check if it's already sold/won? 
+                // For now, allow purchase if it wasn't won by bid? 
+                // Simpler: Buy Now is only valid while auction is ACTIVE.
+                return ctx.badRequest("Auction has ended.");
+            }
+            if (!product.buyNowPrice) return ctx.badRequest("Buy Now not enabled for this auction.");
+        } else {
+            // Regular Item
+            // @ts-ignore
+            if (product.shippingStatus !== 'waiting_payment') return ctx.badRequest("Product not available.");
+        }
 
         // Financial Logic (Commission)
-        const amount = Number(product.price);
+        // For Auction, assume price is Buy Now Price if active, or Current Bid if ended?
+        // "Buy Now" implies paying the Buy Now Price.
+        // If coming from "Checkout", we assume the user agreed to the price.
+        // Let's rely on product.price (Regular) OR product.buyNowPrice (Auction Buy Now)
+
+        let finalPrice = Number(product.price);
+        // If Auction, Override price with Buy Now Price
+        if (product.isAuction) {
+            finalPrice = Number(product.buyNowPrice);
+        }
+
         const commissionRate = 0.10; // 10% Platform Fee
-        const commission = amount * commissionRate;
-        const netAmount = amount - commission;
+        const commission = finalPrice * commissionRate;
+        const netAmount = finalPrice - commission;
 
         // Create Transaction
         const transaction = await strapi.documents('api::transaction.transaction' as any).create({
@@ -37,7 +61,7 @@ export default factories.createCoreController('api::transaction.transaction' as 
                 // @ts-ignore
                 seller: product.ad_owner.documentId,
                 product: productId,
-                amount: amount,
+                amount: finalPrice,
                 commission: commission,
                 netAmount: netAmount,
                 status: 'held', // Money is held by Escrow
@@ -47,18 +71,42 @@ export default factories.createCoreController('api::transaction.transaction' as 
         });
 
         // Update Product Status
+        // If Auction -> Close it!
+        const productUpdates: any = {
+            shippingStatus: 'to_ship',
+            paymentStatus: 'pending', // Payment held
+            paymentTransactionId: transaction.documentId
+        };
+
+        if (product.isAuction) {
+            productUpdates.auctionEndTime = new Date(); // Close Auction
+            productUpdates.currentBid = finalPrice; // Set final bid to sold price
+            productUpdates.bidCount = (product.bidCount || 0) + 1;
+            // Optionally create a "Bid" record for history?
+            // Let's simply mark product.winner if we had that field?
+            // "winner" relation update involves Entity Service... simplified here.
+        }
+
         await strapi.documents('api::product.product' as any).update({
             documentId: productId,
-            data: {
-                // @ts-ignore
-                shippingStatus: 'to_ship',
-                paymentStatus: 'pending', // Payment held
-                paymentTransactionId: transaction.documentId
-            },
+            data: productUpdates,
             status: 'published'
         });
 
-        return { data: transaction, meta: { message: `Payment secure! ${amount} held in Escrow (Commission: ${commission}).` } };
+        // Create a 'Bid' record for history consistency if Auction
+        if (product.isAuction) {
+            await strapi.documents('api::bid.bid' as any).create({
+                data: {
+                    amount: finalPrice,
+                    product: productId,
+                    bidder: user.documentId,
+                    publishedAt: new Date()
+                },
+                status: 'published'
+            });
+        }
+
+        return { data: transaction, meta: { message: `Payment secure! ${finalPrice} held in Escrow (Commission: ${commission}).` } };
     },
 
     // 2. Mark as Shipped (Seller)
