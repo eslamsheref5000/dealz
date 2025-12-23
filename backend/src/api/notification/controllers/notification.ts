@@ -12,17 +12,43 @@ export default factories.createCoreController('api::notification.notification' a
             return ctx.unauthorized("You must be logged in to view notifications");
         }
 
-        // Force filter by current authenticated user
-        ctx.query = {
-            ...ctx.query,
-            filters: {
-                ...(ctx.query.filters as object),
-                recipient: {
-                    id: user.id
-                }
-            }
-        };
+        try {
+            // Use entityService directly to bypass generic validation limits
+            const notifications = await strapi.entityService.findMany('api::notification.notification', {
+                filters: {
+                    recipient: { id: user.id },
+                    isRead: ctx.query.filters?.['isRead'] === 'true' || ctx.query.filters?.['isRead'] === true
+                        ? true
+                        : (ctx.query.filters?.['isRead'] === 'false' || ctx.query.filters?.['isRead'] === false ? false : undefined)
+                },
+                sort: { createdAt: 'desc' },
+                limit: 10,
+                populate: ['product'] // Optional: populate if needed
+            });
 
-        return super.find(ctx);
+            // Count for meta
+            const total = await strapi.entityService.count('api::notification.notification', {
+                filters: {
+                    recipient: { id: user.id },
+                    isRead: false
+                }
+            });
+
+            // Manual sanitizer not strictly needed for just ID/content but good practice
+            return {
+                data: notifications,
+                meta: {
+                    pagination: {
+                        page: 1,
+                        pageSize: 10,
+                        pageCount: 1, // Simplified
+                        total: total
+                    }
+                }
+            };
+        } catch (error) {
+            ctx.body = error;
+            ctx.status = 500;
+        }
     }
 }));
