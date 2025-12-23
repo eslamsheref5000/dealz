@@ -7,7 +7,7 @@ import { scaleLinear } from "d3-scale";
 
 import {
     ComposableMap,
-    Geometries,
+    Geographies,
     Geography,
     Marker
 } from "react-simple-maps";
@@ -82,9 +82,9 @@ export default function Watchtower() {
                 <div className="lg:col-span-2 bg-gray-800 rounded-xl overflow-hidden border border-gray-700 relative h-[600px]">
                     <div className="absolute top-4 left-4 z-10 bg-black/50 px-3 py-1 rounded text-xs">Waiting for signals...</div>
                     <ComposableMap projection="geoMercator">
-                        <Geometries geometryUrl={geoUrl}>
-                            {(geographies: any) =>
-                                geographies.geographies.map((geo: any) => (
+                        <Geographies geography={geoUrl}>
+                            {({ geographies }: { geographies: any[] }) =>
+                                geographies.map((geo) => (
                                     <Geography
                                         key={geo.rsmKey}
                                         geography={geo}
@@ -94,7 +94,7 @@ export default function Watchtower() {
                                     />
                                 ))
                             }
-                        </Geometries>
+                        </Geographies>
                         {markers.map((marker, idx) => (
                             <Marker key={idx} coordinates={marker.coordinates as [number, number]}>
                                 <circle r={8} fill="#F56565" fillOpacity={0.6} className="animate-ping" />
