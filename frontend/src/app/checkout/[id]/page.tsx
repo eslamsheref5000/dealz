@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useCountry } from "../../../context/CountryContext";
 import { useToast } from "../../../context/ToastContext";
 import Header from "../../../components/Header";
 
@@ -10,6 +11,7 @@ export default function CheckoutPage() {
     const { id } = useParams();
     const router = useRouter();
     const { t } = useLanguage();
+    const { selectedCountry } = useCountry();
     const { showToast } = useToast();
     const [product, setProduct] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -74,8 +76,8 @@ export default function CheckoutPage() {
         }
     };
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-    if (!product) return <div className="min-h-screen flex items-center justify-center text-red-500">Product not found</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center">{t('common.loading')}</div>;
+    if (!product) return <div className="min-h-screen flex items-center justify-center text-red-500">{t('home.noProducts')}</div>;
 
     // Price Logic
     let price;
@@ -85,7 +87,6 @@ export default function CheckoutPage() {
         // But usually currentBid is the winning bid.
         // Let's assume: if winner exists (post-auction), use currentBid.
         // If pre-auction buy-now, use buyNowPrice.
-
         // Actually, let's look at the product state. 
         // If the user clicked "Buy Now" on an active auction, the backend should probably lock it or we pass a query param.
         // For now, let's use the BuyNowPrice if it exists and auction is active, else currentBid.
@@ -113,8 +114,8 @@ export default function CheckoutPage() {
                 <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800">
                     <div className="bg-green-600 p-6 text-white text-center">
                         <div className="text-4xl mb-2">🛡️</div>
-                        <h1 className="text-2xl font-bold">Secure Checkout</h1>
-                        <p className="opacity-90">Your payment is held safely in Dealz Escrow until you receive the item.</p>
+                        <h1 className="text-2xl font-bold">{t('checkout.title')}</h1>
+                        <p className="opacity-90">{t('checkout.subtitle')}</p>
                     </div>
 
                     <div className="p-8 space-y-6">
@@ -132,36 +133,36 @@ export default function CheckoutPage() {
 
                         <div className="space-y-3 text-sm">
                             <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                                <span>{t('checkout.itemPrice') || "Item Price"}</span>
-                                <span>{Number(price).toLocaleString()} AED</span>
+                                <span>{t('checkout.itemPrice')}</span>
+                                <span>{Number(price).toLocaleString()} {selectedCountry.currency}</span>
                             </div>
 
                             {shippingCost > 0 && (
                                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
                                     <span>
-                                        {t('postAd.shipping.title') || "Shipping"}
+                                        {t('checkout.shipping')}
                                         <span className="text-xs ml-1 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded capitalize">
                                             ({t(`postAd.shipping.methods.${shippingMethod}`) || shippingMethod})
                                         </span>
                                     </span>
-                                    <span>{shippingCost.toLocaleString()} AED</span>
+                                    <span>{shippingCost.toLocaleString()} {selectedCountry.currency}</span>
                                 </div>
                             )}
 
 
                             <div className="flex justify-between font-bold text-xl text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800">
-                                <span>Total to Pay</span>
-                                <span>{total.toLocaleString()} AED</span>
+                                <span>{t('checkout.total')}</span>
+                                <span>{total.toLocaleString()} {selectedCountry.currency}</span>
                             </div>
                         </div>
 
                         <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-800 text-sm text-blue-700 dark:text-blue-300">
                             <strong>How it works:</strong>
                             <ol className="list-decimal ml-4 mt-2 space-y-1">
-                                <li>{t('checkout.step1') || "You pay now, money is held securely."}</li>
-                                <li>{t('checkout.step2') || "Seller ships the item to you."}</li>
-                                <li>{t('checkout.step3') || "You inspect and confirm receipt."}</li>
-                                <li>{t('checkout.step4') || "Money is released to the seller."}</li>
+                                <li>{t('checkout.step1')}</li>
+                                <li>{t('checkout.step2')}</li>
+                                <li>{t('checkout.step3')}</li>
+                                <li>{t('checkout.step4')}</li>
                             </ol>
                         </div>
 
@@ -170,7 +171,7 @@ export default function CheckoutPage() {
                             disabled={processing}
                             className="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700 transition shadow-lg shadow-green-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
-                            {processing ? "Processing..." : "Confirm & Pay Now 🔒"}
+                            {processing ? t('checkout.processing') : t('checkout.confirmBtn')}
                         </button>
                     </div>
                 </div>

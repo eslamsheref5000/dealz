@@ -419,7 +419,7 @@ export default function PostAdPage() {
                                     placeholder={t('postAd.placeholders.price')}
                                 />
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {t('postAd.shipping.commissionWarning') || "Note: 10% commission will be deducted."}
+                                    {t('postAd.shipping.commissionWarning') || "Note: 6.5% commission will be deducted from your earnings."}
                                 </p>
                             </div>
                             <div>

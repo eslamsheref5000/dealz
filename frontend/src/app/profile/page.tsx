@@ -534,7 +534,7 @@ export default function ProfilePage() {
                                             )}
                                         </div>
                                         <div className="text-red-600 font-extrabold">
-                                            {ad.price?.toLocaleString()} {countries.find(c => c.id === ad.country)?.currency || 'AED'}
+                                            {ad.price?.toLocaleString()} {countries.find(c => c.id === (typeof ad.country === 'object' ? ad.country?.id : ad.country))?.currency || 'AED'}
                                         </div>
                                     </div>
                                 </Link>

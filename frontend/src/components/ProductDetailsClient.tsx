@@ -265,7 +265,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                                 </div>
                                             </div>
                                             <div className="font-mono font-bold text-green-600">
-                                                {Number(bid.amount).toLocaleString()} AED
+                                                {Number(bid.amount).toLocaleString()} {countries.find(c => c.id === (typeof attrs.country === 'object' ? attrs.country?.id : attrs.country))?.currency || 'AED'}
                                             </div>
                                         </div>
                                     ))}
@@ -319,7 +319,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                     <span className="text-gray-600 dark:text-gray-400">{t('postAd.shipping.cost') || "Cost"}:</span>
                                     <span className="font-bold text-green-600">
                                         {Number(product.shippingCost) > 0
-                                            ? `${Number(product.shippingCost).toLocaleString()} ${countries.find(c => c.id === attrs.country)?.currency || 'AED'}`
+                                            ? `${Number(product.shippingCost).toLocaleString()} ${countries.find(c => c.id === (typeof attrs.country === 'object' ? attrs.country?.id : attrs.country))?.currency || 'AED'}`
                                             : (t('common.free') || "Free")}
                                     </span>
                                 </div>
@@ -369,7 +369,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
                                 <div className="text-3xl font-extrabold text-red-600">
                                     {currentPrice.toLocaleString()} <span className="text-lg text-gray-500 dark:text-gray-400">
-                                        {countries.find(c => c.id === attrs.country)?.currency || 'AED'}
+                                        {countries.find(c => c.id === (typeof attrs.country === 'object' ? attrs.country?.id : attrs.country))?.currency || 'AED'}
                                     </span>
                                 </div>
 

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         };
     }
 
-    const price = `${product.price.toLocaleString()} ${countries.find(c => c.id === product.country)?.currency || 'AED'}`;
+    const price = `${product.price.toLocaleString()} ${countries.find(c => c.id === (typeof product.country === 'object' ? product.country?.id : product.country))?.currency || 'AED'}`;
     const imageUrl = product.images?.[0]?.url.startsWith('http')
         ? product.images[0].url
         : `${API_URL}${product.images?.[0]?.url}`;
@@ -76,7 +76,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                             "offers": {
                                 "@type": "Offer",
                                 "url": `https://dealz-market.vercel.app/product/${product.slug || product.documentId}`,
-                                "priceCurrency": countries.find(c => c.id === product.country)?.currency || "AED",
+                                "priceCurrency": countries.find(c => c.id === (typeof product.country === 'object' ? product.country?.id : product.country))?.currency || "AED",
                                 "price": product.price,
                                 "availability": "https://schema.org/InStock",
                                 "itemCondition": "https://schema.org/UsedCondition"

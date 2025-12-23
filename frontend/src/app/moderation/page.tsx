@@ -335,7 +335,7 @@ export default function ModerationPage() {
                                     <div className="flex-grow">
                                         <div className="flex items-start justify-between mb-2">
                                             <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-1">{ad.title}</h3>
-                                            <span className="text-lg font-black text-red-600">{ad.price?.toLocaleString()} {countries.find(c => c.id === ad.country)?.currency || 'AED'}</span>
+                                            <span className="text-lg font-black text-red-600">{ad.price?.toLocaleString()} {countries.find(c => c.id === (typeof ad.country === 'object' ? ad.country?.id : ad.country))?.currency || 'AED'}</span>
                                         </div>
 
                                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">

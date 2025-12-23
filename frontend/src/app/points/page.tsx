@@ -3,21 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function PointsPage() {
     const router = useRouter();
+    const { t } = useLanguage();
     const [profile, setProfile] = useState<any>(null);
     const [history, setHistory] = useState<any[]>([]);
     const [leaderboard, setLeaderboard] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    // Add t for translation if we implement useLanguageContext here, but for now fallback to english strings in replace 
-    // or assume t is available if we add the hook. 
-    // Let's add the hook to be safe for new components
-    const t = (key: string) => key; // Mock t if context missing, but let's check imports
-
-    // We need to import useLanguage actually
-    // But since I can't see the top imports in this chunk...
-    // I'll assume I can just use static strings for now as requested.
 
     useEffect(() => {
         const fetchGamificationData = async () => {
@@ -70,7 +64,7 @@ export default function PointsPage() {
         fetchGamificationData();
     }, []);
 
-    if (loading) return <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">Loading Rewards...</div>;
+    if (loading) return <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">{t('common.loading')}</div>;
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-white pb-20">
@@ -96,25 +90,25 @@ export default function PointsPage() {
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded-full border border-yellow-500/30 uppercase tracking-wider">
-                                    Official Currency
+                                    {t('wallet.official_currency')}
                                 </span>
                             </div>
                             <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-1 flex items-baseline gap-2">
                                 {Number(profile?.points || 0).toLocaleString()}
                                 <span className="text-2xl font-medium text-gray-400">DLZ Coins</span>
                             </h1>
-                            <p className="text-gray-400 text-sm">{t && t('wallet.balance_desc') ? t('wallet.balance_desc') : 'Use DLZ Coins to boost items and unlock features.'}</p>
+                            <p className="text-gray-400 text-sm">{t('wallet.balance_desc')}</p>
                         </div>
 
                         <div className="flex flex-col items-end gap-3 w-full md:w-auto">
                             <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/10 flex items-center gap-4 w-full md:w-auto">
                                 <div className="text-right">
-                                    <p className="text-xs text-gray-400 uppercase font-bold">Current Level</p>
+                                    <p className="text-xs text-gray-400 uppercase font-bold">{t('wallet.current_level')}</p>
                                     <p className="text-xl font-bold text-yellow-400">Level {profile?.level || 1}</p>
                                 </div>
                                 <div className="h-10 w-px bg-gray-700"></div>
                                 <div className="text-right">
-                                    <p className="text-xs text-gray-400 uppercase font-bold">Next Reward</p>
+                                    <p className="text-xs text-gray-400 uppercase font-bold">{t('wallet.next_reward')}</p>
                                     <p className="text-sm font-medium text-white">{(profile?.level || 1) * 1000} DLZ</p>
                                 </div>
                             </div>
@@ -134,8 +128,8 @@ export default function PointsPage() {
                     {/* Activity Feed */}
                     <div className="lg:col-span-2 space-y-6">
                         <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-bold">Recent Activity</h2>
-                            <button className="text-purple-600 hover:text-purple-700 font-medium text-sm">View All</button>
+                            <h2 className="text-2xl font-bold">{t('wallet.recent_activity')}</h2>
+                            <button className="text-purple-600 hover:text-purple-700 font-medium text-sm">{t('wallet.view_all')}</button>
                         </div>
 
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
@@ -161,8 +155,8 @@ export default function PointsPage() {
                                 </div>
                             ) : (
                                 <div className="p-8 text-center text-gray-500">
-                                    <p>No coins history yet.</p>
-                                    <button onClick={() => router.push('/post-ad')} className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-indigo-700">Post an Ad (+50 DLZ)</button>
+                                    <p>{t('wallet.no_history')}</p>
+                                    <button onClick={() => router.push('/post-ad')} className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-indigo-700">{t('wallet.post_ad_reward')}</button>
                                 </div>
                             )}
                         </div>
@@ -170,7 +164,7 @@ export default function PointsPage() {
 
                         {/* Badges Grid - New Feature */}
                         <div className="mt-8">
-                            <h2 className="text-2xl font-bold mb-6">🏅 Badges</h2>
+                            <h2 className="text-2xl font-bold mb-6">🏅 {t('wallet.badges')}</h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {/* Example Badges - Dynamic in future */}
                                 {['Early Adopter', 'Verified Seller', 'Top Rater', 'Power User'].map((badge, i) => (
@@ -188,7 +182,7 @@ export default function PointsPage() {
 
                     {/* Leaderboard */}
                     <div>
-                        <h2 className="text-2xl font-bold mb-6">🏆 Top Holders</h2>
+                        <h2 className="text-2xl font-bold mb-6">🏆 {t('wallet.top_holders')}</h2>
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
                             {leaderboard.map((entry, idx) => (
                                 <div key={entry.id} className={`p-4 flex items-center gap-3 border-b border-gray-100 dark:border-gray-700 last:border-0 ${idx < 3 ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''}`}>

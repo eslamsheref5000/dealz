@@ -147,6 +147,32 @@ export const dictionaries = {
                 verifyBtn: "Verify Identity Now"
             }
         },
+        wallet: {
+            official_currency: "Official Currency",
+            balance_desc: "Use DLZ Coins to boost items and unlock features.",
+            current_level: "Current Level",
+            next_reward: "Next Reward",
+            recent_activity: "Recent Activity",
+            view_all: "View All",
+            top_holders: "Top Holders",
+            badges: "Badges",
+            no_history: "No coins history yet.",
+            post_ad_reward: "Post an Ad (+50 DLZ)"
+        },
+        checkout: {
+            title: "Secure Checkout",
+            subtitle: "Your payment is held safely in Dealz Escrow until you receive the item.",
+            itemPrice: "Item Price",
+            buyerProtection: "Buyer Protection Fee",
+            shipping: "Shipping",
+            total: "Total to Pay",
+            step1: "You pay now, money is held securely.",
+            step2: "Seller ships the item to you.",
+            step3: "You inspect and confirm receipt.",
+            step4: "Money is released to the seller.",
+            confirmBtn: "Confirm & Pay Now 🔒",
+            processing: "Processing..."
+        },
         product: {
             showPhone: "Show Phone Number",
             chatSeller: "Chat with Seller",
@@ -791,6 +817,32 @@ export const dictionaries = {
                 verifyBtn: "وثق هويتك الآن"
             }
         },
+        wallet: {
+            official_currency: "العملة الرسمية",
+            balance_desc: "استخدم عملات DLZ لتعزيز الإعلانات وفك قفل الميزات.",
+            current_level: "المستوى الحالي",
+            next_reward: "المكافأة التالية",
+            recent_activity: "النشاط الأخير",
+            view_all: "عرض الكل",
+            top_holders: "كبار الملاك",
+            badges: "الأوسمة",
+            no_history: "لا يوجد سجل للعملات بعد.",
+            post_ad_reward: "انشر إعلان (+50 DLZ)"
+        },
+        checkout: {
+            title: "دفع آمن",
+            subtitle: "يتم الاحتفاظ بدفعتك بأمان في ضمان ديلز حتى تستلم المنتج.",
+            itemPrice: "سعر المنتج",
+            buyerProtection: "رسوم حماية المشتري",
+            shipping: "الشحن",
+            total: "الإجمالي للدفع",
+            step1: "تدفع الآن، ويتم الاحتفاظ بالمال بأمان.",
+            step2: "يقوم البائع بشحن المنتج إليك.",
+            step3: "تقوم بالفحص وتأكيد الاستلام.",
+            step4: "يتم تحرير الأموال للبائع.",
+            confirmBtn: "تأكيد والدفع الآن 🔒",
+            processing: "جاري المعالجة..."
+        },
         product: {
             showPhone: "إظهار رقم الهاتف",
             chatSeller: "تواصل مع البائع",
@@ -1390,6 +1442,48 @@ export const dictionaries = {
                 error: "Échec de l'analyse",
                 categoryDetected: "Catégorie détectée"
             },
+            shipping: {
+                title: "Expédition et Livraison",
+                method: "Méthode de Livraison",
+                cost: "Frais d'expédition (Payé par l'acheteur)",
+                methods: {
+                    pickup: "Retrait sur place",
+                    delivery: "Livraison locale",
+                    shipping: "Expédition par coursier"
+                },
+                commissionWarning: "Note : Une commission de 6,5% sera déduite de vos gains."
+            },
+            kyc: {
+                requiredTitle: "Vérification Requise",
+                requiredDesc: "Pour maintenir une communauté sûre, les vendeurs doivent être vérifiés.",
+                verifyBtn: "Vérifier l'identité maintenant"
+            }
+        },
+        wallet: {
+            official_currency: "Devise Officielle",
+            balance_desc: "Utilisez les pièces DLZ pour booster vos articles.",
+            current_level: "Niveau Actuel",
+            next_reward: "Prochaine Récompense",
+            recent_activity: "Activité Récente",
+            view_all: "Voir Tout",
+            top_holders: "Meilleurs Détenteurs",
+            badges: "Badges",
+            no_history: "Pas d'historique de pièces.",
+            post_ad_reward: "Publier une annonce (+50 DLZ)"
+        },
+        checkout: {
+            title: "Paiement Sécurisé",
+            subtitle: "Votre paiement est conservé en toute sécurité jusqu'à réception.",
+            itemPrice: "Prix de l'article",
+            buyerProtection: "Protection Acheteur",
+            shipping: "Expédition",
+            total: "Total à payer",
+            step1: "Vous payez maintenant, l'argent est sécurisé.",
+            step2: "Le vendeur vous expédie l'article.",
+            step3: "Vous inspectez et confirmez la réception.",
+            step4: "L'argent est libéré au vendeur.",
+            confirmBtn: "Confirmer et Payer 🔒",
+            processing: "Traitement..."
         },
         product: {
             showPhone: "Afficher le numéro",
@@ -1966,7 +2060,49 @@ export const dictionaries = {
             editTitle: "अपना विज्ञापन संपादित करें",
             saveChanges: "परिवर्तन सहेजें और सबमिट करें",
             addNewImages: "नई छवियां जोड़ें",
-            newImage: "नया"
+            newImage: "नया",
+            shipping: {
+                title: "शिपिंग और डिलीवरी",
+                method: "डिलीवरी का तरीका",
+                cost: "शिपिंग लागत (खरीदार द्वारा देय)",
+                methods: {
+                    pickup: "स्थान से पिकअप",
+                    delivery: "स्थानीय डिलीवरी",
+                    shipping: "कूरियर शिपिंग"
+                },
+                commissionWarning: "नोट: बिक्री पर आपकी कमाई से 6.5% प्लेटफॉर्म कमीशन काटा जाएगा।"
+            },
+            kyc: {
+                requiredTitle: "सत्यापन आवश्यक",
+                requiredDesc: "सुरक्षित समुदाय बनाए रखने के लिए, विक्रेताओं का सत्यापित होना आवश्यक है।",
+                verifyBtn: "अभी पहचान सत्यापित करें"
+            }
+        },
+        wallet: {
+            official_currency: "आधिकारिक मुद्रा",
+            balance_desc: "आइटम बूस्ट करने के लिए DLZ सिक्कों का उपयोग करें।",
+            current_level: "वर्तमान स्तर",
+            next_reward: "अगला इनाम",
+            recent_activity: "हाल की गतिविधि",
+            view_all: "सभी देखें",
+            top_holders: "शीर्ष धारक",
+            badges: "बैज",
+            no_history: "अभी तक कोई सिक्का इतिहास नहीं।",
+            post_ad_reward: "विज्ञापन डालें (+50 DLZ)"
+        },
+        checkout: {
+            title: "सुरक्षित चेकआउट",
+            subtitle: "जब तक आप आइटम प्राप्त नहीं कर लेते, आपका भुगतान सुरक्षित रखा जाता है।",
+            itemPrice: "वस्तु की कीमत",
+            buyerProtection: "क्रेता संरक्षण शुल्क",
+            shipping: "शिपिंग",
+            total: "कुल भुगतान",
+            step1: "आप अभी भुगतान करते हैं, पैसा सुरक्षित रखा जाता है।",
+            step2: "विक्रेता आपको आइटम बेचता है।",
+            step3: "आप निरीक्षण करते हैं और रसीद की पुष्टि करते हैं।",
+            step4: "पैसा विक्रेता को जारी किया जाता है।",
+            confirmBtn: "पुष्टि करें और अभी भुगतान करें 🔒",
+            processing: "प्रक्रिया जारी है..."
         },
         product: {
             showPhone: "फ़ोन नंबर दिखाएं",
@@ -2053,7 +2189,7 @@ export const dictionaries = {
             "Computers & Networking": "कंप्यूटर और नेटवर्किंग",
             "Laptops": "लैपटॉप",
             "Cameras & Imaging": "कैमरा और इमेजिंग",
-            "TV, Audio & Video": "टीवी, ऑडियो और वीडियो",
+            "TV, Audio & Video": "टी वी, ऑडियो और वीडियो",
             "Video Games & Consoles": "वीडियो गेम और कंसोल",
             "Home Furniture": "घर का फर्नीचर",
             "Garden & Outdoor": "गार्डन और आउटडोर",
@@ -2086,7 +2222,7 @@ export const dictionaries = {
             "Lost & Found": "खोया और पाया",
             "Dogs": "कुत्ते",
             "Cats": "बिल्लियां",
-            "Birds": "पक्षी",
+            "Birds": "परंद",
             "Fish": "मछली",
             "Pet Accessories": "पालतू जानवरों का सामान",
             "Horses": "घोड़े",
@@ -2548,7 +2684,49 @@ export const dictionaries = {
             editTitle: "اپنا اشتہار ترمیم کریں",
             saveChanges: "بچائیں اور جائزہ کے لیے بھیجیں",
             addNewImages: "نئی تصاویر شامل کریں",
-            newImage: "نیا"
+            newImage: "نیا",
+            shipping: {
+                title: "شپنگ اور ڈیلیوری",
+                method: "ڈیلیوری کا طریقہ",
+                cost: "شپنگ کی لاگت (خریدار ادا کرے گا)",
+                methods: {
+                    pickup: "پک اپ",
+                    delivery: "مقامی ڈیلیوری",
+                    shipping: "کورئیر شپنگ"
+                },
+                commissionWarning: "نوٹ: فروخت مکمل ہونے پر آپ کی کمائی سے 6.5% پلیٹ فارم کمیشن کاٹا جائے گا۔"
+            },
+            kyc: {
+                requiredTitle: "تصدیق درکار ہے",
+                requiredDesc: "ایک محفوظ کمیونٹی کو برقرار رکھنے کے لیے، اشتہارات پوسٹ کرنے سے پہلے بیچنے والوں کی تصدیق ہونی چاہیے۔",
+                verifyBtn: "ابھی شناخت کی تصدیق کریں"
+            }
+        },
+        wallet: {
+            official_currency: "سرکاری کرنسی",
+            balance_desc: "اشیاء کو فروغ دینے کے لیے DLZ سکے استعمال کریں۔",
+            current_level: "موجودہ سطح",
+            next_reward: "اگلا انعام",
+            recent_activity: "حالیہ سرگرمی",
+            view_all: "سب دیکھیں",
+            top_holders: "سر فہرست ہولڈرز",
+            badges: "بیجز",
+            no_history: "ابھی تک سکوں کی کوئی تاریخ نہیں ہے۔",
+            post_ad_reward: "اشتہار پوسٹ کریں (+50 DLZ)"
+        },
+        checkout: {
+            title: "محفوظ چیک آؤٹ",
+            subtitle: "آپ کی ادائیگی ڈیلز ایسکرو میں محفوظ رکھی جاتی ہے جب تک کہ آپ آئٹم وصول نہ کریں۔",
+            itemPrice: "آئٹم کی قیمت",
+            buyerProtection: "خریدار کے تحفظ کی فیس",
+            shipping: "شپنگ",
+            total: "کل ادائیگی",
+            step1: "آپ ابھی ادائیگی کرتے ہیں، رقم محفوظ رکھی جاتی ہے۔",
+            step2: "بیچنے والا آپ کو آئٹم بھیجتا ہے۔",
+            step3: "آپ معائنہ کرتے ہیں اور رسید کی تصدیق کرتے ہیں۔",
+            step4: "رقم بیچنے والے کو جاری کی جاتی ہے۔",
+            confirmBtn: "تصدیق کریں اور ابھی ادائیگی کریں 🔒",
+            processing: "رویوں..."
         },
         product: {
             showPhone: "فون نمبر دکھائیں",
