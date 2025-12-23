@@ -40,9 +40,16 @@ export default function Header() {
 
                 // Fetch Notifications Count
                 const token = localStorage.getItem("jwt");
-                if (token) {
+                const userId = parsedUser.documentId || parsedUser.id;
+
+                if (token && userId) {
                     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                    fetch(`${API_URL}/api/notifications?filters[recipient][id][$eq]=${parsedUser.id}&filters[isRead][$eq]=false`, {
+                    // Try robust filter using available ID
+                    const idFilter = parsedUser.documentId
+                        ? `filters[recipient][documentId][$eq]=${parsedUser.documentId}`
+                        : `filters[recipient][id][$eq]=${parsedUser.id}`;
+
+                    fetch(`${API_URL}/api/notifications?${idFilter}&filters[isRead][$eq]=false`, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                         .then(res => res.json())

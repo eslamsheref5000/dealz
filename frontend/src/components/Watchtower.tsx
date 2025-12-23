@@ -5,12 +5,12 @@ import dynamic from 'next/dynamic';
 import { io } from "socket.io-client";
 import { scaleLinear } from "d3-scale";
 
-// Dynamically import map components to avoid SSR issues
-const ComposableMap = dynamic(() => import("react-simple-maps").then(m => m.ComposableMap), { ssr: false });
-const Geometries = dynamic(() => import("react-simple-maps").then(m => m.Geometries), { ssr: false });
-const Geometry = dynamic(() => import("react-simple-maps").then(m => m.Geography), { ssr: false });
-const Marker = dynamic(() => import("react-simple-maps").then(m => m.Marker), { ssr: false });
-// const ZoomableGroup = dynamic(() => import("react-simple-maps").then(m => m.ZoomableGroup), { ssr: false });
+import {
+    ComposableMap,
+    Geometries,
+    Geography,
+    Marker
+} from "react-simple-maps";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
