@@ -31,6 +31,14 @@
             "type": "decimal",
             "required": true
         },
+        "commission": {
+            "type": "decimal",
+            "default": 0
+        },
+        "netAmount": {
+            "type": "decimal",
+            "default": 0
+        },
         "status": {
             "type": "enumeration",
             "enum": [

@@ -24,6 +24,12 @@ export default factories.createCoreController('api::transaction.transaction' as 
         // @ts-ignore
         if (product.shippingStatus !== 'waiting_payment') return ctx.badRequest("Product not available.");
 
+        // Financial Logic (Commission)
+        const amount = Number(product.price);
+        const commissionRate = 0.10; // 10% Platform Fee
+        const commission = amount * commissionRate;
+        const netAmount = amount - commission;
+
         // Create Transaction
         const transaction = await strapi.documents('api::transaction.transaction' as any).create({
             data: {
@@ -31,7 +37,9 @@ export default factories.createCoreController('api::transaction.transaction' as 
                 // @ts-ignore
                 seller: product.ad_owner.documentId,
                 product: productId,
-                amount: product.price,
+                amount: amount,
+                commission: commission,
+                netAmount: netAmount,
                 status: 'held', // Money is held by Escrow
                 paymentMethod: paymentMethod || 'card'
             },
@@ -50,63 +58,52 @@ export default factories.createCoreController('api::transaction.transaction' as 
             status: 'published'
         });
 
-        return { data: transaction, meta: { message: "Payment secure! Funds are held in Escrow." } };
+        return { data: transaction, meta: { message: `Payment secure! ${amount} held in Escrow (Commission: ${commission}).` } };
     },
 
     // 2. Mark as Shipped (Seller)
     async ship(ctx) {
         const user = ctx.state.user;
-        const { id } = ctx.params; // Transaction Document ID
-
+        const { id } = ctx.params;
         const transaction = await strapi.documents('api::transaction.transaction' as any).findOne({
             documentId: id,
             populate: ['seller', 'product']
         }) as any;
 
         if (!transaction) return ctx.notFound();
-        // @ts-ignore
         if (transaction.seller.documentId !== user.documentId) return ctx.unauthorized("Not seller");
-        // @ts-ignore
         if (transaction.status !== 'held') return ctx.badRequest("Invalid status");
 
-        // Update Transaction
         const updated = await strapi.documents('api::transaction.transaction' as any).update({
             documentId: id,
             data: { status: 'shipped' },
             status: 'published'
         });
 
-        // Update Product
         await strapi.documents('api::product.product' as any).update({
-            // @ts-ignore
             documentId: transaction.product.documentId,
             data: { shippingStatus: 'shipped' },
             status: 'published'
         });
 
-        // Notify Buyer
-        // (Notification logic would go here)
-
         return { data: updated, meta: { message: "Item marked as shipped!" } };
     },
 
-    // 3. Confirm Receipt (Buyer)
+    // 3. Confirm Receipt (Buyer) -> Release Funds
     async receive(ctx) {
         const user = ctx.state.user;
         const { id } = ctx.params;
 
         const transaction = await strapi.documents('api::transaction.transaction' as any).findOne({
             documentId: id,
-            populate: ['buyer', 'product']
+            populate: ['buyer', 'seller', 'product'] // Populate seller too for Gamification
         }) as any;
 
         if (!transaction) return ctx.notFound();
-        // @ts-ignore
         if (transaction.buyer.documentId !== user.documentId) return ctx.unauthorized("Not buyer");
-        // @ts-ignore
         if (transaction.status !== 'shipped') return ctx.badRequest("Item triggered as shipped first");
 
-        // Update Transaction -> Completed (Release Funds)
+        // Update Transaction -> Completed
         const updated = await strapi.documents('api::transaction.transaction' as any).update({
             documentId: id,
             data: { status: 'completed' },
@@ -115,17 +112,34 @@ export default factories.createCoreController('api::transaction.transaction' as 
 
         // Update Product -> Delivered / Sold
         await strapi.documents('api::product.product' as any).update({
-            // @ts-ignore
             documentId: transaction.product.documentId,
             data: {
                 shippingStatus: 'delivered',
-                paymentStatus: 'completed' // Funds released
+                paymentStatus: 'completed'
             },
             status: 'published'
         });
 
-        // In a real app, this triggers Stripe Payout
-        console.log(`[Escrow] Released ${transaction.amount} to Seller.`);
+        // RELEASE FUNDS
+        console.log(`[Escrow] Payout:`);
+        console.log(`- Total: ${transaction.amount}`);
+        console.log(`- Platform Fee: ${transaction.commission}`);
+        console.log(`- Seller Payout: ${transaction.netAmount}`);
+
+        // GAMIFICATION REWARDS
+        try {
+            const gamification = strapi.service('api::gamification-profile.gamification-profile' as any);
+
+            // 1. Buyer (50 pts)
+            await gamification.addPoints(user.id, 50, 'purchase', `Bought item: ${transaction.product.title}`);
+
+            // 2. Seller (100 pts)
+            if (transaction.seller) {
+                await gamification.addPoints(transaction.seller.id, 100, 'sale', `Sold item: ${transaction.product.title}`);
+            }
+        } catch (err) {
+            console.error("Gamification error:", err);
+        }
 
         return { data: updated, meta: { message: "Transaction complete! Funds released to seller." } };
     }
