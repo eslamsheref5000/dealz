@@ -1,0 +1,50 @@
+{
+    "kind": "collectionType",
+    "collectionName": "badges",
+    "info": {
+        "singularName": "badge",
+        "pluralName": "badges",
+        "displayName": "Badge",
+        "description": "Achievement badges"
+    },
+    "options": {
+        "draftAndPublish": true,
+        "timestamps": true
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text"
+        },
+        "icon": {
+            "type": "media",
+            "allowedTypes": [
+                "images"
+            ],
+            "multiple": false
+        },
+        "users": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::gamification-profile.gamification-profile",
+            "mappedBy": "earnedBadges"
+        },
+        "requirementType": {
+            "type": "enumeration",
+            "enum": [
+                "points",
+                "ads_posted",
+                "sales_made",
+                "manual"
+            ],
+            "default": "points"
+        },
+        "requirementValue": {
+            "type": "integer",
+            "default": 0
+        }
+    }
+}

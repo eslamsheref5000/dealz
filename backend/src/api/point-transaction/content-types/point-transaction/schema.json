@@ -1,0 +1,45 @@
+{
+    "kind": "collectionType",
+    "collectionName": "point_transactions",
+    "info": {
+        "singularName": "point-transaction",
+        "pluralName": "point-transactions",
+        "displayName": "Point Transaction",
+        "description": "History of point earnings"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "attributes": {
+        "profile": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::gamification-profile.gamification-profile",
+            "inversedBy": "transactions"
+        },
+        "amount": {
+            "type": "integer",
+            "required": true
+        },
+        "type": {
+            "type": "enumeration",
+            "enum": [
+                "login",
+                "post_ad",
+                "sale",
+                "purchase",
+                "review",
+                "bonus",
+                "verification"
+            ],
+            "required": true
+        },
+        "description": {
+            "type": "string"
+        },
+        "metadata": {
+            "type": "json"
+        }
+    }
+}

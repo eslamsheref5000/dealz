@@ -1,0 +1,45 @@
+{
+    "kind": "collectionType",
+    "collectionName": "gamification_profiles",
+    "info": {
+        "singularName": "gamification-profile",
+        "pluralName": "gamification-profiles",
+        "displayName": "Gamification Profile",
+        "description": "Stores user points, level, and stats"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "attributes": {
+        "user": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "plugin::users-permissions.user",
+            "inversedBy": "gamificationProfile"
+        },
+        "points": {
+            "type": "integer",
+            "default": 0,
+            "min": 0
+        },
+        "level": {
+            "type": "integer",
+            "default": 1,
+            "min": 1
+        },
+        "currentStreak": {
+            "type": "integer",
+            "default": 0
+        },
+        "lastLogin": {
+            "type": "datetime"
+        },
+        "earnedBadges": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::badge.badge",
+            "inversedBy": "users"
+        }
+    }
+}
