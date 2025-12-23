@@ -18,6 +18,16 @@ export default {
                 policies: [],
                 middlewares: [],
             },
+        },
+        {
+            method: 'PUT',
+            path: '/products/:id/view',
+            handler: 'product.incrementViews',
+            config: {
+                auth: false, // Allow public view counting
+                policies: [],
+                middlewares: [],
+            },
         }
     ],
 };
