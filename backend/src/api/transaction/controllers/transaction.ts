@@ -50,7 +50,7 @@ export default factories.createCoreController('api::transaction.transaction' as 
             finalPrice = Number(product.buyNowPrice);
         }
 
-        const commissionRate = 0.10; // 10% Platform Fee
+        const commissionRate = 0.065; // 6.5% Platform Fee
         const commission = finalPrice * commissionRate;
         const netAmount = finalPrice - commission;
 
