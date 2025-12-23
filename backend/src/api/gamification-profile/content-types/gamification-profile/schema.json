@@ -15,8 +15,7 @@
         "user": {
             "type": "relation",
             "relation": "oneToOne",
-            "target": "plugin::users-permissions.user",
-            "inversedBy": "gamificationProfile"
+            "target": "plugin::users-permissions.user"
         },
         "points": {
             "type": "integer",
