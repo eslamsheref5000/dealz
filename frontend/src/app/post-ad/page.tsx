@@ -729,14 +729,33 @@ export default function PostAdPage() {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             {t('postAd.shipping.cost') || "Shipping Cost"}
                                         </label>
-                                        <input
-                                            type="number"
-                                            name="shippingCost"
-                                            value={formData.shippingCost}
-                                            onChange={handleChange}
-                                            className="block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                            placeholder="0.00"
-                                        />
+                                        <div className="flex items-center gap-3">
+                                            <input
+                                                type="number"
+                                                name="shippingCost"
+                                                value={formData.shippingCost}
+                                                onChange={handleChange}
+                                                disabled={formData.shippingCost === "0"}
+                                                className={`block w-full px-4 py-3 rounded-lg border bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${formData.shippingCost === "0" ? 'border-gray-200 dark:border-gray-700 text-gray-400 bg-gray-100 dark:bg-gray-900 cursor-not-allowed' : 'border-gray-300 dark:border-gray-700'}`}
+                                                placeholder="0.00"
+                                            />
+                                        </div>
+                                        <label className="flex items-center gap-2 mt-2 cursor-pointer w-fit">
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.shippingCost === "0"}
+                                                onChange={(e) => {
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        shippingCost: e.target.checked ? "0" : ""
+                                                    }));
+                                                }}
+                                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                                            />
+                                            <span className="text-sm text-gray-600 dark:text-gray-400 font-medium select-none">
+                                                {t('common.freeShipping') || "Free Shipping"}
+                                            </span>
+                                        </label>
                                     </div>
                                 )}
                             </div>
