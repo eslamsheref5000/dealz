@@ -354,10 +354,7 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                             : (t('common.free') || "Free")}
                                     </span>
                                 </div>
-                                {/* Safety Note */}
-                                <p className="text-xs text-gray-500 mt-2 bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700">
-                                    🛡️ {t('postAd.shipping.commissionWarning') || "Payments are held in Escrow until you confirm receipt."}
-                                </p>
+
                             </div>
                         </div>
 
