@@ -157,6 +157,19 @@
             "type": "relation",
             "relation": "oneToOne",
             "target": "plugin::users-permissions.user"
+        },
+        "shippingCost": {
+            "type": "decimal",
+            "default": 0
+        },
+        "shippingMethod": {
+            "type": "enumeration",
+            "enum": [
+                "pickup",
+                "delivery",
+                "shipping"
+            ],
+            "default": "pickup"
         }
     }
 }
