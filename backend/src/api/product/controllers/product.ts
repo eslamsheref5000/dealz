@@ -598,6 +598,39 @@ export default factories.createCoreController('api::product.product', ({ strapi 
             status: 'published'
         });
 
+        // 4. AWARD POINTS (Gamification)
+        const gamificationService = strapi.service('api::gamification-profile.gamification-profile');
+
+        // Award Buyer (50 pts)
+        try {
+            await gamificationService.addPoints(
+                user.id,
+                50,
+                'purchase',
+                `Bought item: ${product.title}`
+            );
+        } catch (e) {
+            console.error("Failed to award buyer points:", e);
+        }
+
+        // Award Seller (100 pts)
+        if (product.ad_owner) {
+            try {
+                const ownerId = product.ad_owner.id || product.ad_owner;
+                // Don't award if buying own item (already checked above, but safety first)
+                if (ownerId !== user.id) {
+                    await gamificationService.addPoints(
+                        ownerId,
+                        100,
+                        'sale',
+                        `Sold item: ${product.title}`
+                    );
+                }
+            } catch (e) {
+                console.error("Failed to award seller points:", e);
+            }
+        }
+
         return { message: "Item purchased successfully!", success: true };
     }
 }));
