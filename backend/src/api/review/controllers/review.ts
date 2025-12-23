@@ -84,6 +84,31 @@ export default factories.createCoreController('api::review.review', ({ strapi })
                 status: 'published'
             });
 
+            // GAMIFICATION: Award Seller for 5-Star Reviews
+            try {
+                if (Number(data.rating) === 5) {
+                    const gamificationService = strapi.service('api::gamification-profile.gamification-profile' as any);
+
+                    // Award 20 points to the reviewee (Seller)
+                    // We need to ensure we have the correct user ID for the reviewee
+                    let targetUserId = data.reviewee || data.seller; // Handle both simplified and relation cases
+
+                    if (targetUserId) {
+                        // If object, extract id
+                        if (typeof targetUserId === 'object') targetUserId = targetUserId.id || targetUserId.documentId;
+
+                        await gamificationService.addPoints(
+                            targetUserId,
+                            20,
+                            'review',
+                            `Received 5-star review from ${user.username}`
+                        );
+                    }
+                }
+            } catch (gError) {
+                console.error("Gamification Error in Review:", gError);
+            }
+
             const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
             return this.transformResponse(sanitizedEntity);
 
