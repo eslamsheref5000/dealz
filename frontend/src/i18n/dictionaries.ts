@@ -450,6 +450,18 @@ export const dictionaries = {
             error: {
                 notVerifiedBuyer: "⚠️ You can only review sellers you have successfully purchased from.",
             },
+            wallet: {
+                title: "Wallet",
+                availableBalance: "Available Balance",
+                pendingBalance: "Pending Balance",
+                totalEarned: "Total Earned",
+                withdraw: "Withdraw Funds",
+                pendingDesc: "Funds withheld until order completion",
+                history: "Transaction History",
+                noFunds: "No funds available for withdrawal.",
+                withdrawSuccess: "Withdrawal request submitted successfully!",
+                noTransactions: "No transactions yet"
+            },
             success: "Review posted successfully!",
             failed: "Failed to post review",
             communication: "Communication",
@@ -1150,6 +1162,18 @@ export const dictionaries = {
             error: {
                 notVerifiedBuyer: "⚠️ يمكنك فقط تقييم البائعين الذين قمت بالشراء منهم بنجاح.",
             },
+            wallet: {
+                title: "المحفظة",
+                availableBalance: "الرصيد المتاح",
+                pendingBalance: "الرصيد المعلق",
+                totalEarned: "إجمالي الأرباح",
+                withdraw: "سحب الرصيد",
+                pendingDesc: "الأموال معلقة حتى اكتمال الطلب",
+                history: "سجل المعاملات",
+                noFunds: "لا يوجد رصيد متاح للسحب.",
+                withdrawSuccess: "تم تقديم طلب السحب بنجاح!",
+                noTransactions: "لا توجد معاملات حتى الآن"
+            },
             success: "تم نشر التقييم بنجاح!",
             failed: "فشل نشر التقييم",
             communication: "التواصل",
@@ -1822,6 +1846,18 @@ export const dictionaries = {
             error: {
                 notVerifiedBuyer: "⚠️ Vous ne pouvez évaluer que les vendeurs avec qui vous avez effectué un achat.",
             },
+            wallet: {
+                title: "Portefeuille",
+                availableBalance: "Solde disponible",
+                pendingBalance: "Solde en attente",
+                totalEarned: "Total gagné",
+                withdraw: "Retirer des fonds",
+                pendingDesc: "Fonds retenus jusqu'à la fin de la commande",
+                history: "Historique des transactions",
+                noFunds: "Aucun fonds disponible pour le retrait.",
+                withdrawSuccess: "Demande de retrait soumise avec succès !",
+                noTransactions: "Aucune transaction pour le moment"
+            },
             success: "Avis publié avec succès !",
             failed: "Échec de la publication de l'avis",
             communication: "Communication",
@@ -2474,6 +2510,18 @@ export const dictionaries = {
             error: {
                 notVerifiedBuyer: "⚠️ आप केवल उन विक्रेताओं की समीक्षा कर सकते हैं जिनसे आपने सफलतापूर्वक खरीदारी की है।",
             },
+            wallet: {
+                title: "वॉलेट",
+                availableBalance: "उपलब्ध शेष राशि",
+                pendingBalance: "लंबित शेष राशि",
+                totalEarned: "कुल कमाई",
+                withdraw: "धनराशि निकालें",
+                pendingDesc: "आदेश पूरा होने तक धनराशि रोक दी गई",
+                history: "लेनदेन इतिहास",
+                noFunds: "निकासी के लिए कोई धनराशि उपलब्ध नहीं है।",
+                withdrawSuccess: "निकासी अनुरोध सफलतापूर्वक सबमिट किया गया!",
+                noTransactions: "अभी तक कोई लेनदेन नहीं"
+            },
             success: "समीक्षा सफलतापूर्वक पोस्ट की गई!",
             failed: "समीक्षा पोस्ट करने में विफल",
             communication: "Communication",
@@ -3121,6 +3169,18 @@ export const dictionaries = {
             optional: "(اختیاری)",
             error: {
                 notVerifiedBuyer: "⚠️ آپ صرف ان بیچنے والوں کا جائزہ لے سکتے ہیں جن سے آپ نے کامیابی کے ساتھ خریداری کی ہے۔",
+            },
+            wallet: {
+                title: "بٹوہ",
+                availableBalance: "دستیاب بیلنس",
+                pendingBalance: "زیر التواء بیلنس",
+                totalEarned: "کل کمائی",
+                withdraw: "فنڈز واپس لیں",
+                pendingDesc: "آرڈر مکمل ہونے تک فنڈز روکے گئے",
+                history: "لین دین کی تاریخ",
+                noFunds: "واپسی کے لیے کوئ رقم دستیاب نہیں ہے۔",
+                withdrawSuccess: "واپسی کی درخواست کامیابی کے ساتھ جمع کرائی گئی!",
+                noTransactions: "ابھی تک کوئی لین دین نہیں"
             },
             success: "جائزہ کامیابی سے پوسٹ کیا گیا!",
             failed: "جائزہ پوسٹ کرنے میں ناکام",

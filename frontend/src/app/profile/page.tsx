@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "../../components/Header";
 import AnalyticsDashboard from "../../components/AnalyticsDashboard";
+import Wallet from "../../components/Wallet";
 import MyBids from "../../components/MyBids";
 import OrderManagement from "../../components/OrderManagement";
 import { useLanguage } from "../../context/LanguageContext";
@@ -21,7 +22,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [kycUploading, setKycUploading] = useState(false);
-    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved' | 'analytics' | 'my-bids' | 'my-orders' | 'my-sales'>('my-ads');
+    const [activeTab, setActiveTab] = useState<'my-ads' | 'saved' | 'analytics' | 'wallet' | 'my-bids' | 'my-orders' | 'my-sales'>('my-ads');
 
 
 
@@ -462,6 +463,12 @@ export default function ProfilePage() {
                         📊 {t('analytics.title') || "Analytics"}
                     </button>
                     <button
+                        onClick={() => setActiveTab('wallet')}
+                        className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'wallet' ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                        💰 {t('wallet.title') || "Wallet"}
+                    </button>
+                    <button
                         onClick={() => setActiveTab('my-bids')}
                         className={`pb-4 px-4 text-lg font-bold transition whitespace-nowrap ${activeTab === 'my-bids' ? 'text-red-600 border-b-2 border-red-600' : 'text-gray-500 hover:text-gray-700'}`}
                     >
@@ -483,6 +490,8 @@ export default function ProfilePage() {
 
                 {activeTab === 'analytics' ? (
                     <AnalyticsDashboard />
+                ) : activeTab === 'wallet' ? (
+                    <Wallet />
                 ) : activeTab === 'my-bids' ? (
                     <MyBids />
                 ) : activeTab === 'my-orders' ? (
