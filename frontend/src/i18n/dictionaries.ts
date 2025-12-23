@@ -139,7 +139,7 @@ export const dictionaries = {
                     delivery: "Local Delivery",
                     shipping: "Courier Shipping"
                 },
-                commissionWarning: "Note: A 10% platform commission will be deducted from your final earnings upon successful sale."
+                commissionWarning: "Note: A 6.5% platform commission will be deducted from your final earnings upon successful sale."
             },
             kyc: {
                 requiredTitle: "Verification Required",
@@ -783,7 +783,7 @@ export const dictionaries = {
                     delivery: "توصيل محلي",
                     shipping: "شحن عبر شركة"
                 },
-                commissionWarning: "ملاحظة: سيتم خصم عمولة المنصة 10% من أرباحك النهائية عند إتمام البيع."
+                commissionWarning: "ملاحظة: سيتم خصم عمولة المنصة 6.5% من أرباحك النهائية عند إتمام البيع."
             },
             kyc: {
                 requiredTitle: "مطلوب توثيق الهوية",
