@@ -31,40 +31,60 @@ export default function Header() {
     }, []);
 
     useEffect(() => {
-        // Check for user in localStorage
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            try {
-                const parsedUser = JSON.parse(storedUser);
-                setUser(parsedUser);
+        const initUser = async () => {
+            const storedUser = localStorage.getItem("user");
+            const token = localStorage.getItem("jwt");
 
-                // Fetch Notifications Count
-                const token = localStorage.getItem("jwt");
-                const userId = parsedUser.documentId || parsedUser.id;
+            if (storedUser && token) {
+                try {
+                    let currentUser = JSON.parse(storedUser);
 
-                if (token && userId) {
+                    // Strapi 5 Compat: Ensure we have documentId
+                    if (!currentUser.documentId) {
+                        try {
+                            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                            const meRes = await fetch(`${API_URL}/api/users/me`, {
+                                headers: { Authorization: `Bearer ${token}` }
+                            });
+                            if (meRes.ok) {
+                                const freshUser = await meRes.json();
+                                currentUser = { ...currentUser, ...freshUser };
+                                localStorage.setItem("user", JSON.stringify(currentUser));
+                            }
+                        } catch (e) {
+                            console.error("Failed to refresh user data", e);
+                        }
+                    }
+
+                    setUser(currentUser);
+
+                    // Fetch Notifications
                     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                    // Try robust filter using available ID
-                    const idFilter = parsedUser.documentId
-                        ? `filters[recipient][documentId][$eq]=${parsedUser.documentId}`
-                        : `filters[recipient][id][$eq]=${parsedUser.id}`;
+                    const idFilter = currentUser.documentId
+                        ? `filters[recipient][documentId][$eq]=${currentUser.documentId}`
+                        : `filters[recipient][id][$eq]=${currentUser.id}`; // Fallback
 
                     fetch(`${API_URL}/api/notifications?${idFilter}&filters[isRead][$eq]=false`, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
-                        .then(res => res.json())
+                        .then(res => {
+                            if (!res.ok) throw new Error(res.statusText);
+                            return res.json();
+                        })
                         .then(data => {
                             if (data.meta) {
                                 setUser((prev: any) => ({ ...prev, unreadNotifications: data.meta.pagination.total }));
                             }
                         })
-                        .catch(console.error);
-                }
+                        .catch(err => console.error("Notification fetch error:", err));
 
-            } catch (e) {
-                console.error("Invalid user data");
+                } catch (e) {
+                    console.error("Invalid user data");
+                }
             }
-        }
+        };
+
+        initUser();
     }, []);
 
     const handleLogout = () => {
