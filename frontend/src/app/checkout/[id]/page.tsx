@@ -103,8 +103,8 @@ export default function CheckoutPage() {
     const shippingCost = Number(product.shippingCost) || 0;
     const shippingMethod = product.shippingMethod || 'pickup';
 
-    const fee = price * 0.05; // 5% Buyer Protection
-    const total = price + fee + shippingCost;
+    // No Fee - User pays shipping + item price
+    const total = price + shippingCost;
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -148,10 +148,7 @@ export default function CheckoutPage() {
                                 </div>
                             )}
 
-                            <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                                <span>{t('checkout.buyerProtection') || "Buyer Protection Fee"} (5%)</span>
-                                <span>{fee.toLocaleString()} AED</span>
-                            </div>
+
                             <div className="flex justify-between font-bold text-xl text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800">
                                 <span>Total to Pay</span>
                                 <span>{total.toLocaleString()} AED</span>
