@@ -14,7 +14,7 @@ export default factories.createCoreController('api::notification.notification' a
 
         try {
             // Use entityService directly to bypass generic validation limits
-            const notifications = await strapi.entityService.findMany('api::notification.notification', {
+            const notifications = await strapi.entityService.findMany('api::notification.notification' as any, {
                 filters: {
                     recipient: { id: user.id },
                     isRead: ctx.query.filters?.['isRead'] === 'true' || ctx.query.filters?.['isRead'] === true
@@ -27,7 +27,7 @@ export default factories.createCoreController('api::notification.notification' a
             });
 
             // Count for meta
-            const total = await strapi.entityService.count('api::notification.notification', {
+            const total = await strapi.entityService.count('api::notification.notification' as any, {
                 filters: {
                     recipient: { id: user.id },
                     isRead: false
