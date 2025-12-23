@@ -13,6 +13,8 @@ import Breadcrumb from "./Breadcrumb";
 import ImageGallery from "./ImageGallery";
 import SellerReviews from "./SellerReviews";
 import Header from "./Header";
+import TrustBadges from "./TrustBadges";
+import MakeOfferModal from "./MakeOfferModal";
 
 export default function ProductDetailsClient({ product: initialProduct, relatedProducts: initialRelated }: { product: any, relatedProducts: any[] }) {
     const { t } = useLanguage();
@@ -21,6 +23,8 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
     const { addToRecentlyViewed } = useRecentlyViewed();
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [showNumber, setShowNumber] = useState(false);
+    const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+    const [sellerStats, setSellerStats] = useState({ feedbackCount: 0, positiveFeedback: 100, itemsSold: 0 });
 
     // Auction State
     const [product, setProduct] = useState(initialProduct);
@@ -67,6 +71,31 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
             fetch(`${API_URL}/api/products/${product.documentId || product.id}/view`, { method: 'PUT' }).catch(console.error);
         }
     }, []); // Run once on mount
+
+    useEffect(() => {
+        if (product && product.ad_owner) {
+            const fetchStats = async () => {
+                const sellerId = product.ad_owner.id || product.ad_owner.documentId;
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+                try {
+                    const reviewsRes = await fetch(`${API_URL}/api/reviews?filters[seller][id][$eq]=${sellerId}&pagination[pageSize]=1`);
+                    const reviewsData = await reviewsRes.json();
+                    const totalReviews = reviewsData.meta?.pagination?.total || 0;
+
+                    const salesRes = await fetch(`${API_URL}/api/transactions?filters[seller][id][$eq]=${sellerId}&filters[status][$eq]=COMPLETED&pagination[pageSize]=1`);
+                    const salesData = await salesRes.json();
+                    const totalSales = salesData.meta?.pagination?.total || 0;
+
+                    setSellerStats({
+                        feedbackCount: totalReviews,
+                        positiveFeedback: totalReviews > 0 ? 100 : 100, // Placeholder
+                        itemsSold: totalSales
+                    });
+                } catch (e) { console.error(e); }
+            };
+            fetchStats();
+        }
+    }, [product]);
 
     // Real-time Polling for Auction Updates
     useEffect(() => {
@@ -282,22 +311,22 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
                         <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                             <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">{t('product.details')}</h3>
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div className="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                                    <span className="text-gray-500 dark:text-gray-400">{t('postAd.labels.category')}</span>
-                                    <span className="font-medium text-gray-900 dark:text-white">{attrs.category?.name || "General"}</span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden text-sm">
+                                <div className="flex bg-gray-50 dark:bg-gray-800 p-3 border-b border-gray-200 dark:border-gray-700">
+                                    <span className="text-gray-500 dark:text-gray-400 w-1/3">{t('postAd.labels.category')}</span>
+                                    <span className="font-medium text-gray-900 dark:text-white flex-1">{attrs.category?.name || "General"}</span>
                                 </div>
-                                <div className="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                                    <span className="text-gray-500 dark:text-gray-400">{t('postAd.labels.city')}</span>
-                                    <span className="font-medium text-gray-900 dark:text-white">{attrs.city}</span>
+                                <div className="flex bg-white dark:bg-gray-900 p-3 border-b border-gray-200 dark:border-gray-700">
+                                    <span className="text-gray-500 dark:text-gray-400 w-1/3">{t('postAd.labels.city')}</span>
+                                    <span className="font-medium text-gray-900 dark:text-white flex-1">{attrs.city}</span>
                                 </div>
-                                {attrs.specifications && Object.entries(attrs.specifications).map(([key, value]) => (
-                                    <div key={key} className="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
-                                        <span className="text-gray-500 dark:text-gray-400 capitalize">
+                                {attrs.specifications && Object.entries(attrs.specifications).map(([key, value], idx) => (
+                                    <div key={key} className={`flex p-3 border-b border-gray-200 dark:border-gray-700 ${idx % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}`}>
+                                        <span className="text-gray-500 dark:text-gray-400 w-1/3 capitalize">
                                             {/* Try to map to dictionary, fallback to key */}
                                             {t(`filters.${key}`) !== `filters.${key}` ? t(`filters.${key}`) : key}
                                         </span>
-                                        <span className="font-medium text-gray-900 dark:text-white">{value as string}</span>
+                                        <span className="font-medium text-gray-900 dark:text-white flex-1">{value as string}</span>
                                     </div>
                                 ))}
                             </div>
@@ -478,11 +507,40 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                 )}
 
                                 {/* Chat Button - Respects Privacy */}
-                                {product.enableChat !== false && (
-                                    <Link href={`/inbox?seller=${attrs.ad_owner?.documentId || attrs.ad_owner?.id}&product=${attrs.documentId}`} className="w-full bg-green-500 text-white py-3 rounded-xl font-bold text-lg hover:bg-green-600 transition flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-green-900/20">
-                                        <span>💬</span> {t('product.chatSeller')}
-                                    </Link>
+                                <Link href={`/inbox?seller=${attrs.ad_owner?.documentId || attrs.ad_owner?.id}&product=${attrs.documentId}`} className="w-full bg-white border-2 border-blue-600 text-blue-600 py-3 rounded-full font-bold text-lg hover:bg-blue-50 transition flex items-center justify-center gap-2">
+                                    {t('common.contactSeller') || "Contact Seller"}
+                                </Link>
+
+
+                                {!product.isAuction && (
+                                    <button
+                                        onClick={() => setIsOfferModalOpen(true)}
+                                        className="w-full bg-white border border-gray-300 text-gray-700 py-3 rounded-full font-bold text-lg hover:bg-gray-50 transition flex items-center justify-center gap-2"
+                                    >
+                                        {t('common.makeOffer') || "Make Offer"}
+                                    </button>
                                 )}
+
+                                <button
+                                    onClick={() => {
+                                        toggleFavorite(product.documentId || product.id);
+                                        showToast(isFavorite(product.documentId || product.id)
+                                            ? (t('common.removedWatchlist') || "Removed from Watchlist")
+                                            : (t('common.addedWatchlist') || "Added to Watchlist"), "success");
+                                    }}
+                                    className="w-full text-blue-600 hover:underline py-2 text-sm text-center flex items-center justify-center gap-1"
+                                >
+                                    {isFavorite(product.documentId || product.id)
+                                        ? `❤️ ${t('common.removeFromWatchlist') || "Remove from Watchlist"}`
+                                        : `🤍 ${t('common.addToWatchlist') || "Add to Watchlist"}`
+                                    }
+                                </button>
+
+                                <div className="text-center pt-2">
+                                    <Link href="/post-ad" className="text-xs text-gray-500 hover:underline">
+                                        {t('common.sellSimilar') || "Sell one like this"}
+                                    </Link>
+                                </div>
 
                                 <button onClick={handleShare} className="w-full bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 py-3 rounded-xl font-bold text-lg hover:bg-blue-200 dark:hover:bg-blue-900/40 transition flex items-center justify-center gap-2">
                                     <span>🔗</span> {t('product.share')}
@@ -494,37 +552,40 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center text-xl">👤</div>
                                     <div>
-                                        <div className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                        <div className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-lg underline decoration-dotted">
                                             {attrs.ad_owner?.username || t('product.unknownUser')}
-                                            {attrs.ad_owner?.isVerified && (
-                                                <span className="text-blue-500 text-lg" title="Verified User">✓</span>
-                                            )}
+                                            <span>⚡</span> {t('product.quickResponder')}
                                         </div>
-                                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">{t('product.memberSince')} {moment(attrs.ad_owner?.createdAt).format("YYYY")}</div>
-                                        <div className="flex flex-wrap gap-2">
-                                            {attrs.ad_owner?.isVerified && (
-                                                <span className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-100 dark:border-blue-800">
-                                                    <span>🛡️</span> {t('profile.identityVerification')}
-                                                </span>
-                                            )}
-                                            {moment().diff(moment(attrs.ad_owner?.createdAt), 'days') > 7 && (
-                                                <span className="flex items-center gap-1 bg-green-50 dark:bg-green-900/10 text-green-600 dark:text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-100 dark:border-green-800">
-                                                    <span>⚡</span> {t('product.quickResponder')}
-                                                </span>
-                                            )}
+                                        <div className="text-xs text-gray-500 mt-1 flex gap-3">
+                                            <span>{sellerStats.feedbackCount} {t('common.sellerFeedback')}</span>
+                                            <span>{sellerStats.positiveFeedback}% {t('common.positiveFeedback')}</span>
+                                            <span>{sellerStats.itemsSold} {t('common.itemsSold')}</span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <TrustBadges isTopRated={attrs.ad_owner?.isVerified} />
+
+                                <div className="border-t border-gray-100 dark:border-gray-800 pt-4 mt-4">
+                                    <h4 className="font-bold text-sm text-gray-900 dark:text-white mb-2">{t('common.returnPolicy') || "Returns"}</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                                        {t('common.returnPolicyDesc') || "30 days returns. Buyer pays for return shipping."}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Related Products */}
+
+                {/* Related Products aka Sponsored */}
                 {
                     initialRelated.length > 0 && (
                         <div className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-12">
-                            <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">{t('product.relatedProducts')}</h2>
+                            <div className="flex items-center gap-2 mb-8">
+                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('common.peopleAlsoViewed') || "People who viewed this item also viewed"}</h2>
+                                <span className="text-xs font-normal text-gray-500 border border-gray-300 rounded px-1">{t('common.sponsored') || "Sponsored"}</span>
+                            </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                 {initialRelated.map((ad: any) => (
                                     <Link href={`/product/${ad.slug || ad.documentId}`} key={ad.documentId} className="group">
@@ -553,6 +614,13 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                     )
                 }
             </main >
+
+            <MakeOfferModal
+                isOpen={isOfferModalOpen}
+                onClose={() => setIsOfferModalOpen(false)}
+                product={product}
+                currentUser={currentUser}
+            />
         </div >
     );
 }
