@@ -28,9 +28,13 @@ export default function PostAdPage() {
         enableChat: true,
         isAuction: false,
         auctionEndTime: "",
+        buyNowPrice: "",
+        shippingMethod: "pickup",
+        shippingCost: "0",
     });
 
     // Payment State
+    const [isVerified, setIsVerified] = useState(false);
     const [isFeatured, setIsFeatured] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const FEATURE_PRICE = 50; // AED/EGP depending on country
@@ -64,9 +68,17 @@ export default function PostAdPage() {
 
     useEffect(() => {
         // Check for auth
-        const user = localStorage.getItem("user");
-        if (user) {
+        // Check for auth
+        const userStr = localStorage.getItem("user");
+        if (userStr) {
             setIsAuthenticated(true);
+            try {
+                const u = JSON.parse(userStr);
+                // Check verification status (safely handle boolean or string)
+                setIsVerified(u.isVerified === true || u.isVerified === 'true');
+            } catch (e) {
+                console.error("User parse error", e);
+            }
         }
         setLoading(false);
 
@@ -277,8 +289,11 @@ export default function PostAdPage() {
                 enableChat: formData.enableChat,
                 isAuction: formData.isAuction,
                 auctionEndTime: formData.isAuction ? formData.auctionEndTime : null,
+                buyNowPrice: formData.isAuction && formData.buyNowPrice ? parseFloat(formData.buyNowPrice) : null,
                 currentBid: 0,
-                bidCount: 0
+                bidCount: 0,
+                shippingMethod: formData.shippingMethod,
+                shippingCost: parseFloat(formData.shippingCost) || 0
             };
 
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
@@ -325,6 +340,30 @@ export default function PostAdPage() {
                             className="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-red-700 transition shadow-lg shadow-red-200"
                         >
                             {t('header.login')}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // KYC Blocker
+    if (!isVerified) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans transition-colors duration-300">
+                <Header />
+                <div className="flex items-center justify-center h-[calc(100vh-80px)] px-4">
+                    <div className="text-center max-w-lg w-full bg-white dark:bg-gray-900 p-10 rounded-2xl shadow-xl border border-red-100 dark:border-red-900/30">
+                        <div className="text-6xl mb-6">🛡️</div>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">{t('postAd.kyc.requiredTitle') || "Verification Required"}</h2>
+                        <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
+                            {t('postAd.kyc.requiredDesc') || "To maintain a safe community, sellers must be verified before posting ads."}
+                        </p>
+                        <button
+                            onClick={() => router.push("/profile")}
+                            className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                        >
+                            {t('postAd.kyc.verifyBtn') || "Verify Identity Now"}
                         </button>
                     </div>
                 </div>
@@ -379,6 +418,9 @@ export default function PostAdPage() {
                                         }`}
                                     placeholder={t('postAd.placeholders.price')}
                                 />
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    {t('postAd.shipping.commissionWarning') || "Note: 10% commission will be deducted."}
+                                </p>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('postAd.labels.category')} <span className="text-red-500">*</span></label>
@@ -430,6 +472,20 @@ export default function PostAdPage() {
                                         min={new Date().toISOString().slice(0, 16)}
                                         className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                                     />
+
+                                    <div className="mt-4">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            {t('postAd.auction.buyNowPrice') || "Buy Now Price"} <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="buyNowPrice"
+                                            value={formData.buyNowPrice}
+                                            onChange={handleChange}
+                                            placeholder={t('postAd.placeholders.price')}
+                                            className="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -645,6 +701,45 @@ export default function PostAdPage() {
                             <p className={`text-xs mt-1 text-right ${formData.description.length >= 20 ? 'text-green-600' : 'text-gray-500'}`}>
                                 {formData.description.length >= 20 ? '✅ ' : ''}{formData.description.length}/20 chars
                             </p>
+                        </div>
+
+                        {/* Shipping Section */}
+                        <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                                {t('postAd.shipping.title') || "Shipping & Delivery"}
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        {t('postAd.shipping.method') || "Method"}
+                                    </label>
+                                    <select
+                                        name="shippingMethod"
+                                        value={formData.shippingMethod}
+                                        onChange={handleChange}
+                                        className="block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                    >
+                                        <option value="pickup">{t('postAd.shipping.methods.pickup') || "Pickup"}</option>
+                                        <option value="delivery">{t('postAd.shipping.methods.delivery') || "Local Delivery"}</option>
+                                        <option value="shipping">{t('postAd.shipping.methods.shipping') || "Courier Shipping"}</option>
+                                    </select>
+                                </div>
+                                {(formData.shippingMethod === 'delivery' || formData.shippingMethod === 'shipping') && (
+                                    <div className="animate-in fade-in slide-in-from-left-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            {t('postAd.shipping.cost') || "Shipping Cost"}
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="shippingCost"
+                                            value={formData.shippingCost}
+                                            onChange={handleChange}
+                                            className="block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {/* Location & Contact */}
