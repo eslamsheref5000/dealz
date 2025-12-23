@@ -4,4 +4,4 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreRouter('api::gamification-profile.gamification-profile');
+export default factories.createCoreRouter('api::gamification-profile.gamification-profile' as any);

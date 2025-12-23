@@ -1,15 +1,15 @@
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::gamification-profile.gamification-profile', ({ strapi }) => ({
+export default factories.createCoreService('api::gamification-profile.gamification-profile' as any, ({ strapi }) => ({
     async addPoints(userId: number, amount: number, type: string, description: string) {
         // 1. Get or Create Profile
-        let profile = await strapi.db.query('api::gamification-profile.gamification-profile').findOne({
+        let profile = await strapi.db.query('api::gamification-profile.gamification-profile' as any).findOne({
             where: { user: userId },
             populate: ['user']
         });
 
         if (!profile) {
-            profile = await strapi.documents('api::gamification-profile.gamification-profile').create({
+            profile = await strapi.documents('api::gamification-profile.gamification-profile' as any).create({
                 data: {
                     user: userId,
                     points: 0,
@@ -33,7 +33,7 @@ export default factories.createCoreService('api::gamification-profile.gamificati
         }
 
         // 4. Update Profile
-        await strapi.documents('api::gamification-profile.gamification-profile').update({
+        await strapi.documents('api::gamification-profile.gamification-profile' as any).update({
             documentId: profile.documentId,
             data: {
                 points: newTotal,
@@ -43,7 +43,7 @@ export default factories.createCoreService('api::gamification-profile.gamificati
         });
 
         // 5. Create Transaction Record
-        await strapi.documents('api::point-transaction.point-transaction').create({
+        await strapi.documents('api::point-transaction.point-transaction' as any).create({
             data: {
                 profile: profile.documentId,
                 amount,
