@@ -84,7 +84,6 @@ export default factories.createCoreController('api::review.review', ({ strapi })
             // Note: In Strapi 5, we use strapi.documents or strapi.db
 
             // Normalize seller ID to what Strapi expects (likely DocumentId in v5, but let's check both if possible or rely on relation lookup)
-            // @ts-ignore
             const transactions = await strapi.documents('api::transaction.transaction').findMany({
                 filters: {
                     buyer: {
@@ -98,7 +97,7 @@ export default factories.createCoreController('api::review.review', ({ strapi })
                         }
                     },
                     status: 'completed'
-                }
+                } as any
             });
 
             if (transactions.length === 0) {
