@@ -267,7 +267,11 @@ export default {
         "api::transaction.transaction.find",
         "api::transaction.transaction.findOne",
         "api::transaction.transaction.ship",
-        "api::transaction.transaction.receive"
+        "api::transaction.transaction.receive",
+        "api::gamification-profile.gamification-profile.find",
+        "api::gamification-profile.gamification-profile.findOne",
+        "api::point-transaction.point-transaction.find",
+        "api::point-transaction.point-transaction.findOne"
       ];
 
       const existingPerms = await strapi.query("plugin::users-permissions.permission").findMany({
