@@ -85,7 +85,7 @@ export default function Watchtower() {
                         <Geometries geometryUrl={geoUrl}>
                             {(geographies: any) =>
                                 geographies.geographies.map((geo: any) => (
-                                    <Geometry
+                                    <Geography
                                         key={geo.rsmKey}
                                         geography={geo}
                                         fill="#2d3748"
