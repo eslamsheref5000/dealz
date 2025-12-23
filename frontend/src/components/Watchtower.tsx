@@ -37,7 +37,7 @@ export default function Watchtower() {
             addLog("Action", `${data.details} (${data.city}, ${data.country})`);
 
             // Add marker for map
-            if (data.lat && data.lng) {
+            if (data.lat !== undefined && data.lng !== undefined) {
                 const newMarker = {
                     name: data.city,
                     coordinates: [data.lng, data.lat],
