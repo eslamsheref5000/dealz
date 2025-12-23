@@ -166,51 +166,51 @@ export default function PointsPage() {
                                 </div>
                             )}
                         </div>
-                    </div>
 
-                    {/* Badges Grid - New Feature */}
-                    <div className="mt-8">
-                        <h2 className="text-2xl font-bold mb-6">🏅 Badges</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {/* Example Badges - Dynamic in future */}
-                            {['Early Adopter', 'Verified Seller', 'Top Rater', 'Power User'].map((badge, i) => (
-                                <div key={i} className={`p-4 rounded-xl border flex flex-col items-center justify-center text-center gap-2 ${i < 2
+
+                        {/* Badges Grid - New Feature */}
+                        <div className="mt-8">
+                            <h2 className="text-2xl font-bold mb-6">🏅 Badges</h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {/* Example Badges - Dynamic in future */}
+                                {['Early Adopter', 'Verified Seller', 'Top Rater', 'Power User'].map((badge, i) => (
+                                    <div key={i} className={`p-4 rounded-xl border flex flex-col items-center justify-center text-center gap-2 ${i < 2
                                         ? 'bg-yellow-50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800 opacity-100'
                                         : 'bg-gray-50 dark:bg-gray-800 border-gray-100 dark:border-gray-700 opacity-50 grayscale'
-                                    }`}>
-                                    <div className="text-3xl">{['🛡️', '✅', '⭐', '⚡'][i]}</div>
-                                    <span className="font-bold text-xs text-gray-800 dark:text-gray-200">{badge}</span>
+                                        }`}>
+                                        <div className="text-3xl">{['🛡️', '✅', '⭐', '⚡'][i]}</div>
+                                        <span className="font-bold text-xs text-gray-800 dark:text-gray-200">{badge}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Leaderboard */}
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6">🏆 Top Holders</h2>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+                            {leaderboard.map((entry, idx) => (
+                                <div key={entry.id} className={`p-4 flex items-center gap-3 border-b border-gray-100 dark:border-gray-700 last:border-0 ${idx < 3 ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''}`}>
+                                    <div className={`w-8 h-8 flex-shrink-0 flex items-center justify-center font-bold rounded-lg ${idx === 0 ? 'bg-yellow-400 text-yellow-900' :
+                                        idx === 1 ? 'bg-gray-300 text-gray-800' :
+                                            idx === 2 ? 'bg-orange-300 text-orange-900' :
+                                                'bg-gray-100 dark:bg-gray-700 text-gray-500'
+                                        }`}>
+                                        {idx + 1}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold truncate text-gray-900 dark:text-white">{entry.user?.username || 'Anonymous'}</p>
+                                        <p className="text-xs text-gray-500">Level {entry.level}</p>
+                                    </div>
+                                    <div className="font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                                        {Number(entry.points).toLocaleString()}
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-
-                {/* Leaderboard */}
-                <div>
-                    <h2 className="text-2xl font-bold mb-6">🏆 Top Holders</h2>
-                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-                        {leaderboard.map((entry, idx) => (
-                            <div key={entry.id} className={`p-4 flex items-center gap-3 border-b border-gray-100 dark:border-gray-700 last:border-0 ${idx < 3 ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''}`}>
-                                <div className={`w-8 h-8 flex-shrink-0 flex items-center justify-center font-bold rounded-lg ${idx === 0 ? 'bg-yellow-400 text-yellow-900' :
-                                    idx === 1 ? 'bg-gray-300 text-gray-800' :
-                                        idx === 2 ? 'bg-orange-300 text-orange-900' :
-                                            'bg-gray-100 dark:bg-gray-700 text-gray-500'
-                                    }`}>
-                                    {idx + 1}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-bold truncate text-gray-900 dark:text-white">{entry.user?.username || 'Anonymous'}</p>
-                                    <p className="text-xs text-gray-500">Level {entry.level}</p>
-                                </div>
-                                <div className="font-mono font-bold text-indigo-600 dark:text-indigo-400">
-                                    {Number(entry.points).toLocaleString()}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-        </div>
             </main >
         </div >
     );
