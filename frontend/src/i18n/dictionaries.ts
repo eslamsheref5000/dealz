@@ -129,7 +129,23 @@ export const dictionaries = {
             editTitle: "Edit Your Ad",
             saveChanges: "Save Changes & Submit for Review",
             addNewImages: "Add New Images",
-            newImage: "New"
+            newImage: "New",
+            shipping: {
+                title: "Shipping & Delivery",
+                method: "Delivery Method",
+                cost: "Shipping Cost (Paid by Buyer)",
+                methods: {
+                    pickup: "Pickup from Location",
+                    delivery: "Local Delivery",
+                    shipping: "Courier Shipping"
+                },
+                commissionWarning: "Note: A 10% platform commission will be deducted from your final earnings upon successful sale."
+            },
+            kyc: {
+                requiredTitle: "Verification Required",
+                requiredDesc: "To maintain a safe community, sellers must be verified before posting ads.",
+                verifyBtn: "Verify Identity Now"
+            }
         },
         product: {
             showPhone: "Show Phone Number",
@@ -757,7 +773,23 @@ export const dictionaries = {
             editTitle: "تعديل إعلانك",
             saveChanges: "حفظ التغييرات وإرسال للمراجعة",
             addNewImages: "إضافة صور جديدة",
-            newImage: "جديد"
+            newImage: "جديد",
+            shipping: {
+                title: "الشحن والتوصيل",
+                method: "طريقة التسليم",
+                cost: "تكلفة الشحن (يدفعها المشتري)",
+                methods: {
+                    pickup: "استلام من الموقع",
+                    delivery: "توصيل محلي",
+                    shipping: "شحن عبر شركة"
+                },
+                commissionWarning: "ملاحظة: سيتم خصم عمولة المنصة 10% من أرباحك النهائية عند إتمام البيع."
+            },
+            kyc: {
+                requiredTitle: "مطلوب توثيق الهوية",
+                requiredDesc: "للحفاظ على مجتمع آمن، يجب على البائعين توثيق هوياتهم قبل نشر الإعلانات.",
+                verifyBtn: "وثق هويتك الآن"
+            }
         },
         product: {
             showPhone: "إظهار رقم الهاتف",
