@@ -137,8 +137,21 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         if (io && data) {
             try {
                 const geo = require('geoip-lite');
-                const ip = ctx.request.ip === '::1' ? '127.0.0.1' : ctx.request.ip;
-                const lookup = geo.lookup(ip) || { city: 'Unknown', country: 'Unknown', ll: [0, 0] };
+                let ip = ctx.request.header['x-forwarded-for'] || ctx.request.ip;
+
+                // Handle multiple IPs in x-forwarded-for
+                if (typeof ip === 'string' && ip.includes(',')) {
+                    ip = ip.split(',')[0].trim();
+                }
+
+                if (ip === '::1') ip = '127.0.0.1';
+
+                let lookup = geo.lookup(ip);
+
+                // Fallback for Development/Localhost if lookup fails
+                if (!lookup) {
+                    lookup = { city: 'Local User', country: 'Dev', ll: [25.2048, 55.2708] }; // Default to Dubai
+                }
 
                 // Get title safely
                 const title = (data as any).attributes?.title || (data as any).title || 'Product';
