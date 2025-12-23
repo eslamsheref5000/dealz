@@ -137,6 +137,8 @@ export default factories.createCoreController('api::product.product', ({ strapi 
         if (io && data) {
             try {
                 const geo = require('geoip-lite');
+                console.log("Watchtower Debug: IP:", ctx.request.ip, "Forwarded:", ctx.request.header['x-forwarded-for']);
+
                 let ip = ctx.request.header['x-forwarded-for'] || ctx.request.ip;
 
                 // Handle multiple IPs in x-forwarded-for
@@ -147,9 +149,11 @@ export default factories.createCoreController('api::product.product', ({ strapi 
                 if (ip === '::1') ip = '127.0.0.1';
 
                 let lookup = geo.lookup(ip);
+                console.log("Watchtower Debug: Lookup Result:", lookup);
 
                 // Fallback for Development/Localhost if lookup fails
                 if (!lookup) {
+                    console.log("Watchtower Debug: Using Fallback Location");
                     lookup = { city: 'Local User', country: 'Dev', ll: [25.2048, 55.2708] }; // Default to Dubai
                 }
 
@@ -440,6 +444,35 @@ export default factories.createCoreController('api::product.product', ({ strapi 
                 data: { views: newViews },
                 status: 'published'
             });
+
+            // Emit Socket.io Event for "The Watchtower"
+            const io = (strapi as any).io;
+            if (io) {
+                try {
+                    const geo = require('geoip-lite');
+                    console.log("Watchtower Debug: IP:", ctx.request.ip, "Forwarded:", ctx.request.header['x-forwarded-for']);
+
+                    let ip = ctx.request.header['x-forwarded-for'] || ctx.request.ip;
+                    if (typeof ip === 'string' && ip.includes(',')) ip = ip.split(',')[0].trim();
+                    if (ip === '::1') ip = '127.0.0.1';
+
+                    let lookup = geo.lookup(ip);
+                    if (!lookup) lookup = { city: 'Local User', country: 'Dev', ll: [25.2048, 55.2708] };
+
+                    io.emit('new_action', {
+                        type: 'view',
+                        details: `Viewed: ${doc.title || 'Product'}`,
+                        city: lookup.city || 'Unknown City',
+                        country: lookup.country || 'XX',
+                        lat: lookup.ll ? lookup.ll[0] : 0,
+                        lng: lookup.ll ? lookup.ll[1] : 0,
+                        timestamp: new Date()
+                    });
+                } catch (err) {
+                    // Ignore analytics errors
+                }
+            }
+
             return { data: updated };
         } catch (err) {
             return ctx.badRequest("Failed to increment views", { error: err });
