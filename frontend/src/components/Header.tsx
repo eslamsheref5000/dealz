@@ -60,11 +60,9 @@ export default function Header() {
 
                     // Fetch Notifications
                     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                    const idFilter = currentUser.documentId
-                        ? `filters[recipient][documentId][$eq]=${currentUser.documentId}`
-                        : `filters[recipient][id][$eq]=${currentUser.id}`; // Fallback
 
-                    fetch(`${API_URL}/api/notifications?${idFilter}&filters[isRead][$eq]=false`, {
+                    // Backend now enforces recipient filter, so we don't send it from client
+                    fetch(`${API_URL}/api/notifications?filters[isRead][$eq]=false`, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                         .then(res => {
