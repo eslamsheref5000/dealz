@@ -31,7 +31,11 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
     const [bidAmount, setBidAmount] = useState("");
     const [timeLeft, setTimeLeft] = useState("");
     const [isBidding, setIsBidding] = useState(false);
-    const [recentBids, setRecentBids] = useState<any[]>([]);
+    const [recentBids, setRecentBids] = useState<any[]>(
+        initialProduct.bids
+            ? (initialProduct.bids as any[]).sort((a: any, b: any) => b.amount - a.amount).slice(0, 5)
+            : []
+    );
 
     // Initial hydration
     const attrs = product;
@@ -165,6 +169,11 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
 
         if (amount < currentPrice + minIncrement) {
             return showToast(`${t('common.minBid')} ${currentPrice + minIncrement}`, "error");
+        }
+
+        // Security Check for High Value Bids
+        if (amount >= 10000 && !currentUser.isVerified) {
+            return showToast(t('postAd.kyc.highValueBid') || "High value bids require identity verification.", "error");
         }
 
         setIsBidding(true);
