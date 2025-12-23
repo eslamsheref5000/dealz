@@ -45,6 +45,19 @@ export default factories.createCoreController('api::product.product', ({ strapi 
                 }
             });
 
+            // 3. Award Points (Gamification)
+            try {
+                await strapi.service('api::gamification-profile.gamification-profile').addPoints(
+                    user.id,
+                    50,
+                    'post_ad',
+                    `Posted new ad: ${data.title}`
+                );
+            } catch (pErr) {
+                console.error("Failed to award points:", pErr);
+                // Don't fail the request if points fail
+            }
+
             return { data: newProduct, meta: {} };
         } catch (err) {
             console.error("Create Error:", err);
