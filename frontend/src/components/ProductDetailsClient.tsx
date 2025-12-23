@@ -341,7 +341,9 @@ export default function ProductDetailsClient({ product: initialProduct, relatedP
                                 <div className="flex justify-between items-center">
                                     <span className="text-gray-600 dark:text-gray-400">{t('postAd.shipping.method') || "Method"}:</span>
                                     <span className="font-bold text-gray-900 dark:text-white capitalize">
-                                        {t(`postAd.shipping.methods.${product.shippingMethod}`) || product.shippingMethod || "Pickup"}
+                                        {t(`postAd.shipping.methods.${product.shippingMethod}`) !== `postAd.shipping.methods.${product.shippingMethod}`
+                                            ? t(`postAd.shipping.methods.${product.shippingMethod}`)
+                                            : (product.shippingMethod || t('postAd.shipping.methods.pickup') || "Pickup")}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
