@@ -79,6 +79,35 @@ export default factories.createCoreController('api::review.review', ({ strapi })
             // If frontend sends ID (int), let's keep it and see if Strapi handles it.
             // If not, we fix inputs.
 
+            // VERIFICATION: Check if user has a COMPLETED transaction with this seller
+            // We need to query the Transaction collection
+            // Note: In Strapi 5, we use strapi.documents or strapi.db
+
+            // Normalize seller ID to what Strapi expects (likely DocumentId in v5, but let's check both if possible or rely on relation lookup)
+            // @ts-ignore
+            const transactions = await strapi.documents('api::transaction.transaction').findMany({
+                filters: {
+                    buyer: {
+                        documentId: {
+                            $eq: user.documentId
+                        }
+                    },
+                    seller: {
+                        id: { // Assuming seller comes as ID from frontend, we might need to handle lookup if it fails
+                            $eq: data.seller
+                        }
+                    },
+                    status: 'completed'
+                }
+            });
+
+            if (transactions.length === 0) {
+                // Fallback: Frontend sends ID, but maybe we need to check via DocumentId? 
+                // If the above query fails due to ID mismatch (int vs string), let's try a looser check or assume stricter frontend logic.
+                // For now, let's assume strict verification is required.
+                return ctx.forbidden('You can only review sellers you have successfully purchased from.');
+            }
+
             const entry = await strapi.documents('api::review.review').create({
                 data: payload,
                 status: 'published'

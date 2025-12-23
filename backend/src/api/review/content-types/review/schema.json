@@ -49,6 +49,14 @@
             "type": "relation",
             "relation": "manyToOne",
             "target": "plugin::users-permissions.user"
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
         }
     }
 }

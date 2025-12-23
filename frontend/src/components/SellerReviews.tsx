@@ -28,8 +28,9 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
     const [descRating, setDescRating] = useState(5);
     const [punctualityRating, setPunctualityRating] = useState(5);
 
-    const [comment, setComment] = useState("");
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [submitting, setSubmitting] = useState(false);
+    const [comment, setComment] = useState("");
 
     const fetchReviews = async () => {
         try {
@@ -59,6 +60,12 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
         if (sellerId) fetchReviews();
     }, [sellerId]);
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setImageFile(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!currentUserId) return alert(t('reviews.loginToReview'));
@@ -67,6 +74,28 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
         try {
             const token = localStorage.getItem("jwt");
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
+
+            let imageId = null;
+
+            // 1. Upload Image if present
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('files', imageFile);
+
+                const uploadRes = await fetch(`${API_URL}/api/upload`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+
+                if (uploadRes.ok) {
+                    const uploadData = await uploadRes.json();
+                    imageId = uploadData[0].id;
+                } else {
+                    console.error("Image upload failed");
+                    alert("Failed to upload image. Submitting review without it.");
+                }
+            }
 
             // Calculate Average Rating
             const overallRating = Math.round((communicationRating + descRating + punctualityRating) / 3);
@@ -85,23 +114,30 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
                         punctuality_rating: punctualityRating,
                         comment,
                         seller: Number(sellerId),
-                        reviewer: Number(currentUserId)
+                        reviewer: Number(currentUserId),
+                        image: imageId // Attach image ID
                     }
                 })
             });
 
             if (res.ok) {
                 setComment("");
+                setImageFile(null); // Clear image
                 setCommunicationRating(5);
                 setDescRating(5);
                 setPunctualityRating(5);
                 fetchReviews(); // Refresh list
             } else {
                 const errorText = await res.text();
+                // Check for 403 Forbidden (Verified Buyer Restriction)
+                if (res.status === 403) {
+                    alert(t('reviews.error.notVerifiedBuyer') || "⚠️ You can only review sellers you have successfully bought from.");
+                    return;
+                }
+
                 console.error("Raw Error Response:", errorText);
                 try {
                     const errorData = JSON.parse(errorText);
-                    console.error("Parsed Error:", errorData);
                     alert(`Failed to post review: ${errorData.error?.message || errorData.message || "Unknown error"}`);
                 } catch (e) {
                     alert(`Failed to post review: ${errorText}`);
@@ -174,6 +210,24 @@ export default function SellerReviews({ sellerId, currentUserId }: SellerReviews
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            {t('reviews.attachImage')} <span className="text-gray-500 text-xs">{t('reviews.optional')}</span>
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="block w-full text-sm text-gray-500 dark:text-gray-400
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100
+                            "
+                        />
                     </div>
 
                     <textarea

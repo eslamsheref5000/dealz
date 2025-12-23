@@ -444,7 +444,12 @@ export const dictionaries = {
             shareExperience: "Share your experience with this seller...",
             postBtn: "Post Review",
             posting: "Posting...",
-            loginToReview: "Please login to review",
+            loginToReview: "Please log in to write a review.",
+            attachImage: "Attach Image",
+            optional: "(Optional)",
+            error: {
+                notVerifiedBuyer: "⚠️ You can only review sellers you have successfully purchased from.",
+            },
             success: "Review posted successfully!",
             failed: "Failed to post review",
             communication: "Communication",
@@ -1139,7 +1144,12 @@ export const dictionaries = {
             shareExperience: "شارك تجربتك مع هذا البائع...",
             postBtn: "نشر التقييم",
             posting: "جاري النشر...",
-            loginToReview: "الرجاء تسجيل الدخول للتقييم",
+            loginToReview: "يرجى تسجيل الدخول لكتابة تقييم.",
+            attachImage: "إرفاق صورة",
+            optional: "(اختياري)",
+            error: {
+                notVerifiedBuyer: "⚠️ يمكنك فقط تقييم البائعين الذين قمت بالشراء منهم بنجاح.",
+            },
             success: "تم نشر التقييم بنجاح!",
             failed: "فشل نشر التقييم",
             communication: "التواصل",
@@ -1621,7 +1631,7 @@ export const dictionaries = {
             "Sports Equipment": "Équipement sportif",
             "Tickets & Vouchers": "Billets et bons",
             "Toys & Games": "Jouets et jeux",
-            "Antiques & Collectibles": "Antiquités et objets de collection",
+            "Antiquités & Collectibles": "Antiquités et objets de collection",
             "Books": "Livres",
             "Boats": "Bateaux",
             "Apartments for Rent": "Appartements à louer",
@@ -1806,9 +1816,17 @@ export const dictionaries = {
             shareExperience: "Partagez votre expérience avec ce vendeur...",
             postBtn: "Publier l'avis",
             posting: "Publication...",
-            loginToReview: "Veuillez vous connecter pour laisser un avis",
+            loginToReview: "Veuillez vous connecter pour écrire un avis.",
+            attachImage: "Joindre une image",
+            optional: "(Facultatif)",
+            error: {
+                notVerifiedBuyer: "⚠️ Vous ne pouvez évaluer que les vendeurs avec qui vous avez effectué un achat.",
+            },
             success: "Avis publié avec succès !",
-            failed: "Échec de la publication de l'avis"
+            failed: "Échec de la publication de l'avis",
+            communication: "Communication",
+            itemDesc: "Item as Described",
+            punctuality: "Punctuality"
         },
         filters: {
             min: "Min",
@@ -2450,9 +2468,17 @@ export const dictionaries = {
             shareExperience: "इस विक्रेता के साथ अपना अनुभव साझा करें...",
             postBtn: "समीक्षा पोस्ट करें",
             posting: "पोस्ट किया जा रहा है...",
-            loginToReview: "समीक्षा करने के लिए कृपया लॉगिन करें",
+            loginToReview: "समीक्षा लिखने के लिए कृपया लॉग इन करें।",
+            attachImage: "छवि संलग्न करें",
+            optional: "(वैकल्पिक)",
+            error: {
+                notVerifiedBuyer: "⚠️ आप केवल उन विक्रेताओं की समीक्षा कर सकते हैं जिनसे आपने सफलतापूर्वक खरीदारी की है।",
+            },
             success: "समीक्षा सफलतापूर्वक पोस्ट की गई!",
-            failed: "समीक्षा पोस्ट करने में विफल"
+            failed: "समीक्षा पोस्ट करने में विफल",
+            communication: "Communication",
+            itemDesc: "Item as Described",
+            punctuality: "Punctuality"
         },
         filters: {
             min: "न्यूनतम",
@@ -3090,9 +3116,17 @@ export const dictionaries = {
             shareExperience: "اس بیچنے والے کے ساتھ اپنا تجربہ شیئر کریں...",
             postBtn: "جائزہ پوسٹ کریں",
             posting: "پوسٹنگ...",
-            loginToReview: "جائزہ لینے کے لئے براہ کرم لاگ ان کریں",
+            loginToReview: "جائزہ لکھنے کے لیے براہ کرم لاگ ان کریں۔",
+            attachImage: "تصویر منسلک کریں",
+            optional: "(اختیاری)",
+            error: {
+                notVerifiedBuyer: "⚠️ آپ صرف ان بیچنے والوں کا جائزہ لے سکتے ہیں جن سے آپ نے کامیابی کے ساتھ خریداری کی ہے۔",
+            },
             success: "جائزہ کامیابی سے پوسٹ کیا گیا!",
-            failed: "جائزہ پوسٹ کرنے میں ناکام"
+            failed: "جائزہ پوسٹ کرنے میں ناکام",
+            communication: "Communication",
+            itemDesc: "Item as Described",
+            punctuality: "Punctuality"
         },
         filters: {
             min: "کم از کم",
