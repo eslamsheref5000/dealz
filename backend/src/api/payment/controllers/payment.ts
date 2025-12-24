@@ -29,11 +29,13 @@ export default {
             // Save Paymob Order ID to Transaction (Updating existing transaction)
             // Assuming 'transactionId' is the ID of our local 'transaction' or 'bid' record.
             // Ideally we should find the transaction and update it.
-            await strapi.entityService.update('api::transaction.transaction', transactionId, {
+            await strapi.documents('api::transaction.transaction').update({
+                documentId: transactionId,
                 data: {
                     // We need to add these fields to schema later or store in 'details' json
                     note: `Paymob Order: ${paymobOrderId}`
-                }
+                },
+                status: 'published'
             });
 
             // Step 3: Get Payment Key
@@ -94,11 +96,13 @@ export default {
                 const [localTxId] = merchantOrderId.split('_'); // '123'
 
                 if (localTxId) {
-                    await strapi.entityService.update('api::transaction.transaction', localTxId, {
+                    await strapi.documents('api::transaction.transaction').update({
+                        documentId: localTxId,
                         data: {
                             status: 'paid', // Update status
-                            updatedAt: new Date()
-                        }
+                            // updatedAt is auto-handled
+                        },
+                        status: 'published'
                     });
                     // Trigger notification
                     // ...
@@ -122,13 +126,15 @@ export default {
 
             if (!user) return ctx.unauthorized();
 
-            await strapi.entityService.update('api::transaction.transaction', transactionId, {
+            await strapi.documents('api::transaction.transaction').update({
+                documentId: transactionId,
                 data: {
                     status: 'pending_review', // New status we need to add or map to 'held'
                     // We need to link 'paymentProof' (Media) - verify schema supports it
                     // For now, let's assume we can store it or add a relationship
                     note: `Manual Payment: ${method}. File ID: ${fileId}`
-                }
+                },
+                status: 'published'
             });
 
             ctx.send({ status: "success", message: "Receipt submitted for review" });
