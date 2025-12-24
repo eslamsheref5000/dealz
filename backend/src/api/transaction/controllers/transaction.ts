@@ -35,7 +35,10 @@ export default factories.createCoreController('api::transaction.transaction' as 
         } else {
             // Regular Item
             // @ts-ignore
-            if (product.shippingStatus !== 'waiting_payment') return ctx.badRequest("Product not available.");
+            // Allow if status is NOT one of the "Sold" statuses
+            if (['to_ship', 'shipped', 'delivered'].includes(product.shippingStatus)) {
+                return ctx.badRequest("Product not available (Already sold).");
+            }
         }
 
         // Financial Logic (Commission)
