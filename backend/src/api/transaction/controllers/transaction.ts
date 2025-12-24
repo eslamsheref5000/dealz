@@ -36,8 +36,12 @@ export default factories.createCoreController('api::transaction.transaction' as 
             // Regular Item
             // @ts-ignore
             // Allow if status is NOT one of the "Sold" statuses
-            if (['to_ship', 'shipped', 'delivered'].includes(product.shippingStatus)) {
+            // We allow 'to_ship' IF payment is not completed (e.g. retry)
+            if (['shipped', 'delivered'].includes(product.shippingStatus)) {
                 return ctx.badRequest("Product not available (Already sold).");
+            }
+            if (product.shippingStatus === 'to_ship' && product.paymentStatus === 'completed') {
+                return ctx.badRequest("Product already sold.");
             }
         }
 
