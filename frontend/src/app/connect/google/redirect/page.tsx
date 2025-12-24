@@ -1,11 +1,11 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../../context/LanguageContext";
 
-export default function GoogleRedirectPage() {
+function GoogleRedirectContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { t } = useLanguage();
@@ -36,7 +36,7 @@ export default function GoogleRedirectPage() {
                     // Fetch user if not provided in URL
                     try {
                         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shando5000-dealz.hf.space';
-                        const res = await fetch(`${API_URL} /api/users / me`, {
+                        const res = await fetch(`${API_URL}/api/users/me`, {
                             headers: { Authorization: `Bearer ${jwt} ` }
                         });
                         if (res.ok) {
@@ -154,5 +154,17 @@ export default function GoogleRedirectPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function GoogleRedirectPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+            </div>
+        }>
+            <GoogleRedirectContent />
+        </Suspense>
     );
 }
