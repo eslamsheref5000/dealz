@@ -192,7 +192,9 @@ export const dictionaries = {
             history: "Transaction History",
             noFunds: "No funds available for withdrawal.",
             withdrawSuccess: "Withdrawal request submitted successfully!",
-            noTransactions: "No transactions yet"
+            noTransactions: "No transactions yet",
+            amount: "Amount",
+            method: "Withdrawal Method"
         },
         checkout: {
             title: "Secure Checkout",
@@ -1179,7 +1181,9 @@ export const dictionaries = {
             top_holders: "كبار الملاك",
             badges: "الأوسمة",
             no_history: "لا يوجد سجل للعملات بعد.",
-            post_ad_reward: "انشر إعلان (+50 DLZ)"
+            post_ad_reward: "انشر إعلان (+50 DLZ)",
+            amount: "المبلغ",
+            method: "طريقة السحب"
         },
         filters: {
             min: "أقل سعر",

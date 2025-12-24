@@ -1,0 +1,51 @@
+{
+    "kind": "collectionType",
+    "collectionName": "withdrawal_requests",
+    "info": {
+        "singularName": "withdrawal-request",
+        "pluralName": "withdrawal-requests",
+        "displayName": "Withdrawal Request",
+        "description": "User wallet withdrawal requests"
+    },
+    "options": {
+        "draftAndPublish": false,
+        "timestamps": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "amount": {
+            "type": "decimal",
+            "required": true
+        },
+        "method": {
+            "type": "enumeration",
+            "enum": [
+                "bank_transfer",
+                "instapay",
+                "paypal"
+            ],
+            "required": true
+        },
+        "details": {
+            "type": "json",
+            "required": true
+        },
+        "status": {
+            "type": "enumeration",
+            "enum": [
+                "pending",
+                "approved",
+                "rejected"
+            ],
+            "default": "pending"
+        },
+        "user": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user"
+        },
+        "note": {
+            "type": "text"
+        }
+    }
+}

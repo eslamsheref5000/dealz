@@ -169,16 +169,16 @@ export default function Footer() {
             title: t('footer.support'),
             links: [
                 { label: t('footer.helpCenter'), href: "/help" },
-                { label: t('footer.contactUs'), href: "/help" },
+                { label: t('footer.contactUs'), href: "/contact" },
                 { label: t('footer.safety'), href: "/help" },
                 { label: t('footer.sitemap'), href: "/sitemap" },
-                { label: t('footer.about'), href: "/help" },
+                { label: t('footer.about'), href: "/about" },
             ]
         },
         {
             title: t('common.dealz'),
             links: [
-                { label: t('footer.about'), href: "/help" },
+                { label: t('footer.about'), href: "/about" },
                 { label: t('footer.careers'), href: "/help" },
                 { label: t('footer.privacy'), href: "/privacy" },
                 { label: t('footer.terms'), href: "/terms" },

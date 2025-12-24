@@ -3,6 +3,7 @@ import moment from "moment";
 import { useLanguage } from "../context/LanguageContext";
 import { useToast } from "../context/ToastContext";
 import { countries } from "../data/countries";
+import WithdrawalModal from "./WithdrawalModal";
 
 export default function Wallet() {
     const { t } = useLanguage();
@@ -15,6 +16,7 @@ export default function Wallet() {
         totalEarned: 0
     });
     const [currency, setCurrency] = useState("AED");
+    const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
     useEffect(() => {
         fetchWalletData();
@@ -64,6 +66,11 @@ export default function Wallet() {
                 .filter((tx: any) => tx.status === 'completed')
                 .reduce((acc: number, tx: any) => acc + Number(tx.netAmount || tx.amount), 0);
 
+            // Also subtract pending withdrawals if we had that data, but Custom Controller handles actual deduction check.
+            // For UI accuracy, ideally we fetch my-withdrawals too, but for now relying on backend check.
+            // A better approach: fetch user's withdrawals to adjust 'available' displayed here?
+            // Yes, let's stick to simple sum for now, backend will reject if insufficient.
+
             setStats({
                 available,
                 pending,
@@ -77,16 +84,6 @@ export default function Wallet() {
         }
     };
 
-    const handleWithdraw = () => {
-        if (stats.available <= 0) {
-            return showToast(t('wallet.noFunds') || "No funds available for withdrawal.", "error");
-        }
-        // Mock Withdrawal
-        showToast(t('wallet.withdrawSuccess') || "Withdrawal request submitted successfully!", "success");
-    };
-
-    if (loading) return <div className="p-12 text-center text-gray-500">Loading wallet...</div>;
-
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Balance Cards */}
@@ -99,7 +96,7 @@ export default function Wallet() {
                     <p className="text-green-100 font-medium mb-1">{t('wallet.availableBalance') || "Available Balance"}</p>
                     <h2 className="text-3xl font-bold">{stats.available.toLocaleString()} {currency}</h2>
                     <button
-                        onClick={handleWithdraw}
+                        onClick={() => setIsWithdrawModalOpen(true)}
                         className="mt-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"
                     >
                         <span>🏦</span> {t('wallet.withdraw') || "Withdraw Funds"}
@@ -164,6 +161,17 @@ export default function Wallet() {
                     )}
                 </div>
             </div>
+
+            {/* Withdrawal Modal */}
+            <WithdrawalModal
+                isOpen={isWithdrawModalOpen}
+                onClose={() => setIsWithdrawModalOpen(false)}
+                availableBalance={stats.available}
+                currency={currency}
+                onSuccess={() => {
+                    fetchWalletData();
+                }}
+            />
         </div>
     );
 }
