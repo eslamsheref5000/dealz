@@ -41,24 +41,36 @@
         },
         "status": {
             "type": "enumeration",
-            "enum": [
-                "pending",
-                "held",
-                "shipped",
-                "completed",
-                "disputed",
-                "cancelled"
-            ],
-            "default": "pending",
-            "required": true
-        },
-        "paymentMethod": {
-            "type": "string",
-            "default": "card"
-        },
-        "transactionId": {
-            "type": "string",
-            "private": true
-        }
+            "pending",
+            "pending_review",
+            "paid",
+            "held",
+            "shipped",
+            "completed",
+            "disputed",
+            "cancelled"
+        ],
+        "default": "pending",
+        "required": true
+    },
+    "paymentMethod": {
+        "type": "string",
+        "default": "card"
+    },
+    "transactionId": {
+        "type": "string",
+        "private": true
+    },
+    "note": {
+        "type": "text"
+    },
+    "paymentProof": {
+        "type": "media",
+        "multiple": false,
+        "allowedTypes": [
+            "images",
+            "files"
+        ]
     }
+}
 }
