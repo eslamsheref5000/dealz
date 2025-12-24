@@ -75,7 +75,7 @@ import { ComparisonProvider } from "../context/ComparisonContext";
 import SchemaOrg from "../components/SchemaOrg";
 import NotificationManager from "../components/NotificationManager";
 import Footer from "../components/Footer";
-import SplashScreen from "../components/SplashScreen";
+
 
 export default function RootLayout({
   children,
@@ -87,7 +87,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SplashScreen />
+
         <SchemaOrg />
         <LanguageProvider>
           <ThemeProvider>
