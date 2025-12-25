@@ -139,8 +139,9 @@ export default {
 
             ctx.send({ status: "success", message: "Receipt submitted for review" });
 
-        } catch (err) {
-            ctx.badRequest("Upload failed");
+        } catch (err: any) {
+            console.error("Manual Upload Error:", err);
+            ctx.badRequest("Upload failed", { error: err.message, stack: err.stack });
         }
     }
 };
